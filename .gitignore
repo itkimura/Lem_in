@@ -1,0 +1,8 @@
+*.out
+*.o
+.DS_Store
+*.a
+.vscode
+*.dSYM
+__pycache__
+lem-in
