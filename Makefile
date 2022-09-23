@@ -6,7 +6,7 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/09/21 18:11:59 by thule            ###   ########.fr        #
+#    Updated: 2022/09/23 12:13:14 by thule            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,6 @@ clean:
 
 fclean: clean
 	@$(MAKE) -sC $(LIB_DIR) fclean
-	@/bin/rm -f $(CHECKER) $(PUSH_SWAP)
+	@/bin/rm -f $(NAME)
 
 re: fclean all
