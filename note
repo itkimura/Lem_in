@@ -1,3 +1,14 @@
+
+Validation start
+
+typdef struct s_info{
+	int	number_of_ants;
+	int	number_of_room; // 
+	char	*name_of_room;
+}	t_info;	
+
+
+
 Hashtable:
 	https://www.youtube.com/watch?v=KyUTuwz_b7Q&t=1s&ab_channel=ComputerScience
 	https://www.youtube.com/watch?v=2Ti5yvumFTU&t=1289s&ab_channel=JacobSorber
