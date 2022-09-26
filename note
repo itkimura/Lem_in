@@ -1,0 +1,39 @@
+Hashtable:
+	https://www.youtube.com/watch?v=KyUTuwz_b7Q&t=1s&ab_channel=ComputerScience
+	https://www.youtube.com/watch?v=2Ti5yvumFTU&t=1289s&ab_channel=JacobSorber
+
+Breadth First Search (BFS):
+	https://www.youtube.com/watch?v=pcKY4hjDrxk&t=304&ab_channel=AbdulBari
+
+From STDIN
+Phase 1: number_of_ants
+Phase 2: the_rooms
+Phase 3: the_links
+
+Error:
+	empty line
+	different phase order
+	not enough phases
+	##start and ##end happens in other phase than the_rooms
+	##start or ##end does not happen at all
+
+
+Comment starts with #:
+	unless:
+		##start: modify start room (the line after)
+		##end: modify end room (the line after)
+
+Phase 1: number_of_ants
+	number_of_ants > 0
+
+Phase 2: the_rooms
+	format: name coord_x coord_y
+		name:
+			cannot start with L or #
+			can be unordered
+			cannot have the same coord with other room (?)
+		coord_x coord_y:
+			represented by INT (range: INT_MIN <= coord <= INT_MAX)
+
+Phase 3: the_links
+	format: name1-name2
