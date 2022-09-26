@@ -7,6 +7,22 @@ typdef struct s_info{
 	char	*name_of_room;
 }	t_info;	
 
+adjacency matrix?
+
+Example:
+[0]-[2]-[3]-[1]
+
+ | 0 1 2 3
+-----------
+0| 0 0 1 0
+1| 0 0 0 1
+2| 1 0 0 1
+3| 0 1 1 0
+
+
+Comparison between Adjacency List and Adjacency Matrix representation of Graph
+https://www.geeksforgeeks.org/comparison-between-adjacency-list-and-adjacency-matrix-representation-of-graph/
+
 
 
 Hashtable:
