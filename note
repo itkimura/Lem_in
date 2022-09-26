@@ -2,8 +2,8 @@
 Validation start
 
 typdef struct s_info{
-	int	number_of_ants;
-	int	number_of_room; // needed for adjacency matrix 
+	int	quantity_of_ants;
+	int	quantity_of_room; // needed for adjacency matrix 
 	char	*name_of_room; // numbering the room but keep name in char array E.g. [0]->room1 [1]->room2
 }	t_info;	
 
