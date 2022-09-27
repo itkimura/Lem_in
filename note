@@ -1,11 +1,58 @@
 
+Step1
+-> gnl and save line into structure
+-> is_comment 
+-> validate room name
+
+Phase 1: number_of_ants
+	number_of_ants > 0
+
+Phase 2: the_rooms
+	format: name coord_x coord_y
+		name:
+			cannot start with L or #
+			can be unordered
+			cannot have the same coord with other room (?)
+		coord_x coord_y:
+			represented by INT (range: INT_MIN <= coord <= INT_MAX)
+Phase 3: the_links
+	format: name1-name2
+Error:
+	empty line
+	different phase order
+	not enough phases
+	##start and ##end happens in other phase than the_rooms
+	##start or ##end does not happen at all
+
+
+Comment starts with #:
+	unless:
+		##start: modify start room (the line after)
+		##end: modify end room (the line after)
+Save the line of rooms in structure
+
+Step2
+malloc adjacency matrix 
+
+
+
 Validation start
+
+# define quatity_of_room
 
 typdef struct s_info{
 	int	quantity_of_ants;
 	int	quantity_of_room; // needed for adjacency matrix 
 	char	*name_of_room; // numbering the room but keep name in char array E.g. [0]->room1 [1]->room2
+	
 }	t_info;	
+
+typedef struct s_line{
+	char *line;
+	struct s_line	*s
+}	t_line;
+
+
 
 ---- adjacency matrix ----
 
@@ -35,6 +82,8 @@ Input:
 Start -> 0
 End -> 1
 
+char or int, do we need to think about distance?
+
 Result:
 L1-2
 L1-3 L2-2
@@ -50,12 +99,10 @@ Metrix: More memory, faster to find the edge
 Comparison between Adjacency List and Adjacency Matrix representation of Graph
 https://www.geeksforgeeks.org/comparison-between-adjacency-list-and-adjacency-matrix-representation-of-graph/
 
-
-
 Hashtable:
 	https://www.youtube.com/watch?v=KyUTuwz_b7Q&t=1s&ab_channel=ComputerScience
 	https://www.youtube.com/watch?v=2Ti5yvumFTU&t=1289s&ab_channel=JacobSorber
-
+	
 Breadth First Search (BFS):
 	https://www.youtube.com/watch?v=pcKY4hjDrxk&t=304&ab_channel=AbdulBari
 
@@ -63,31 +110,3 @@ From STDIN
 Phase 1: number_of_ants
 Phase 2: the_rooms
 Phase 3: the_links
-
-Error:
-	empty line
-	different phase order
-	not enough phases
-	##start and ##end happens in other phase than the_rooms
-	##start or ##end does not happen at all
-
-
-Comment starts with #:
-	unless:
-		##start: modify start room (the line after)
-		##end: modify end room (the line after)
-
-Phase 1: number_of_ants
-	number_of_ants > 0
-
-Phase 2: the_rooms
-	format: name coord_x coord_y
-		name:
-			cannot start with L or #
-			can be unordered
-			cannot have the same coord with other room (?)
-		coord_x coord_y:
-			represented by INT (range: INT_MIN <= coord <= INT_MAX)
-
-Phase 3: the_links
-	format: name1-name2
