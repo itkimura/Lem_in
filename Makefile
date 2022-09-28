@@ -6,7 +6,7 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/09/23 12:13:14 by thule            ###   ########.fr        #
+#    Updated: 2022/09/28 14:01:29 by thule            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ $(NAME): $(OBJS) $(LIB)
 	@$(CC) $(DEBUG_FLAG) -o $(NAME) $(FLAGS) $(OBJS) -L$(LIB_DIR) -lft
 	@echo "Compiled $(NAME)"
 
-$(LIB): $(wildcard libft/obj/*.o)
+$(LIB): $(wildcard libft/srcs/*.c)
 	@$(MAKE) -sC ./libft
 	@echo "Compiled $(LIB)"
 
