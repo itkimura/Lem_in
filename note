@@ -41,10 +41,11 @@ Validation start
 # define quatity_of_room
 
 typdef struct s_info{
-	int	quantity_of_ants;
-	int	quantity_of_room; // needed for adjacency matrix 
+	int		quantity_of_ants;
+	int		quantity_of_rooms; // needed for adjacency matrix 
 	char	*name_of_room; // numbering the room but keep name in char array E.g. [0]->room1 [1]->room2
-	
+	char	*start_room;
+	char	*end_room;
 }	t_info;	
 
 typedef struct s_line{
@@ -52,6 +53,15 @@ typedef struct s_line{
 	struct s_line	*s
 }	t_line;
 
+
+# check unique coord:
+typedef struct	s_coord {
+	int				x;
+	int				y;
+	char			*room_name; //to check if it's the same room
+}				t_coord;
+t_coord *coord_array = malloc(sizeof(t_coord) * quantity_of_rooms);
+sort then check if there is any repeated coord
 
 
 ---- adjacency matrix ----
