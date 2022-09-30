@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/09/30 14:54:48 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:55:02 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ enum{
 	END,
 	COMMENT,
 	COMMAND,
+	LINK,
 };
 
 /* adjacency matrix */

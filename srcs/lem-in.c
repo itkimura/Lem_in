@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/09/30 14:53:50 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:55:03 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ void	error(char *error)
 /* Itoe */
 e_bool	init_info(t_info *info)
 {
-	malloc fail ->
+	info = (t_info *)malloc(sizeof(t_info));
+	if (info == NULL)
 		return (FALSE);
+	info->quantity_of_ants = 0;
+	info->quantity_of_rooms = 0;
+	info->start_room = -1;
+	info->end_room = -1;
 	return (TRUE);
 }
 
@@ -37,25 +42,26 @@ e_bool	get_xy(char *line, t_room *tmp)
 	return (TRUE);
 }
 
-void	lem_in()
+e_bool	lem_in()
 {
 	t_info *info;
 	t_room *head;
 
 	info = NULL;
 	head = NULL;
-	if (!read_line(&room))
+	if (init_info(&info) == FALSE)
+		return (FALSE);
+	if (read_line(&room) == FALSE)
 	{
 		free_rooms(&head);
-		return (0);
+		return (FALSE);
 	}
-	init_info(&info);
 }
 
 int main(void)
 {
 	printf("hello\n");
-	if (!lem-in())
+	if (lem-in(void) == FALSE)
 		return (1);
-	return 0;
+	return (0);
 }
