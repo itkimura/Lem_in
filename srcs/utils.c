@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 12:33:34 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/03 14:11:53 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void print_room(t_room *room)
 {
+	printf("--- room ---\n");
 	if (room == NULL)
 	{
 		printf("No room left\n");
@@ -21,12 +22,10 @@ void print_room(t_room *room)
 	}
 	while (room)
 	{
-		printf("[%s %d] ", room->room_name, room->index);
+		printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
 		room = room->next;
 	}
 	printf("\n");
-
-	
 }
 
 /* number_of_ants > 0 */
@@ -39,6 +38,7 @@ e_bool is_positive(int nb)
 
 void print_info(t_info *info)
 {
+	printf("--- info ---\n");
 	printf("quantity_of_ants: %d\n", info->quantity_of_ants);
 	printf("quantity_of_rooms: %d\n", info->quantity_of_rooms);
 	printf("start_room: %s\n", info->start_room);
