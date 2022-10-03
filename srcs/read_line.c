@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-e_bool	create_new_room(t_room **room, t_info *info)
+e_bool	create_new_room(t_info *info)
 {
 	t_room	*new;
 	char	*room_name;
@@ -26,17 +26,17 @@ e_bool	create_new_room(t_room **room, t_info *info)
 		return (error("Malloc fails.\n"), FALSE);
 	new->room_name = room_name;
 	new->next = NULL;
-	if (*room == NULL)
+	if (info->tmp == NULL)
 	{
-		*room = new;
+		info->tmp = new;
 		info->room_head = new;
 	}
 	else
 	{
-		(*room)->next = new;
-		*room = new;
+		info->tmp->next = new;
+		info->tmp = new;
 	}
-	(*room)->index = (info->quantity_of_rooms)++;
+	info->tmp->index = (info->quantity_of_rooms)++;
 	return (TRUE);
 }
 
@@ -69,6 +69,7 @@ char	*get_room_name(char *line)
 	return (room_name);
 }
 
+/*
 void	modify_by_command(t_info *info, t_room *room, int command)
 {
 	if (command == START)
@@ -77,7 +78,6 @@ void	modify_by_command(t_info *info, t_room *room, int command)
 		info->end_room = room->room_name;
 }
 
-/*
 e_bool	get_rooms(t_info *info)
 {
 	t_room		*room;
@@ -112,9 +112,12 @@ e_bool	get_rooms(t_info *info, int type, int *stage, int *command)
 		(*stage)++;
 		return (TRUE);
 	}
-	if (type == ROOM && (create_new_room(&info->tmp, info) == FALSE))
+	if (type == ROOM && (create_new_room(info) == FALSE))
 		return (FALSE);
-	modify_by_command(info, info->tmp, *command);
+	if (*command == START)
+		info->start_room = info->tmp->room_name;
+	if (*command == END)
+		info->end_room = info->tmp->room_name;
 	*command = type;
 	return (TRUE);
 }
