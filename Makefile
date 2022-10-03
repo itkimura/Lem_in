@@ -6,7 +6,7 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/09/30 19:42:55 by thule            ###   ########.fr        #
+#    Updated: 2022/10/03 11:28:52 by thule            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ DEBUG_FLAG = -g
 
 INCLUDES_DIR = ./includes/
 
-FILES = lem-in.c read_line.c
+FILES = lem-in.c read_line.c utils.c
 
 SRCS_DIR = ./srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(FILES))
