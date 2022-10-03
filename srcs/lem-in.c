@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 12:43:46 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/03 14:41:39 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ e_bool	init_info(t_info *info)
 	info->start_room = NULL;
 	info->end_room = NULL;
 	info->room_head = NULL;
+	info->tmp = NULL;
 	info->line = NULL;
 	return (TRUE);
 }

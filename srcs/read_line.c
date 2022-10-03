@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 12:55:33 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/03 14:43:25 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_room_name(char *line)
 	return (room_name);
 }
 
-void modify_by_command(t_info *info, t_room *room, int command)
+void	modify_by_command(t_info *info, t_room *room, int command)
 {
 	if (command == START)
 		info->start_room = room->room_name;
@@ -77,7 +77,7 @@ void modify_by_command(t_info *info, t_room *room, int command)
 		info->end_room = room->room_name;
 }
 
-
+/*
 e_bool	get_rooms(t_info *info)
 {
 	t_room		*room;
@@ -103,8 +103,23 @@ e_bool	get_rooms(t_info *info)
 	}
 	return (TRUE);
 }
+*/
 
-e_bool	get_ants(t_info *info, int type)
+e_bool	get_rooms(t_info *info, int type, int *stage, int *command)
+{
+	if (type == LINK)
+	{
+		(*stage)++;
+		return (TRUE);
+	}
+	if (type == ROOM && (create_new_room(&info->tmp, info) == FALSE))
+		return (FALSE);
+	modify_by_command(info, info->tmp, *command);
+	*command = type;
+	return (TRUE);
+}
+
+e_bool	get_ants(t_info *info, int type, int *stage)
 {
 	long	nb;
 	int		i;
@@ -124,10 +139,52 @@ e_bool	get_ants(t_info *info, int type)
 	if (nb < INT_MIN || nb > INT_MAX)
 		return (error("Quantity of ants is not an integer."), FALSE);
 	info->quantity_of_ants = nb;
+	(*stage)++;
 	return (TRUE);
 }
 
-/* gnl + validation */
+e_bool	path_to_each_stage(t_info *info, int type, int *stage, int *command)
+{
+	if (*stage == 0)
+	{
+		if (get_ants(info, type, stage) == FALSE)
+			return (FALSE);
+	}
+	else if (*stage == 1)
+	{
+		if (get_rooms(info, type, stage, command) == FALSE)
+			return (FALSE);
+	}
+	/* to add get_links*/
+	return (TRUE);
+}
+
+e_bool	read_line(t_info *info)
+{
+	int		type;
+	int		stage;
+	int		gnl;
+	int		command;
+
+	gnl = 1;
+	stage = 0;
+	command = 0;
+	while (gnl)
+	{
+		gnl = get_next_line(FD, &(info->line));
+		type = type_of_line(info->line);
+		if (path_to_each_stage(info, type, &stage, &command) == FALSE)
+			return (FALSE);
+		if (gnl == 0)
+			break ;
+		if (gnl < 0)
+			exit(1);
+		free(info->line);
+	}
+	return (TRUE);
+}
+
+/*
 e_bool	read_line(t_info *info)
 {
 	int		type;
@@ -149,3 +206,4 @@ e_bool	read_line(t_info *info)
 	//link_rooms();
 	return (TRUE);
 }
+*/

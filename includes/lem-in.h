@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 12:51:44 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/03 14:40:56 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ typedef	struct s_info
 	char	**matrix;
 	char	*line;
 	t_room	*room_head;
+	t_room	*tmp;
 }			t_info;
 
 
 /* read_line.c */
 e_bool read_line(t_info *info);
-e_bool get_ants(t_info *info , int type);
-e_bool get_rooms(t_info *info);
+e_bool get_ants(t_info *info , int type, int *stage);
+e_bool get_rooms(t_info *info, int type, int *stage, int *command);
 char *get_room_name(char *line);
 int type_of_line(char *str);
 e_bool is_positive(int nb);
