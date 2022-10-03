@@ -19,7 +19,6 @@ e_bool	init_info(t_info *info)
 	info->start_room = NULL;
 	info->end_room = NULL;
 	info->room_head = NULL;
-	info->tmp = NULL;
 	info->line = NULL;
 	return (TRUE);
 }

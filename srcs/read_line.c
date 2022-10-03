@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-e_bool	create_new_room(t_info *info)
+e_bool	create_new_room(t_room **room, t_info *info)
 {
 	t_room	*new;
 	char	*room_name;
@@ -26,17 +26,17 @@ e_bool	create_new_room(t_info *info)
 		return (error("Malloc fails.\n"), FALSE);
 	new->room_name = room_name;
 	new->next = NULL;
-	if (info->tmp == NULL)
+	if (*room == NULL)
 	{
-		info->tmp = new;
+		*room = new;
 		info->room_head = new;
 	}
 	else
 	{
-		info->tmp->next = new;
-		info->tmp = new;
+		(*room)->next = new;
+		*room = new;
 	}
-	info->tmp->index = (info->quantity_of_rooms)++;
+	(*room)->index = (info->quantity_of_rooms)++;
 	return (TRUE);
 }
 
@@ -105,20 +105,23 @@ e_bool	get_rooms(t_info *info)
 }
 */
 
-e_bool	get_rooms(t_info *info, int type, int *stage, int *command)
+e_bool	get_rooms(t_info *info, int type, int *stage)
 {
+	static int	command;
+	static t_room *room;
+
 	if (type == LINK)
 	{
 		(*stage)++;
 		return (TRUE);
 	}
-	if (type == ROOM && (create_new_room(info) == FALSE))
+	if (type == ROOM && (create_new_room(&room, info) == FALSE))
 		return (FALSE);
-	if (*command == START)
-		info->start_room = info->tmp->room_name;
-	if (*command == END)
-		info->end_room = info->tmp->room_name;
-	*command = type;
+	if (command == START)
+		info->start_room = room->room_name;
+	if (command == END)
+		info->end_room = room->room_name;
+	command = type;
 	return (TRUE);
 }
 
@@ -146,7 +149,7 @@ e_bool	get_ants(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-e_bool	path_to_each_stage(t_info *info, int type, int *stage, int *command)
+e_bool	path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
 	{
@@ -155,7 +158,7 @@ e_bool	path_to_each_stage(t_info *info, int type, int *stage, int *command)
 	}
 	else if (*stage == 1)
 	{
-		if (get_rooms(info, type, stage, command) == FALSE)
+		if (get_rooms(info, type, stage) == FALSE)
 			return (FALSE);
 	}
 	/* to add get_links*/
@@ -167,16 +170,14 @@ e_bool	read_line(t_info *info)
 	int		type;
 	int		stage;
 	int		gnl;
-	int		command;
 
 	gnl = 1;
 	stage = 0;
-	command = 0;
 	while (gnl)
 	{
 		gnl = get_next_line(FD, &(info->line));
 		type = type_of_line(info->line);
-		if (path_to_each_stage(info, type, &stage, &command) == FALSE)
+		if (path_to_each_stage(info, type, &stage) == FALSE)
 			return (FALSE);
 		if (gnl == 0)
 			break ;

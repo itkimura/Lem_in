@@ -52,18 +52,17 @@ typedef	struct s_info
 	char	**matrix;
 	char	*line;
 	t_room	*room_head;
-	t_room	*tmp;
 }			t_info;
 
 
 /* read_line.c */
 e_bool read_line(t_info *info);
 e_bool get_ants(t_info *info , int type, int *stage);
-e_bool get_rooms(t_info *info, int type, int *stage, int *command);
+e_bool get_rooms(t_info *info, int type, int *stage);
 char *get_room_name(char *line);
 int type_of_line(char *str);
 e_bool is_positive(int nb);
-e_bool create_new_room(t_info *info);
+e_bool create_new_room(t_room **room, t_info *info);
 void print_info(t_info *info);
 
 /* lem-in.c */
