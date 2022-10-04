@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/04 15:08:38 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:22:17 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ e_bool	is_duplicate(t_info *info)
 	t_room	*tmp;
 	t_room	*next;
 
-	next = info->room_head;;
+	next = info->room_head;
 	while (next)
 	{
 		tmp = next->next;
