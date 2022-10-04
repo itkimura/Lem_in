@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/04 17:03:27 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/04 17:20:14 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ e_bool	path_to_each_stage(t_info *info, int type, int *stage);
 
 /* create_room.c */
 char *get_room_name(char *line);
-e_bool get_rooms(t_info *info, int type, int *stage);
+e_bool get_rooms(t_info *info, int type);
 e_bool create_new_room(t_room **room, t_info *info);
+
+/* create_link */
+
 
 /* hash_table.c */
 e_bool	init_hash_table(t_info *info);

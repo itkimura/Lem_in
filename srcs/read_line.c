@@ -6,13 +6,13 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/04 17:02:30 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/04 17:23:03 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 
-int	type_of_line(char *str)
+int type_of_line(char *str)
 {
 	if (!ft_strcmp(str, "##start"))
 		return (START);
@@ -27,11 +27,10 @@ int	type_of_line(char *str)
 	return (ROOM);
 }
 
-
-e_bool	get_ants(t_info *info, int type, int *stage)
+e_bool get_ants(t_info *info, int type, int *stage)
 {
-	long	nb;
-	int		i;
+	long nb;
+	int i;
 
 	i = 0;
 	if (type == COMMENT)
@@ -52,7 +51,7 @@ e_bool	get_ants(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-e_bool	path_to_each_stage(t_info *info, int type, int *stage)
+e_bool path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
 	{
@@ -61,32 +60,40 @@ e_bool	path_to_each_stage(t_info *info, int type, int *stage)
 	}
 	else if (*stage == 1)
 	{
-		if (get_rooms(info, type, stage) == FALSE)
+		if (type == LINK)
+			(*stage)++;
+		else if (get_rooms(info, type) == FALSE)
 			return (FALSE);
 	}
-	/* to add get_links*/
+	if (*stage == 2)
+	{
+		if (type == ROOM)
+			return FALSE;
+	}
 	return (TRUE);
 }
 
-e_bool	read_line(t_info *info)
+e_bool read_line(t_info *info)
 {
-	int		type;
-	int		stage;
-	int		gnl;
+	int type;
+	int stage;
+	int gnl;
 
 	gnl = 1;
 	stage = 0;
 	while (gnl)
 	{
 		gnl = get_next_line(FD, &(info->line));
-		type = type_of_line(info->line);
-		if (path_to_each_stage(info, type, &stage) == FALSE)
-			return (FALSE);
-		if (gnl == 0)
-			break ;
 		if (gnl < 0)
-			return(error("GNL return -1\n"), exit(1), FALSE);
-		free(info->line);
+			return (error("GNL return -1\n"), exit(1), FALSE);
+		type = type_of_line(info->line);
+		if (type != COMMENT)
+		{
+			if (path_to_each_stage(info, type, &stage) == FALSE)
+				return (FALSE);
+		}
+		if (gnl != 0)
+			free(info->line);
 	}
 	init_hash_table(info);
 	return (TRUE);

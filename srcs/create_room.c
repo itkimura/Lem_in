@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/04 17:02:26 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/04 17:19:57 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,12 @@ char	*get_room_name(char *line)
 	return (room_name);
 }
 
-e_bool	get_rooms(t_info *info, int type, int *stage)
+e_bool	get_rooms(t_info *info, int type)
 {
 	static int	command;
 	static t_room *room;
 
-	if (type == LINK)
-	{
-		(*stage)++;
-		return (TRUE);
-	}
+	
 	if (type == ROOM && (create_new_room(&room, info) == FALSE))
 		return (FALSE);
 	if (command == START)
