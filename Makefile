@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
+#    By: thle <thle@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/10/03 11:28:52 by thule            ###   ########.fr        #
+#    Updated: 2022/10/04 17:03:48 by thle             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ DEBUG_FLAG = -g
 
 INCLUDES_DIR = ./includes/
 
-FILES = lem-in.c read_line.c utils.c
+FILES = lem-in.c read_line.c utils.c hash_table.c create_room.c
 
 SRCS_DIR = ./srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(FILES))
@@ -38,7 +38,7 @@ $(NAME): $(OBJS) $(LIB)
 	@$(CC) $(DEBUG_FLAG) -o $(NAME) $(FLAGS) $(OBJS) -L$(LIB_DIR) -lft
 	@echo "Compiled $(NAME)"
 
-$(LIB): $(wildcard libft/srcs/*.c)
+$(LIB): #$(wildcard libft/srcs/*.c)
 	@$(MAKE) -sC ./libft
 	@echo "Compiled $(LIB)"
 

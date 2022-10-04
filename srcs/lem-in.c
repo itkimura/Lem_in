@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem-in.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 14:41:39 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:42:39 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ e_bool	init_info(t_info *info)
 	info->end_room = NULL;
 	info->room_head = NULL;
 	info->line = NULL;
+	info->room_head = NULL;
+	info->hash_table = NULL;
 	return (TRUE);
 }
 
