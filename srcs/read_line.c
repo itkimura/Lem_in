@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 14:43:25 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:08:38 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@ e_bool	create_new_room(t_room **room, t_info *info)
 		*room = new;
 	}
 	(*room)->index = (info->quantity_of_rooms)++;
+	return (TRUE);
+}
+
+e_bool	is_duplicate(t_info *info)
+{
+	t_room	*tmp;
+	t_room	*next;
+
+	next = info->room_head;;
+	while (next)
+	{
+		tmp = next->next;
+		while (tmp)
+		{
+			if (ft_strcmp(next->room_name, tmp->room_name) == 0)
+				return (FALSE);
+			tmp = tmp->next;
+		}
+		next = next->next;
+	}
 	return (TRUE);
 }
 
@@ -112,6 +132,8 @@ e_bool	get_rooms(t_info *info, int type, int *stage)
 
 	if (type == LINK)
 	{
+		if (is_duplicate(info) == FALSE)
+			return (FALSE);
 		(*stage)++;
 		return (TRUE);
 	}
@@ -149,6 +171,69 @@ e_bool	get_ants(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
+int		hash(char *str, int size)
+{
+	int	hash_value;
+
+	hash_value = 0;
+	while (*str)
+	{
+		hash_value += (*str - '0');
+		str++;
+	}
+	return (hash_value % size);
+}
+
+e_bool	init_hashtable(t_info *info)
+{
+	t_room	*list;
+	t_room	*next;
+	t_room	*tmp;
+	int		hash_value;
+
+	print_room(info->room_head);
+	info->hash_table = (t_room **)malloc(sizeof(t_room *) * info->quantity_of_rooms);
+	if (info->hash_table == NULL)
+		return (FALSE);
+	list = info->room_head;
+	while (list)
+	{
+		next = list->next;
+		hash_value = hash(list->room_name, info->quantity_of_rooms);
+		if (info->hash_table[hash_value] == NULL)
+			info->hash_table[hash_value] = list;
+		else
+		{
+			tmp = info->hash_table[hash_value];
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = list;
+		}
+		list->next = NULL;
+		list = next;
+	}
+	/*
+	for (int i = 0; i < info->quantity_of_rooms;i++)
+	{
+		if (info->hash_table[i] == NULL)
+			printf("No room\n");
+		else
+		{
+			printf("room_name = %s hash_value = %d\n", info->hash_table[i]->room_name, i);
+			t_room *test = info->hash_table[i]->next;
+			if (test != NULL)
+			{
+				while (test)
+				{
+					printf("room_name = %s hash_value = %d\n", test->room_name, i);
+					test = test->next;
+				}
+			}
+		}
+	}
+	*/
+	return (TRUE);
+}
 e_bool	path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
@@ -185,6 +270,7 @@ e_bool	read_line(t_info *info)
 			exit(1);
 		free(info->line);
 	}
+	init_hashtable(info);
 	return (TRUE);
 }
 

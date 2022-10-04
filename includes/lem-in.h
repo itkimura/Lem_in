@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/03 14:40:56 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:49:24 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef	struct s_info
 	char	**matrix;
 	char	*line;
 	t_room	*room_head;
+	t_room	**hash_table;
 }			t_info;
 
 
