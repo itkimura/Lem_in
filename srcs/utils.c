@@ -6,11 +6,21 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 10:37:27 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:00:02 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+void	print_single_room(t_room *room)
+{
+	if (room == NULL)
+	{
+		printf("Room is not existed.\n");
+		return ;
+	}
+	printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
+}
 
 void print_room(t_room *room)
 {
@@ -22,7 +32,7 @@ void print_room(t_room *room)
 	}
 	while (room)
 	{
-		printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
+		printf("room_name:[%10s]\t\tindex:[%d]\n", room->room_name, room->index);
 		room = room->next;
 	}
 	printf("\n");
@@ -68,19 +78,25 @@ void print_hash_table(t_info *info)
 	{
 		test = NULL;
 		if (info->hash_table[i] == NULL)
-			printf("No room\n");
+		{
+			printf("%s[%s%3d%s]----------------------%s\n", MAGENTA, YELLOW, i, MAGENTA, WHITE);
+			printf("\tNO ROOM\n");
+		}
 		else
 		{
-			printf("room_name = %s hash_value = %d\n", info->hash_table[i]->room_name, i);
+			printf("%s[%s%3d%s]----------------------%s\n", MAGENTA, YELLOW, i, MAGENTA, WHITE);
+			test = info->hash_table[i];
+			printf("\t[%s]\n", test->room_name);
 			test = info->hash_table[i]->next;
 			if (test != NULL)
 			{
 				while (test)
 				{
-					printf("room_name = %s hash_value = %d\n", test->room_name, i);
+					printf("\t[%s]\n", test->room_name);
 					test = test->next;
 				}
 			}
 		}
+		printf("\n");
 	}
 }

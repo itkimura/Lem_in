@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 11:02:48 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 14:17:19 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 # include "get_next_line.h"
 /* remove later */
 # include <stdio.h>
+
+# define NORMAL "\x1B[0m"
+# define RED "\x1B[31m"
+# define GREEN "\x1B[32m"
+# define YELLOW "\x1B[33m"
+# define BLUE "\x1B[34m"
+# define MAGENTA "\x1B[35m"
+# define CYAN "\x1B[36m"
+# define WHITE "\x1B[37m"
 
 typedef enum e_bool
 {
@@ -48,6 +57,14 @@ typedef struct s_room
 	struct s_room	*next;
 }					t_room;
 
+/* link-room structure */
+typedef struct s_link
+{
+	char			*room1;
+	char			*room2;
+	struct s_link	*next;
+}						t_link;
+
 /* adjacency matrix */
 typedef struct s_info
 {
@@ -58,14 +75,8 @@ typedef struct s_info
 	char		*line;
 	t_room		*room_head;
 	t_room		**hash_table;
+	t_link		*link_head;
 }				t_info;
-
-/* link-room structure */
-typedef struct s_link_room
-{
-	char				*line;
-	struct s_link_room	*next;
-}						t_link_room;
 
 /* read_line.c */
 t_bool		read_line(t_info *info);
@@ -79,6 +90,8 @@ t_bool		get_rooms(t_info *info, int type);
 t_bool		create_new_room(t_room **room, t_info *info);
 
 /* create_link */
+t_bool	get_links(t_info *info);
+t_bool	create_new_link(t_link **link, t_info *info);
 
 /* hash_table.c */
 t_bool		init_hash_table(t_info *info);
@@ -99,5 +112,6 @@ void		print_room(t_room *room);
 void		print_info(t_info *info);
 void		error(char *error);
 void		print_hash_table(t_info *info);
+void		print_single_room(t_room *room);
 
 #endif

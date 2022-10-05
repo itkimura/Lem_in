@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 10:59:28 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 11:16:58 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_room	*hash_table_lookup(t_room **hash_table, char *str, int size)
 	while (tmp)
 	{
 		if (tmp && !ft_strcmp(tmp->room_name, str))
-			return (tmp);
+			break ;
 		tmp = tmp->next;
 	}
-	return (NULL);
+	return (tmp);
 }
 
 t_bool hash_table_appending(t_info *info, t_room *list)
@@ -99,6 +99,5 @@ t_bool init_hash_table(t_info *info)
 		list = next;
 	}
 	print_hash_table(info);
-	// printf("here\n");
 	return (TRUE);
 }

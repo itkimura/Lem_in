@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 10:51:28 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 15:27:15 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	else if (*stage == 1)
 	{
 		if (type == LINK)
+		{
 			(*stage)++;
+			init_hash_table(info);
+		}
 		else if (get_rooms(info, type) == FALSE)
 			return (FALSE);
 	}
@@ -69,6 +72,7 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	{
 		if (type == ROOM)
 			return FALSE;
+		return get_links(info);
 	}
 	return (TRUE);
 }
@@ -84,6 +88,8 @@ t_bool read_line(t_info *info)
 	while (gnl)
 	{
 		gnl = get_next_line(FD, &(info->line));
+		if (gnl == 0)
+			break;
 		if (gnl < 0)
 			return (error("GNL return -1\n"), exit(1), FALSE);
 		type = type_of_line(info->line);
@@ -92,9 +98,7 @@ t_bool read_line(t_info *info)
 			if (path_to_each_stage(info, type, &stage) == FALSE)
 				return (FALSE);
 		}
-		if (gnl != 0)
-			free(info->line);
+		free(info->line);
 	}
-	init_hash_table(info);
 	return (TRUE);
 }
