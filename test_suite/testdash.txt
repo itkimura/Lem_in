@@ -1,0 +1,26 @@
+6
+##start
+soo-so 5 1
+##end
+en--- 5 17
+A-A 1 5
+B 5 5
+-- 1 13
+--- 5 9
+E 5 13
+F 9 3
+G 9 5
+H 9 9
+I 9 13
+soo-so-A-A
+soo-so-B
+soo-so-F
+A-A---
+---en---
+B----
+----E
+E-en---
+F-G
+G-H
+H-I
+I-en---
