@@ -6,11 +6,11 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/04 17:19:57 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 10:36:53 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "lem-in.h"
+# include "lemin.h"
 
 e_bool	create_new_room(t_room **room, t_info *info)
 {

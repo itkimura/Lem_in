@@ -6,11 +6,11 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/04 16:53:19 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 10:37:01 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "lem-in.h"
+# include "lemin.h"
 
 int		hash(char *str, int size)
 {
