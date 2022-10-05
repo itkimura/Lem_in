@@ -6,15 +6,15 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 10:37:01 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/05 10:59:28 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "lemin.h"
+#include "lemin.h"
 
-int		hash(char *str, int size)
+int hash(char *str, int size)
 {
-	int	hash_value;
+	int hash_value;
 
 	hash_value = 0;
 	while (*str)
@@ -25,9 +25,9 @@ int		hash(char *str, int size)
 	return (hash_value % size);
 }
 
-e_bool	create_hash_table(t_info *info)
+t_bool create_hash_table(t_info *info)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	info->hash_table = (t_room **)malloc(sizeof(t_room *) * info->quantity_of_rooms);
@@ -41,11 +41,27 @@ e_bool	create_hash_table(t_info *info)
 	return (TRUE);
 }
 
-e_bool	hash_table_appending(t_info *info, t_room *list)
+t_room	*hash_table_lookup(t_room **hash_table, char *str, int size)
 {
 	t_room	*tmp;
-	int		hash_value;
-	
+	int		index;
+
+	index = hash(str, size);
+	tmp = hash_table[index];
+	while (tmp)
+	{
+		if (tmp && !ft_strcmp(tmp->room_name, str))
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+t_bool hash_table_appending(t_info *info, t_room *list)
+{
+	t_room *tmp;
+	int hash_value;
+
 	hash_value = hash(list->room_name, info->quantity_of_rooms);
 	if (info->hash_table[hash_value] == NULL)
 		info->hash_table[hash_value] = list;
@@ -57,7 +73,7 @@ e_bool	hash_table_appending(t_info *info, t_room *list)
 			if (ft_strcmp(tmp->room_name, list->room_name) == 0)
 				return (error("Duplicate room name.\n"), FALSE);
 			if (tmp->next == NULL)
-				break ;
+				break;
 			tmp = tmp->next;
 		}
 		tmp->next = list;
@@ -65,10 +81,10 @@ e_bool	hash_table_appending(t_info *info, t_room *list)
 	return (TRUE);
 }
 
-e_bool	init_hash_table(t_info *info)
+t_bool init_hash_table(t_info *info)
 {
-	t_room	*list;
-	t_room	*next;
+	t_room *list;
+	t_room *next;
 
 	print_room(info->room_head);
 	if (create_hash_table(info) == FALSE)
