@@ -6,20 +6,19 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 10:36:53 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/05 10:51:26 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "lemin.h"
+#include "lemin.h"
 
-e_bool	create_new_room(t_room **room, t_info *info)
+t_bool create_new_room(t_room **room, t_info *info)
 {
-	t_room	*new;
-	char	*room_name;
+	t_room *new;
+	char *room_name;
 
 	room_name = get_room_name(info->line);
-	if ((room_name && room_name[0] == 'L')
-		|| check_xy(info->line + ft_strlen(room_name)) == FALSE)
+	if ((room_name && room_name[0] == 'L') || check_xy(info->line + ft_strlen(room_name)) == FALSE)
 		return (error("Wrong format.\n"), FALSE);
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
@@ -40,10 +39,10 @@ e_bool	create_new_room(t_room **room, t_info *info)
 	return (TRUE);
 }
 
-char	*get_room_name(char *line)
+char *get_room_name(char *line)
 {
-	char	*room_name;
-	int		len;
+	char *room_name;
+	int len;
 
 	len = 0;
 	while (line[len] != ' ')
@@ -54,12 +53,11 @@ char	*get_room_name(char *line)
 	return (room_name);
 }
 
-e_bool	get_rooms(t_info *info, int type)
+t_bool get_rooms(t_info *info, int type)
 {
-	static int	command;
+	static int command;
 	static t_room *room;
 
-	
 	if (type == ROOM && (create_new_room(&room, info) == FALSE))
 		return (FALSE);
 	if (command == START)

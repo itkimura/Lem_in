@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 10:37:18 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/05 10:51:28 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int type_of_line(char *str)
 	return (ROOM);
 }
 
-e_bool get_ants(t_info *info, int type, int *stage)
+t_bool get_ants(t_info *info, int type, int *stage)
 {
 	long nb;
 	int i;
@@ -51,7 +51,7 @@ e_bool get_ants(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-e_bool path_to_each_stage(t_info *info, int type, int *stage)
+t_bool path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
 	{
@@ -73,7 +73,7 @@ e_bool path_to_each_stage(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-e_bool read_line(t_info *info)
+t_bool read_line(t_info *info)
 {
 	int type;
 	int stage;

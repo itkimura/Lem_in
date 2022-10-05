@@ -6,13 +6,13 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 10:37:09 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/05 10:51:28 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-e_bool	init_info(t_info *info)
+t_bool init_info(t_info *info)
 {
 	info->quantity_of_ants = 0;
 	info->quantity_of_rooms = 0;
@@ -25,10 +25,10 @@ e_bool	init_info(t_info *info)
 	return (TRUE);
 }
 
-e_bool	check_digit_and_space(char *line)
+t_bool check_digit_and_space(char *line)
 {
-	int	i;
-	int	space;
+	int i;
+	int space;
 
 	i = 1;
 	space = 0;
@@ -38,11 +38,9 @@ e_bool	check_digit_and_space(char *line)
 	{
 		if (line[i] == ' ')
 			space++;
-		if ((ft_isdigit(line[i]) == 0 && line[i] != ' ' && line[i] != '+')
-			|| space > 1)
+		if ((ft_isdigit(line[i]) == 0 && line[i] != ' ' && line[i] != '+') || space > 1)
 			return (FALSE);
-		if (line[i] == ' ' && (ft_isdigit(line[i + 1]) == 0
-				|| line[i + 1] == '+'))
+		if (line[i] == ' ' && (ft_isdigit(line[i + 1]) == 0 || line[i + 1] == '+'))
 			return (FALSE);
 		i++;
 	}
@@ -51,10 +49,10 @@ e_bool	check_digit_and_space(char *line)
 	return (TRUE);
 }
 
-e_bool	check_xy(char *line)
+t_bool check_xy(char *line)
 {
-	long	x;
-	long	y;
+	long x;
+	long y;
 
 	if (check_digit_and_space(line) == FALSE)
 		return (FALSE);
@@ -65,9 +63,9 @@ e_bool	check_xy(char *line)
 	return (TRUE);
 }
 
-e_bool	lem_in(void)
+t_bool lem_in(void)
 {
-	t_info	info;
+	t_info info;
 
 	if (init_info(&info) == FALSE)
 		return (FALSE);
@@ -84,7 +82,7 @@ e_bool	lem_in(void)
 	return (TRUE);
 }
 
-int	main(void)
+int main(void)
 {
 	if (lem_in() == FALSE)
 		return (1);
