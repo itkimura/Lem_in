@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 11:16:58 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 17:50:12 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ int hash(char *str, int size)
 	int hash_value;
 
 	hash_value = 0;
+	printf("str = %s\n", str);
 	while (*str)
 	{
-		hash_value += (*str - '0');
+		hash_value = ((hash_value) + *str) % size;
 		str++;
 	}
-	return (hash_value % size);
+	return (hash_value);
 }
 
 t_bool create_hash_table(t_info *info)
@@ -30,7 +31,7 @@ t_bool create_hash_table(t_info *info)
 	int index;
 
 	index = 0;
-	info->hash_table = (t_room **)malloc(sizeof(t_room *) * info->quantity_of_rooms);
+	info->hash_table = (t_room **)malloc(sizeof(t_room *) * (int)(info->quantity_of_rooms * 2));
 	if (info->hash_table == NULL)
 		return (FALSE);
 	while (index < info->quantity_of_rooms)
@@ -62,7 +63,7 @@ t_bool hash_table_appending(t_info *info, t_room *list)
 	t_room *tmp;
 	int hash_value;
 
-	hash_value = hash(list->room_name, info->quantity_of_rooms);
+	hash_value = hash(list->room_name, (int)(info->quantity_of_rooms * 2));
 	if (info->hash_table[hash_value] == NULL)
 		info->hash_table[hash_value] = list;
 	else

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 14:00:02 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 17:51:30 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void print_hash_table(t_info *info)
 {
 	t_room *test = NULL;
 
-	for (int i = 0; i < info->quantity_of_rooms; i++)
+	for (int i = 0; i < info->quantity_of_rooms * 2; i++)
 	{
 		test = NULL;
 		if (info->hash_table[i] == NULL)

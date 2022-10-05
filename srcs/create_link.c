@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 15:37:15 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/05 17:50:54 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_bool create_new_link(t_link **link, t_info *info)
 	link = NULL;
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
-	return get_room_name_in_link(new, info->hash_table, info->line, info->quantity_of_rooms);
+	return get_room_name_in_link(new, info->hash_table, info->line, (int)(info->quantity_of_rooms * 2));
 }
 
 t_bool get_links(t_info *info)
