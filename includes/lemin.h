@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 17:01:32 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:50:27 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ t_bool create_new_room(t_room **room, t_info *info);
 t_bool get_links(t_info *info);
 t_bool create_new_link(t_link **link, t_info *info);
 t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size);
+
+/* connect_rooms */
+t_bool	connect_rooms(t_info *info);
 
 /* hash_table.c */
 t_bool init_hash_table(t_info *info);

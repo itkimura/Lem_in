@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 17:02:45 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:27:42 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,5 @@ t_bool read_line(t_info *info)
 		}
 		free(info->line);
 	}
-	print_hash_table(info);
 	return (TRUE);
 }

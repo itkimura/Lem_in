@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/06 16:49:37 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:23:41 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_bool create_new_link(t_link **link, t_info *info)
 	{
 		tmp->next = new;
 		tmp = new;
+		new->next = NULL;
 	}
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/06 16:55:51 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:56:37 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_bool init_hash_table(t_info *info)
 	t_room *list;
 	t_room *next;
 
-	print_room(info->room_head);
 	if (create_hash_table(info) == FALSE)
 		return (FALSE);
 	list = info->room_head;

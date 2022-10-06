@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/06 16:51:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:18:01 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ t_bool create_new_room(t_room **room, t_info *info)
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
+	ft_memset(new, 0, sizeof(t_room));
 	new->room_name = room_name;
-	new->quantity_of_links = 0;
-	new->link = NULL;
-	new->list_next = NULL;
-	new->hash_table_next = NULL;
 	if (*room == NULL)
 	{
 		*room = new;
