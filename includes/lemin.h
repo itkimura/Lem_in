@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 14:45:10 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/06 17:01:32 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ typedef struct s_room
 	int quantity_of_links;
 	int malloc_link;
 	struct s_room **link;
-	struct s_room *next;
+	struct s_room *hash_table_next;
+	struct s_room *list_next;
 } t_room;
 
 /* link-room structure */
@@ -113,6 +114,7 @@ t_bool init_info(t_info *info);
 
 /* utils.c */
 void free_rooms(t_room **head);
+void	free_links(t_link **link);
 void print_room(t_room *room);
 void print_info(t_info *info);
 void error(char *error);

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/06 14:22:24 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/06 16:49:37 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 t_bool create_new_link(t_link **link, t_info *info)
 {
 	t_link *new;
+	static t_link *tmp;
 	int len;
 
 	len = 0;
@@ -56,6 +57,16 @@ t_bool create_new_link(t_link **link, t_info *info)
 	if (get_room_in_link(new, info->hash_table, info->line,
 						 (int)(info->quantity_of_rooms * RATIO)) == FALSE)
 		return (FALSE);
+	if (info->link_head == NULL)
+	{
+		info->link_head = new;
+		tmp = new;
+	}
+	else
+	{
+		tmp->next = new;
+		tmp = new;
+	}
 	return (TRUE);
 }
 

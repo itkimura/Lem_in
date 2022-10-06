@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 15:18:36 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/06 17:03:25 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ t_bool lem_in(void)
 	}
 	/*Delete start here*/
 	// print_info(&info);
-	// print_room(info.room_head);
+	print_room(info.room_head);
 	/*Delete end here*/
+	free(info.hash_table);
+	free_links(&(info.link_head));
 	free_rooms(&(info.room_head));
 	return (TRUE);
 }

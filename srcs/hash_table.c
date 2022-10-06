@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/06 15:03:30 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/06 16:55:51 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_room	*hash_table_lookup(t_room **hash_table, char *str, int size)
 	{
 		if (tmp && !ft_strcmp(tmp->room_name, str))
 			break ;
-		tmp = tmp->next;
+		tmp = tmp->hash_table_next;
 	}
 	return (tmp);
 }
@@ -68,11 +68,11 @@ t_bool hash_table_appending(t_info *info, t_room *list)
 		{
 			if (ft_strcmp(tmp->room_name, list->room_name) == 0)
 				return (error("Duplicate room name.\n"), FALSE);
-			if (tmp->next == NULL)
+			if (tmp->hash_table_next == NULL)
 				break;
-			tmp = tmp->next;
+			tmp = tmp->hash_table_next;
 		}
-		tmp->next = list;
+		tmp->hash_table_next = list;
 	}
 	return (TRUE);
 }
@@ -88,10 +88,9 @@ t_bool init_hash_table(t_info *info)
 	list = info->room_head;
 	while (list)
 	{
-		next = list->next;
+		next = list->list_next;
 		if (hash_table_appending(info, list) == FALSE)
 			return FALSE;
-		list->next = NULL;
 		list = next;
 	}
 	return (TRUE);

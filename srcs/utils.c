@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 14:34:47 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/06 17:03:27 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void print_room(t_room *room)
 	while (room)
 	{
 		printf("room_name:[%10s]\t\tindex:[%d]\n", room->room_name, room->index);
-		room = room->next;
+		room = room->list_next;
 	}
 	printf("\n");
 }
@@ -54,6 +54,21 @@ void error(char *error)
 	ft_putstr_fd("\033[0;37m", 2);
 }
 
+void	free_links(t_link **link)
+{
+	t_link *next;
+	t_link *current;
+
+	current = *link;
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*link = NULL;
+}
+
 void free_rooms(t_room **head)
 {
 	t_room *next;
@@ -62,7 +77,7 @@ void free_rooms(t_room **head)
 	current = *head;
 	while (current)
 	{
-		next = current->next;
+		next = current->list_next;
 		free(current->room_name);
 		free(current);
 		current = next;
@@ -91,7 +106,7 @@ void print_hash_table(t_info *info)
 			printf("\t[%s]\n", test->room_name);
 			printf("\t%s \\____%slinks:[%2d]\n", GREY, WHITE, test->quantity_of_links);
 			printf("\n");
-			test = info->hash_table[i]->next;
+			test = info->hash_table[i]->hash_table_next;
 			if (test != NULL)
 			{
 				while (test)
@@ -100,7 +115,7 @@ void print_hash_table(t_info *info)
 					printf("\t%s \\____%slinks:[%2d]\n", GREY, WHITE, test->quantity_of_links);
 					printf("\n");
 					dup++;
-					test = test->next;
+					test = test->hash_table_next;
 				}
 			}
 		}
