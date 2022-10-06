@@ -6,36 +6,38 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 17:50:54 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:22:24 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-t_bool get_room_name_in_link(t_link *new, t_room **hash_table, char *line, int size)
+t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 {
-	int len;
 	char *tmp;
+	char *room1;
+	char *room2;
+	int len;
 
 	tmp = ft_strchr(line, '-');
-	new->room1 = NULL;
-	new->room2 = NULL;
-	while (1)
+	while (tmp)
 	{
-		if (tmp == NULL)
-			break;
 		len = tmp - line;
-		new->room1 = ft_strsub(line, 0, len);
-		new->room2 = ft_strsub(line, len + 1, ft_strlen(line));
-		if (hash_table_lookup(hash_table, new->room1, size)
-			&& hash_table_lookup(hash_table, new->room2, size))
-			break;
-		ft_strdel(&(new->room1));
-		ft_strdel(&(new->room2));
+		room1 = ft_strsub(line, 0, len);
+		room2 = line + len + 1;
+		if (room1 == NULL)
+			return (error("Malloc fails.\n"), FALSE);
+		new->room1 = hash_table_lookup(hash_table, room1, size);
+		new->room2 = hash_table_lookup(hash_table, room2, size);
+		ft_strdel(&room1);
+		if (new->room1 &&new->room2)
+		{
+			new->room1->quantity_of_links++;
+			new->room2->quantity_of_links++;
+			return (TRUE);
+		}
 		tmp = ft_strchr(tmp + 1, '-');
 	}
-	if (new->room1 &&new->room2)
-		return (TRUE);
 	return (error("No room found.\n"), FALSE);
 }
 
@@ -49,7 +51,12 @@ t_bool create_new_link(t_link **link, t_info *info)
 	link = NULL;
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
-	return get_room_name_in_link(new, info->hash_table, info->line, (int)(info->quantity_of_rooms * 2));
+	new->room1 = NULL;
+	new->room2 = NULL;
+	if (get_room_in_link(new, info->hash_table, info->line,
+						 (int)(info->quantity_of_rooms * RATIO)) == FALSE)
+		return (FALSE);
+	return (TRUE);
 }
 
 t_bool get_links(t_info *info)
@@ -57,8 +64,7 @@ t_bool get_links(t_info *info)
 	static t_link *link;
 
 	if (create_new_link(&link, info) == FALSE)
-	{
-		return FALSE;
-	}
-	return TRUE;
+		return (FALSE);
+	return (TRUE);
 }
+

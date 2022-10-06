@@ -6,21 +6,20 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 17:50:12 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:03:30 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int hash(char *str, int size)
+unsigned int	hash(char *str, int size)
 {
-	int hash_value;
+	unsigned int hash_value;
 
 	hash_value = 0;
-	printf("str = %s\n", str);
 	while (*str)
 	{
-		hash_value = ((hash_value) + *str) % size;
+		hash_value = ((hash_value * 97) + *str) % size;
 		str++;
 	}
 	return (hash_value);
@@ -28,17 +27,13 @@ int hash(char *str, int size)
 
 t_bool create_hash_table(t_info *info)
 {
-	int index;
+	int size;
 
-	index = 0;
-	info->hash_table = (t_room **)malloc(sizeof(t_room *) * (int)(info->quantity_of_rooms * 2));
+	size = sizeof(t_room *) * (int)(info->quantity_of_rooms * RATIO);
+	info->hash_table = (t_room **)malloc(size);
 	if (info->hash_table == NULL)
 		return (FALSE);
-	while (index < info->quantity_of_rooms)
-	{
-		info->hash_table[index] = NULL;
-		index++;
-	}
+	ft_memset(info->hash_table, 0, size);
 	return (TRUE);
 }
 
@@ -63,7 +58,7 @@ t_bool hash_table_appending(t_info *info, t_room *list)
 	t_room *tmp;
 	int hash_value;
 
-	hash_value = hash(list->room_name, (int)(info->quantity_of_rooms * 2));
+	hash_value = hash(list->room_name, (int)(info->quantity_of_rooms * RATIO));
 	if (info->hash_table[hash_value] == NULL)
 		info->hash_table[hash_value] = list;
 	else
@@ -99,6 +94,5 @@ t_bool init_hash_table(t_info *info)
 		list->next = NULL;
 		list = next;
 	}
-	print_hash_table(info);
 	return (TRUE);
 }

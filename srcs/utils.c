@@ -6,18 +6,18 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 17:51:30 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:34:47 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	print_single_room(t_room *room)
+void print_single_room(t_room *room)
 {
 	if (room == NULL)
 	{
 		printf("Room is not existed.\n");
-		return ;
+		return;
 	}
 	printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
 }
@@ -73,30 +73,38 @@ void free_rooms(t_room **head)
 void print_hash_table(t_info *info)
 {
 	t_room *test = NULL;
+	int dup = 0;
 
-	for (int i = 0; i < info->quantity_of_rooms * 2; i++)
+	for (int i = 0; i < info->quantity_of_rooms * RATIO; i++)
 	{
 		test = NULL;
 		if (info->hash_table[i] == NULL)
 		{
-			printf("%s[%s%3d%s]----------------------%s\n", MAGENTA, YELLOW, i, MAGENTA, WHITE);
-			printf("\tNO ROOM\n");
+			printf("%s[%s%3d%s]-----------------------------%s\n", YELLOW, PINK, i, YELLOW, WHITE);
+			printf("\t%sNO ROOM%s\n", RED, WHITE);
+			printf("\n");
 		}
 		else
 		{
-			printf("%s[%s%3d%s]----------------------%s\n", MAGENTA, YELLOW, i, MAGENTA, WHITE);
+			printf("%s[%s%3d%s]-----------------------------%s\n", YELLOW, PINK, i, YELLOW, WHITE);
 			test = info->hash_table[i];
 			printf("\t[%s]\n", test->room_name);
+			printf("\t%s \\____%slinks:[%2d]\n", GREY, WHITE, test->quantity_of_links);
+			printf("\n");
 			test = info->hash_table[i]->next;
 			if (test != NULL)
 			{
 				while (test)
 				{
 					printf("\t[%s]\n", test->room_name);
+					printf("\t%s \\____%slinks:[%2d]\n", GREY, WHITE, test->quantity_of_links);
+					printf("\n");
+					dup++;
 					test = test->next;
 				}
 			}
 		}
-		printf("\n");
 	}
+	printf("rooms: %d\n", info->quantity_of_rooms);
+	printf("dup = %d\n", dup);
 }

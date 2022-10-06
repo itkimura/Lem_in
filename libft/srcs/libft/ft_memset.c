@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 10:58:43 by itkimura          #+#    #+#             */
-/*   Updated: 2021/11/09 11:08:41 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:24:27 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memset(void *b, int c, size_t len)
 	unsigned char	*s;
 
 	s = (unsigned char *)b;
-	while (len--)
+	while (len-- > 0)
 		*s++ = c;
 	return (b);
 }

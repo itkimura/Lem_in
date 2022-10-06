@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/05 14:07:13 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/06 15:08:33 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ t_bool create_new_room(t_room **room, t_info *info)
 
 	room_name = get_room_name(info->line);
 	if ((room_name && room_name[0] == 'L') || check_xy(info->line + ft_strlen(room_name)) == FALSE)
-		return (error("Wrong format.\n"), FALSE);
+		return (error("Wrong format in room.\n"), FALSE);
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
 	new->room_name = room_name;
+	new->quantity_of_links = 0;
+	new->link = NULL;
 	new->next = NULL;
 	if (*room == NULL)
 	{
@@ -49,7 +51,7 @@ char *get_room_name(char *line)
 		len++;
 	room_name = ft_strsub(line, 0, len);
 	if (!room_name)
-		exit(0);
+		return (error("Malloc fails.\n"), exit(1), NULL);
 	return (room_name);
 }
 

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/05 15:49:29 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:16:02 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_bool get_ants(t_info *info, int type, int *stage)
 	int i;
 
 	i = 0;
+	if (type == COMMAND)
+		return (TRUE);
 	if (type == COMMENT)
 		return (TRUE);
 	if (type != ROOM)
@@ -72,6 +74,8 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	{
 		if (type == ROOM)
 			return FALSE;
+		if (type == COMMAND)
+			return TRUE;
 		return get_links(info);
 	}
 	return (TRUE);
@@ -92,6 +96,8 @@ t_bool read_line(t_info *info)
 			break;
 		if (gnl < 0)
 			return (error("GNL return -1\n"), exit(1), FALSE);
+		ft_putstr(info->line);
+		ft_putchar('\n');
 		type = type_of_line(info->line);
 		if (type != COMMENT)
 		{
@@ -100,5 +106,6 @@ t_bool read_line(t_info *info)
 		}
 		free(info->line);
 	}
+	print_hash_table(info);
 	return (TRUE);
 }
