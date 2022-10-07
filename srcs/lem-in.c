@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 11:13:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:47:38 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,30 @@ t_bool	lem_in(void)
 	t_info	info;
 
 	if (init_info(&info) == FALSE)
-		return (FALSE);
+		return (error("\nError.\n"), FALSE);
 	if (read_line(&info) == FALSE)
 	{
 		free_rooms(&(info.room_head));
-		return (FALSE);
+		if (info.hash_table)
+			free(info.hash_table);
+		return (error("\nError.\n"), FALSE);
 	}
 	if (connect_rooms(&info) == FALSE)
-		return (FALSE);
+	{
+		free_rooms(&(info.room_head));
+		free_links(&(info.link_head));
+		if (info.hash_table)
+			free(info.hash_table);
+		return (error("\nError.\n"), FALSE);
+	}
 	/*Delete start here*/
-	print_hash_table(&info);
+	// print_hash_table(&info);
 	print_info(&info);
-	print_room(info.room_head);
+	// print_room(info.room_head);
 	/*Delete end here*/
 	free(info.hash_table);
 	free_rooms(&(info.room_head));
-	return (TRUE);
+	return (printf("\n%sSuccess.\n%s", GREEN, WHITE), TRUE);
 }
 
 int	main(void)

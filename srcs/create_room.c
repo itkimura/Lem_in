@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/07 11:04:55 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:39:13 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,21 @@ t_bool	create_new_room(t_room **room, t_info *info)
 	char	*room_name;
 
 	room_name = get_room_name(info->line);
+	if (room_name == NULL)
+		return (FALSE);
 	if ((room_name && room_name[0] == 'L')
 		|| check_xy(info->line + ft_strlen(room_name)) == FALSE)
-		return (error("Wrong format in room.\n"), FALSE);
+		return (free(room_name), error("Wrong format in room.\n"), FALSE);
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
 	ft_memset(new, 0, sizeof(t_room));
 	new->room_name = room_name;
 	if (*room == NULL)
-	{
-		*room = new;
 		info->room_head = new;
-	}
 	else
-	{
 		(*room)->list_next = new;
-		*room = new;
-	}
+	*room = new;
 	(*room)->index = (info->quantity_of_rooms)++;
 	return (TRUE);
 }
@@ -50,7 +47,7 @@ char	*get_room_name(char *line)
 		len++;
 	room_name = ft_strsub(line, 0, len);
 	if (!room_name)
-		return (error("Malloc fails.\n"), exit(1), NULL);
+		return (error("Malloc fails.\n"), NULL);
 	return (room_name);
 }
 

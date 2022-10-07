@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 11:26:16 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:08:00 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ enum
 	END,
 	COMMAND,
 	LINK,
+	EMPTY,
 };
 
 /* room */
@@ -120,6 +121,7 @@ t_bool			lem_in(void);
 /* utils.c */
 void			error(char *error);
 void			free_rooms(t_room **head);
+void			free_links(t_link **link);
 
 /* print.c */
 void			print_hash_table(t_info *info);

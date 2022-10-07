@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 11:11:34 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:53:07 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	type_of_line(char *str)
 {
+	if (str[0] == '\0')
+		return (EMPTY);
 	if (!ft_strcmp(str, "##start"))
 		return (START);
 	else if (!ft_strcmp(str, "##end"))
@@ -62,10 +64,11 @@ t_bool	path_to_each_stage(t_info *info, int type, int *stage)
 	}
 	else if (*stage == 1)
 	{
-		if (type == LINK)
+		if (type == LINK && (*stage)++)
 		{
-			(*stage)++;
-			init_hash_table(info);
+			if (info->start_room == NULL || info->end_room == NULL)
+				return (FALSE);
+			return (init_hash_table(info));
 		}
 		else if (get_rooms(info, type) == FALSE)
 			return (FALSE);
@@ -83,28 +86,29 @@ t_bool	path_to_each_stage(t_info *info, int type, int *stage)
 
 t_bool	read_line(t_info *info)
 {
-	int	type;
-	int	stage;
-	int	gnl;
+	int		type;
+	int		stage;
+	int		gnl;
+	t_bool	flag;
 
 	gnl = 1;
 	stage = 0;
+	flag = TRUE;
 	while (gnl)
 	{
 		gnl = get_next_line(FD, &(info->line));
 		if (gnl == 0)
 			break ;
 		if (gnl < 0)
-			return (error("GNL return -1\n"), exit(1), FALSE);
-		ft_putstr(info->line);
-		ft_putchar('\n');
+			return (error("GNL return -1\n"), FALSE);
+		// ft_putstr(info->line);
+		// ft_putchar('\n');
 		type = type_of_line(info->line);
-		if (type != COMMENT)
-		{
-			if (path_to_each_stage(info, type, &stage) == FALSE)
-				return (FALSE);
-		}
+		if (type == EMPTY)
+			flag = FALSE;
+		if (type != COMMENT && flag == TRUE)
+			flag = path_to_each_stage(info, type, &stage);
 		free(info->line);
 	}
-	return (TRUE);
+	return (flag);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connect_rooms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:06:59 by itkimura          #+#    #+#             */
-/*   Updated: 2022/10/07 10:52:06 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:20:36 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 void	create_link_array(t_info *info)
 {
 	t_link	*link;
-	t_link	*next;
 	int		index;
 
 	link = info->link_head;
 	while (link)
 	{
-		next = link->next;
+		info->link_head = link->next;
 		index = 0;
 		while (index < link->room1->malloc_link)
 		{
@@ -36,7 +35,7 @@ void	create_link_array(t_info *info)
 			link->room2->link[link->room2->malloc_link++] = link->room1;
 		}
 		free(link);
-		link = next;
+		link = info->link_head;
 	}
 }
 

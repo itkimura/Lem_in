@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 11:06:59 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:44:01 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,19 @@ void	free_rooms(t_room **head)
 		current = next;
 	}
 	*head = NULL;
+}
+
+void	free_links(t_link **link)
+{
+	t_link	*next;
+	t_link	*current;
+
+	current = *link;
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*link = NULL;
 }
