@@ -6,18 +6,18 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/06 18:23:41 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 10:59:58 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
+t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 {
-	char *tmp;
-	char *room1;
-	char *room2;
-	int len;
+	char	*tmp;
+	char	*room1;
+	char	*room2;
+	int		len;
 
 	tmp = ft_strchr(line, '-');
 	while (tmp)
@@ -30,7 +30,7 @@ t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 		new->room1 = hash_table_lookup(hash_table, room1, size);
 		new->room2 = hash_table_lookup(hash_table, room2, size);
 		ft_strdel(&room1);
-		if (new->room1 &&new->room2)
+		if (new->room1 && new->room2)
 		{
 			new->room1->quantity_of_links++;
 			new->room2->quantity_of_links++;
@@ -41,21 +41,20 @@ t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 	return (error("No room found.\n"), FALSE);
 }
 
-t_bool create_new_link(t_link **link, t_info *info)
+t_bool	create_new_link(t_link **link, t_info *info)
 {
-	t_link *new;
-	static t_link *tmp;
-	int len;
+	t_link			*new;
+	static t_link	*tmp;
+	int				size;
 
-	len = 0;
 	new = (t_link *)malloc(sizeof(t_link));
 	link = NULL;
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
 	new->room1 = NULL;
 	new->room2 = NULL;
-	if (get_room_in_link(new, info->hash_table, info->line,
-						 (int)(info->quantity_of_rooms * RATIO)) == FALSE)
+	size = (int)(info->quantity_of_rooms * RATIO);
+	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (FALSE);
 	if (info->link_head == NULL)
 	{
@@ -71,12 +70,11 @@ t_bool create_new_link(t_link **link, t_info *info)
 	return (TRUE);
 }
 
-t_bool get_links(t_info *info)
+t_bool	get_links(t_info *info)
 {
-	static t_link *link;
+	static t_link	*link;
 
 	if (create_new_link(&link, info) == FALSE)
 		return (FALSE);
 	return (TRUE);
 }
-

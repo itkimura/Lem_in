@@ -6,29 +6,19 @@
 /*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:06:59 by itkimura          #+#    #+#             */
-/*   Updated: 2022/10/06 18:24:23 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 10:52:06 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-t_bool	connect_rooms(t_info *info)
+void	create_link_array(t_info *info)
 {
 	t_link	*link;
 	t_link	*next;
-	t_room	*room;
 	int		index;
 
 	link = info->link_head;
-	room = info->room_head;
-	while (room)
-	{
-		room->link = (t_room **)malloc(sizeof(t_room *) * room->quantity_of_links);
-		if (room->link == NULL)
-			return (error("Malloc fails.\n"), FALSE);
-		ft_memset(room->link, 0, sizeof(t_room *) * room->quantity_of_links);
-		room = room->list_next;
-	}
 	while (link)
 	{
 		next = link->next;
@@ -39,15 +29,32 @@ t_bool	connect_rooms(t_info *info)
 				break ;
 			index++;
 		}
-		if (index == link->room1->malloc_link && link->room1->quantity_of_links != 0)
+		if (index == link->room1->malloc_link
+			&& link->room1->quantity_of_links != 0)
 		{
-			link->room1->link[link->room1->malloc_link] = link->room2;
-			link->room2->link[link->room2->malloc_link] = link->room1;
-			link->room1->malloc_link++;
-			link->room2->malloc_link++;
+			link->room1->link[link->room1->malloc_link++] = link->room2;
+			link->room2->link[link->room2->malloc_link++] = link->room1;
 		}
 		free(link);
 		link = next;
 	}
+}
+
+t_bool	connect_rooms(t_info *info)
+{
+	t_room	*room;
+	int		size;
+
+	room = info->room_head;
+	while (room)
+	{
+		size = sizeof(t_room *) * room->quantity_of_links;
+		room->link = (t_room **)malloc(size);
+		if (room->link == NULL)
+			return (error("Malloc fails.\n"), FALSE);
+		ft_memset(room->link, 0, size);
+		room = room->list_next;
+	}
+	create_link_array(info);
 	return (TRUE);
 }

@@ -6,13 +6,13 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 18:29:26 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:13:35 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-t_bool init_info(t_info *info)
+t_bool	init_info(t_info *info)
 {
 	info->quantity_of_ants = 0;
 	info->quantity_of_rooms = 0;
@@ -25,10 +25,10 @@ t_bool init_info(t_info *info)
 	return (TRUE);
 }
 
-t_bool check_digit_and_space(char *line)
+t_bool	check_digit_and_space(char *line)
 {
-	int i;
-	int space;
+	int	i;
+	int	space;
 
 	i = 1;
 	space = 0;
@@ -38,9 +38,11 @@ t_bool check_digit_and_space(char *line)
 	{
 		if (line[i] == ' ')
 			space++;
-		if ((ft_isdigit(line[i]) == 0 && line[i] != ' ' && line[i] != '+') || space > 1)
+		if ((ft_isdigit(line[i]) == 0 && line[i] != ' '
+				&& line[i] != '+') || space > 1)
 			return (FALSE);
-		if (line[i] == ' ' && (ft_isdigit(line[i + 1]) == 0 || line[i + 1] == '+'))
+		if (line[i] == ' ' && (ft_isdigit(line[i + 1]) == 0
+				|| line[i + 1] == '+'))
 			return (FALSE);
 		i++;
 	}
@@ -49,10 +51,10 @@ t_bool check_digit_and_space(char *line)
 	return (TRUE);
 }
 
-t_bool check_xy(char *line)
+t_bool	check_xy(char *line)
 {
-	long x;
-	long y;
+	long	x;
+	long	y;
 
 	if (check_digit_and_space(line) == FALSE)
 		return (FALSE);
@@ -63,9 +65,9 @@ t_bool check_xy(char *line)
 	return (TRUE);
 }
 
-t_bool lem_in(void)
+t_bool	lem_in(void)
 {
-	t_info info;
+	t_info	info;
 
 	if (init_info(&info) == FALSE)
 		return (FALSE);
@@ -76,18 +78,17 @@ t_bool lem_in(void)
 	}
 	if (connect_rooms(&info) == FALSE)
 		return (FALSE);
-	//print_hash_table(&info);
 	/*Delete start here*/
-	// print_info(&info);
-	//print_room(info.room_head);
+	print_hash_table(&info);
+	print_info(&info);
+	print_room(info.room_head);
 	/*Delete end here*/
 	free(info.hash_table);
-	//free_links(&(info.link_head));
 	free_rooms(&(info.room_head));
 	return (TRUE);
 }
 
-int main(void)
+int	main(void)
 {
 	if (lem_in() == FALSE)
 		return (1);

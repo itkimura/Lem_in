@@ -6,13 +6,13 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/06 17:27:42 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:11:34 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int type_of_line(char *str)
+int	type_of_line(char *str)
 {
 	if (!ft_strcmp(str, "##start"))
 		return (START);
@@ -27,10 +27,10 @@ int type_of_line(char *str)
 	return (ROOM);
 }
 
-t_bool get_ants(t_info *info, int type, int *stage)
+t_bool	get_ants(t_info *info, int type, int *stage)
 {
-	long nb;
-	int i;
+	long	nb;
+	int		i;
 
 	i = 0;
 	if (type == COMMAND)
@@ -53,7 +53,7 @@ t_bool get_ants(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-t_bool path_to_each_stage(t_info *info, int type, int *stage)
+t_bool	path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
 	{
@@ -73,19 +73,19 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	if (*stage == 2)
 	{
 		if (type == ROOM)
-			return FALSE;
+			return (FALSE);
 		if (type == COMMAND)
-			return TRUE;
-		return get_links(info);
+			return (TRUE);
+		return (get_links(info));
 	}
 	return (TRUE);
 }
 
-t_bool read_line(t_info *info)
+t_bool	read_line(t_info *info)
 {
-	int type;
-	int stage;
-	int gnl;
+	int	type;
+	int	stage;
+	int	gnl;
 
 	gnl = 1;
 	stage = 0;
@@ -93,7 +93,7 @@ t_bool read_line(t_info *info)
 	{
 		gnl = get_next_line(FD, &(info->line));
 		if (gnl == 0)
-			break;
+			break ;
 		if (gnl < 0)
 			return (error("GNL return -1\n"), exit(1), FALSE);
 		ft_putstr(info->line);
