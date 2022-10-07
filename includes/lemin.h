@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 14:08:00 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/07 16:00:24 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,26 +84,11 @@ typedef struct s_info
 	t_link	*link_head;
 }			t_info;
 
-/* read_line.c */
-int				type_of_line(char *str);
-t_bool			get_ants(t_info *info, int type, int *stage);
-t_bool			path_to_each_stage(t_info *info, int type, int *stage);
-t_bool			read_line(t_info *info);
-
-/* create_room.c */
-t_bool			create_new_room(t_room **room, t_info *info);
-char			*get_room_name(char *line);
-t_bool			get_rooms(t_info *info, int type);
-
-/* create_link */
-t_bool			get_room_in_link(t_link *new, t_room **hash_table,
-					char *line, int size);
-t_bool			create_new_link(t_link **link, t_info *info);
-t_bool			get_links(t_info *info);
-
-/* connect_rooms */
-void			create_link_array(t_info *info);
-t_bool			connect_rooms(t_info *info);
+/* lem-in.c */
+t_bool			init_info(t_info *info);
+t_bool			check_digit_and_space(char *line);
+t_bool			check_xy(char *line);
+t_bool			lem_in(void);
 
 /* hash_table.c */
 unsigned int	hash(char *str, int size);
@@ -111,12 +96,6 @@ t_bool			create_hash_table(t_info *info);
 t_room			*hash_table_lookup(t_room **hash_table, char *str, int size);
 t_bool			hash_table_appending(t_info *info, t_room *list);
 t_bool			init_hash_table(t_info *info);
-
-/* lem-in.c */
-t_bool			init_info(t_info *info);
-t_bool			check_digit_and_space(char *line);
-t_bool			check_xy(char *line);
-t_bool			lem_in(void);
 
 /* utils.c */
 void			error(char *error);
@@ -128,5 +107,30 @@ void			print_hash_table(t_info *info);
 void			print_single_room(t_room *room);
 void			print_room(t_room *room);
 void			print_info(t_info *info);
+
+
+/* validation/read_line.c */
+int				type_of_line(char *str);
+t_bool			get_ants(t_info *info, int type, int *stage);
+t_bool			path_to_each_stage(t_info *info, int type, int *stage);
+t_bool			read_line(t_info *info);
+
+/* validation/create_room.c */
+t_bool			create_new_room(t_room **room, t_info *info);
+char			*get_room_name(char *line);
+t_bool			get_rooms(t_info *info, int type);
+
+/* validation/create_link.c */
+t_bool			get_room_in_link(t_link *new, t_room **hash_table,
+					char *line, int size);
+t_bool			create_new_link(t_link **link, t_info *info);
+t_bool			get_links(t_info *info);
+
+/* validation/onnect_rooms.c */
+void			create_link_array(t_info *info);
+t_bool			connect_rooms(t_info *info);
+
+
+
 
 #endif
