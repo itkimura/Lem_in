@@ -6,7 +6,7 @@
 #    By: thle <thle@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/10/07 16:00:53 by thle             ###   ########.fr        #
+#    Updated: 2022/10/10 11:15:27 by thle             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ DEBUG_FLAG = -g
 INCLUDES_DIR = ./includes/
 
 FILES = lem-in.c read_line.c		utils.c hash_table.c	create_room.c	\
-		create_link.c				connect_rooms.c			print.c
+		create_link.c				connect_rooms.c			print.c		bfs.c
 
 
 SRCS_DIR = ./srcs/

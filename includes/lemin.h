@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 16:00:24 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/10 11:18:09 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ typedef struct s_info
 	t_room	**hash_table;
 	t_link	*link_head;
 }			t_info;
+
+/* bfs.c */
+t_bool	bfs(t_info *info);
 
 /* lem-in.c */
 t_bool			init_info(t_info *info);
