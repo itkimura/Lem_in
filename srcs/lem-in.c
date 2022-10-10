@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 14:47:38 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/10 11:18:24 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,11 @@ t_bool	lem_in(void)
 		return (error("\nError.\n"), FALSE);
 	}
 	/*Delete start here*/
+	
+	// print_info(&info);
 	// print_hash_table(&info);
-	print_info(&info);
+	bfs(&info);
+	
 	// print_room(info.room_head);
 	/*Delete end here*/
 	free(info.hash_table);
