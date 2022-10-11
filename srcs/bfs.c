@@ -17,6 +17,7 @@ t_bool	init_buff(t_path ***buff, t_info *info)
 	int	index;
 
 	index = 0;
+	printf("links = %d\n", info->quantity_of_links);
 	*buff = (t_path **)malloc(sizeof(t_path *) * 100);
 	if (buff == NULL)
 		return (FALSE);
@@ -116,6 +117,9 @@ void	bfs_main(int front, int rear, t_room *end_room, t_path **buff)
 	{
 		tmp = dep(buff, &front);
 		curr = top(tmp);
+		//printf("tmp:");
+		//print_path(tmp);
+		//printf("from = %d end = %d curr->room_name = %s\n\n", front, rear, curr->room_name);
 		if (curr == end_room)
 			print_path(tmp);
 		else
@@ -148,7 +152,7 @@ t_bool	bfs(t_info *info)
 	init_queue(buff, start_room);
 	bfs_main(0, 1, end_room, buff);
 	print_info(info);
-	//print_buff(buff);
+	print_buff(buff);
 	//print_hash_table(info);
 	free_buff(buff, info);
 	return (TRUE);

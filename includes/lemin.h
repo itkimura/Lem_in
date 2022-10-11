@@ -82,6 +82,7 @@ typedef struct s_info
 {
 	int		quantity_of_ants;
 	int		quantity_of_rooms;
+	int		quantity_of_links;
 	char	*start_room;
 	char	*end_room;
 	char	*line;

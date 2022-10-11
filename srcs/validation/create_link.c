@@ -55,7 +55,7 @@ t_bool	create_new_link(t_info *info)
 	size = (int)(info->quantity_of_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (free(new), FALSE);
-
+	info->quantity_of_links++;
 	if (info->link_head == NULL)
 	{
 		info->link_head = new;
