@@ -93,3 +93,22 @@ void print_hash_table(t_info *info)
 	printf("rooms: %d\n", info->quantity_of_rooms);
 	printf("dup = %d\n", dup);
 }
+
+void	print_buff(t_path **buff)
+{
+	printf("---- buff ----\n");
+	for (int i = 0; buff[i]->len ; i++)
+	{
+		printf("buff[%d] %d:", i, buff[i]->len);
+		for (int j = 0; j < buff[i]->len; j++)
+			printf("%s ", buff[i]->path[j]->room_name);
+		printf("\n");
+	}
+}
+
+void	print_path(t_path	*path)
+{
+	for (int i = 0; i < path->len; i++)
+		printf("[%s]", path->path[i]->room_name);
+	printf("\n");
+}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "../includes/lemin.h"
 
 t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 {
@@ -41,14 +41,13 @@ t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 	return (error("No room found in links.\n"), FALSE);
 }
 
-t_bool	create_new_link(t_link **link, t_info *info)
+t_bool	create_new_link(t_info *info)
 {
 	t_link			*new;
 	static t_link	*tmp;
 	int				size;
 
 	new = (t_link *)malloc(sizeof(t_link));
-	link = NULL;
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
 	new->room1 = NULL;
@@ -56,8 +55,12 @@ t_bool	create_new_link(t_link **link, t_info *info)
 	size = (int)(info->quantity_of_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (free(new), FALSE);
+
 	if (info->link_head == NULL)
+	{
 		info->link_head = new;
+		tmp = new;
+	}
 	else
 		tmp->next = new;
 	tmp = new;
@@ -67,9 +70,7 @@ t_bool	create_new_link(t_link **link, t_info *info)
 
 t_bool	get_links(t_info *info)
 {
-	static t_link	*link;
-
-	if (create_new_link(&link, info) == FALSE)
+	if (create_new_link(info) == FALSE)
 		return (FALSE);
 	return (TRUE);
 }

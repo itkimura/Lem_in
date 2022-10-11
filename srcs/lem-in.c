@@ -22,6 +22,7 @@ t_bool	init_info(t_info *info)
 	info->line = NULL;
 	info->room_head = NULL;
 	info->hash_table = NULL;
+	info->link_head = NULL;
 	return (TRUE);
 }
 

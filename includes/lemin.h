@@ -40,6 +40,7 @@ typedef enum e_bool
 	TRUE,
 }	t_bool;
 
+
 enum
 {
 	COMMENT,
@@ -62,6 +63,11 @@ typedef struct s_room
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
 }					t_room;
+
+typedef struct s_path {
+	t_room **path;
+	int len;
+}	t_path;
 
 /* link-room structure */
 typedef struct s_link
@@ -110,6 +116,8 @@ void			print_hash_table(t_info *info);
 void			print_single_room(t_room *room);
 void			print_room(t_room *room);
 void			print_info(t_info *info);
+void			print_buff(t_path **buff);
+void			print_path(t_path	*path);
 
 
 /* validation/read_line.c */
@@ -126,7 +134,7 @@ t_bool			get_rooms(t_info *info, int type);
 /* validation/create_link.c */
 t_bool			get_room_in_link(t_link *new, t_room **hash_table,
 					char *line, int size);
-t_bool			create_new_link(t_link **link, t_info *info);
+t_bool			create_new_link(t_info *info);
 t_bool			get_links(t_info *info);
 
 /* validation/onnect_rooms.c */
