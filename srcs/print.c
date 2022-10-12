@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/07 10:37:43 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:32:53 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,18 @@ void	print_buff(t_path **buff)
 	printf("---- buff ----\n");
 	for (int i = 0; buff[i]->len ; i++)
 	{
-		printf("buff[%d] %d:", i, buff[i]->len);
+		printf("buff[%d]	%d:", i, buff[i]->len);
 		for (int j = 0; j < buff[i]->len; j++)
 			printf("%s ", buff[i]->path[j]->room_name);
 		printf("\n");
 	}
+	
 }
 
 void	print_path(t_path	*path)
 {
 	for (int i = 0; i < path->len; i++)
 		printf("[%s]", path->path[i]->room_name);
+
 	printf("\n");
 }

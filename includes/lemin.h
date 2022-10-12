@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/10 11:18:09 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/12 13:43:28 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define WHITE "\x1B[37m"
 
 # define RATIO 1.5
+# define PATH_BUFF_SIZE 100
 
 typedef enum e_bool
 {
@@ -65,8 +66,8 @@ typedef struct s_room
 }					t_room;
 
 typedef struct s_path {
-	t_room **path;
-	int len;
+	t_room	**path;
+	int		len;
 }	t_path;
 
 /* link-room structure */
