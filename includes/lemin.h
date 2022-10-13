@@ -66,8 +66,9 @@ typedef struct s_room
 }					t_room;
 
 typedef struct s_path {
-	t_room	**path;
-	int		len;
+	t_room			**path;
+	int				len;
+	struct s_path	*next;
 }	t_path;
 
 /* link-room structure */

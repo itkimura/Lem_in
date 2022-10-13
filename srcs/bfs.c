@@ -32,6 +32,7 @@ t_bool init_buff(t_path ***buff, t_info *info)
 		if ((*buff)[index]->path == NULL)
 			return (FALSE);
 		(*buff)[index]->len = 0;
+		(*buff)[index]->next = NULL;
 		index++;
 	}
 	return (TRUE);
@@ -104,6 +105,7 @@ t_bool extend_buffer(t_path ***buff, int *rear, t_info *info)
 		if (tmp[index]->path == NULL)
 			return (FALSE);
 		tmp[index]->len = 0;
+		tmp[index]->next = NULL;
 		index++;
 	}
 	// print_buff(tmp);
@@ -158,7 +160,7 @@ void free_buff(t_path **buff, int rear)
 	buff = NULL;
 }
 
-void bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info *info)
+t_path *bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info *info)
 {
 	t_path *tmp;
 	t_room *curr;
@@ -176,9 +178,7 @@ void bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info *i
 		//	print_path(tmp);
 		// printf("curr = %s\n", curr->room_name);
 		if (curr == end_room)
-		{
-			// print_path(tmp);
-		}
+			return (tmp);
 		else
 		{
 			index = 0;
@@ -200,6 +200,83 @@ void bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info *i
 			}
 		}
 	}
+	return (NULL);
+}
+
+t_bool	check_single_path(t_path *p1, t_path *p2)
+{
+	int		i;
+	int		j;
+
+	i = 1;
+	if (p1 == p2)
+		return (TRUE);
+	while (i < p1->len)
+	{
+		j = 0;
+		while(j < p2->len)
+		{
+			if (p1->path[i] == p2->path[j])
+				return (FALSE);
+			j++;
+		}
+		i++;
+	}
+	return (TRUE);
+}
+/*
+t_bool	check_path(t_flow **head, t_path *path)
+{
+	t_flow *tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (check_single_path(tmp->path, path) == FALSE && tmp->path->len != path->len)
+		{
+			printf("tmp: ");
+			print_path(tmp->path);
+			printf("path: ");
+			print_path(path);
+			return (FALSE);
+		}
+		if (tmp == NULL)
+			break ;
+		tmp = tmp->next;
+	}
+	return (TRUE);
+}
+*/
+
+void	print_path_list(t_path *tmp)
+{
+	int		index;
+
+	index = 0;
+	while (tmp)
+	{
+		printf("path[%d]: ", index);
+		print_path(tmp);
+		index++;
+		tmp = tmp->next;
+	}
+}
+
+typedef struct s_conbination{
+	t_path	*path;
+	struct s_conbination *next;
+}				t_conbination;
+
+t_conbination	*new_conbinasion(t_path *path)
+{
+	t_conbination *new;
+
+	new = (t_conbination *)malloc(sizeof(t_conbination));
+	if (new == NULL)
+		return (NULL);
+	new->path = path;
+	new->next = NULL;
+	return (new);
 }
 
 t_bool bfs(t_info *info)
@@ -221,7 +298,21 @@ t_bool bfs(t_info *info)
 	end_room = hash_table_lookup(info->hash_table, info->end_room, size);
 	init_queue(buff, start_room);
 	//print_info(info);
-	bfs_main(&front, &rear, end_room, &buff, info);
+	
+	t_path	*head = bfs_main(&front, &rear, end_room, &buff, info);
+	t_path	*path = head;
+	t_path	*tmp;
+	int		count_path = 1;
+	while (path)
+	{
+		print_path_list(head);
+		printf("ants / how many path + longest length - 2 = %d\n", (info->quantity_of_ants / count_path) * 1 + (path->len - 2));
+		tmp = bfs_main(&front, &rear, end_room, &buff, info);
+		path->next = tmp;
+		path = tmp;
+		count_path++;
+	}
+
 	// print_buff(buff);
 	// print_hash_table(info);
 	
