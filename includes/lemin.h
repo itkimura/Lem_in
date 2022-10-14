@@ -71,6 +71,11 @@ typedef struct s_path {
 	struct s_path	*next;
 }	t_path;
 
+typedef struct s_flow{
+	t_path			*path;
+	struct s_flow	*next;
+}				t_flow;
+
 /* link-room structure */
 typedef struct s_link
 {
@@ -85,8 +90,8 @@ typedef struct s_info
 	int		quantity_of_ants;
 	int		quantity_of_rooms;
 	int		quantity_of_links;
-	char	*start_room;
-	char	*end_room;
+	t_room	*start_room;
+	t_room	*end_room;
 	char	*line;
 	t_room	*room_head;
 	t_room	**hash_table;
@@ -94,7 +99,7 @@ typedef struct s_info
 }			t_info;
 
 /* bfs.c */
-t_bool	bfs(t_info *info);
+t_bool	solution(t_info *info);
 
 /* lem-in.c */
 t_bool			init_info(t_info *info);

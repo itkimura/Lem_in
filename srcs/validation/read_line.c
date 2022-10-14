@@ -101,8 +101,8 @@ t_bool	read_line(t_info *info)
 			break ;
 		if (gnl < 0)
 			return (error("GNL return -1\n"), FALSE);
-		// ft_putstr(info->line);
-		// ft_putchar('\n');
+		ft_putstr(info->line);
+		ft_putchar('\n');
 		type = type_of_line(info->line);
 		if (type == EMPTY)
 			flag = FALSE;

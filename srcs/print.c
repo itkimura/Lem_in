@@ -43,8 +43,8 @@ void print_info(t_info *info)
 	printf("--- info ---\n");
 	printf("quantity_of_ants: %d\n", info->quantity_of_ants);
 	printf("quantity_of_rooms: %d\n", info->quantity_of_rooms);
-	printf("start_room: %s\n", info->start_room);
-	printf("end_room: %s\n", info->end_room);
+	printf("start_room: %s\n", info->start_room->room_name);
+	printf("end_room: %s\n", info->end_room->room_name);
 }
 
 void print_hash_table(t_info *info)

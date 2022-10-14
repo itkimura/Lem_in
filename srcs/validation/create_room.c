@@ -59,9 +59,9 @@ t_bool	get_rooms(t_info *info, int type)
 	if (type == ROOM && (create_new_room(&room, info) == FALSE))
 		return (FALSE);
 	if (command == START)
-		info->start_room = room->room_name;
+		info->start_room = room;
 	if (command == END)
-		info->end_room = room->room_name;
+		info->end_room = room;
 	command = type;
 	return (TRUE);
 }

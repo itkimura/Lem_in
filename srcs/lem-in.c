@@ -92,7 +92,7 @@ t_bool	lem_in(void)
 	
 	// print_info(&info);
 	// print_hash_table(&info);
-	bfs(&info);
+	solution(&info);
 	
 	// print_room(info.room_head);
 	/*Delete end here*/

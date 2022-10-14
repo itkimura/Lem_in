@@ -12,14 +12,11 @@
 
 #include "../includes/lemin.h"
 
-int g_size;
-
-t_bool init_buff(t_path ***buff, t_info *info)
+t_bool	init_buff(t_path ***buff, t_info *info)
 {
-	int index;
+	int	index;
 
 	index = 0;
-	//	printf("size = %d\n", PATH_BUFF_SIZE);
 	*buff = (t_path **)malloc(sizeof(t_path *) * PATH_BUFF_SIZE);
 	if (buff == NULL)
 		return (FALSE);
@@ -39,14 +36,14 @@ t_bool init_buff(t_path ***buff, t_info *info)
 }
 
 /* return the current position */
-t_room *top(t_path *path)
+t_room	*top(t_path *path)
 {
 	return (path->path[path->len - 1]);
 }
 
-t_bool visited(t_path *path, t_room *room)
+t_bool	visited(t_path *path, t_room *room)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	(void)room;
@@ -59,23 +56,23 @@ t_bool visited(t_path *path, t_room *room)
 	return (FALSE);
 }
 
-void init_queue(t_path **buff, t_room *start_room)
+void	init_queue(t_path **buff, t_room *start_room)
 {
 	buff[0]->path[0] = start_room;
 	buff[0]->len = 1;
 }
 
-t_path *dep(t_path **buff, int *front)
+t_path	*dep(t_path **buff, int *front)
 {
 	return (buff[(*front)++]);
 }
 
-t_bool extend_buffer(t_path ***buff, int *rear, t_info *info)
+t_bool	extend_buffer(t_path ***buff, int *rear, t_info *info)
 {
-	t_path **tmp;
-	int index;
-	static int tmp_nb;
-	static int constance;
+	t_path		**tmp;
+	int			index;
+	static int	tmp_nb;
+	static int	constance;
 
 	index = 0;
 	if (tmp_nb == *rear)
@@ -83,24 +80,16 @@ t_bool extend_buffer(t_path ***buff, int *rear, t_info *info)
 	tmp_nb = *rear;
 	constance++;
 	tmp = (t_path **)malloc(sizeof(t_path *) * ((constance + 1) * PATH_BUFF_SIZE));
-	//	printf("rear = %d\n", *rear);
 	while (index < *rear)
 	{
-		// printf("tmp = %p\n", tmp[index]);
 		tmp[index] = (*buff)[index];
-		//	printf("tmp = %p\n", tmp[index]);
-		// printf("buff[%d]  = ", index);
-		//		print_path(tmp[index]);
 		index++;
 	}
-	// print_buff(tmp);
-	// printf("index = %d\n", index);
 	while (index < (constance + 1) * PATH_BUFF_SIZE)
 	{
 		tmp[index] = (t_path *)malloc(sizeof(t_path));
 		if (tmp[index] == NULL)
 			return (FALSE);
-
 		tmp[index]->path = (t_room **)malloc(sizeof(t_room *) * info->quantity_of_rooms);
 		if (tmp[index]->path == NULL)
 			return (FALSE);
@@ -108,46 +97,34 @@ t_bool extend_buffer(t_path ***buff, int *rear, t_info *info)
 		tmp[index]->next = NULL;
 		index++;
 	}
-	// print_buff(tmp);
-	//   printf("index = %d\n", index);
 	free(*buff);
 	*buff = tmp;
-	//	printf("not fail\n");
 	return (TRUE);
 }
 
-void enq(t_path **buff, t_path *tmp, t_room *next, int *rear)
+void	enq(t_path **buff, t_path *tmp, t_room *next, int *rear)
 {
-	int index;
+	int	index;
 
 	index = 0;
-	// print_path(tmp);
-	// print_single_room(next);
-	//	printf("rear: %d\n", *rear);
-	// printf("buff[*rear]->path: %p\n", buff[*rear]->path);
-	//	printf("ENQ:tmp->path = %p", tmp);
-	// print_path(tmp);
 	while (index < tmp->len)
 	{
-		//		printf("tmp->len = %d", tmp->len);
-		//		print_path(tmp);
 		buff[*rear]->path[index] = tmp->path[index];
 		index++;
 	}
-
 	buff[*rear]->path[tmp->len] = next;
 	buff[*rear]->len = tmp->len + 1;
 	(*rear)++;
 }
 
-t_bool is_empty(int front, int rear)
+t_bool	is_empty(int front, int rear)
 {
 	return (front == rear);
 }
 
-void free_buff(t_path **buff, int rear)
+void	free_buff(t_path **buff, int rear)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (index < ((rear + 99) / PATH_BUFF_SIZE) * PATH_BUFF_SIZE)
@@ -160,24 +137,34 @@ void free_buff(t_path **buff, int rear)
 	buff = NULL;
 }
 
-t_path *bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info *info)
+/*
+ * total:		total number of input
+ * max:			max turn for dfs
+ * prev:		previous turn for dfs
+ * tmp[]:		current temporary answer by dfs
+ * ans[]:		final answer by dfs
+ * turn:		total turn fot quick_sort
+ * a_next:		a's next index in quick sort
+ * b_next:		b's next index in quick sort
+ * b_size:		b's stack size
+ * q_last:		the last linked list of quick sort answer
+ * next_size:	the string to keep the number of input move from stack_b
+ */
+
+
+t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 {
-	t_path *tmp;
-	t_room *curr;
-	t_room *next;
-	int index;
+	t_path	*tmp;
+	t_room	*curr;
+	t_room	*next;
+	int		index;
 
 	index = 0;
-	(void)end_room;
 	while (is_empty(*front, *rear) == FALSE)
 	{
 		tmp = dep(*buff, front);
 		curr = top(tmp);
-		//	printf("1.DFS:tmp = %p\n", tmp);
-		//	printf("tmp:");
-		//	print_path(tmp);
-		// printf("curr = %s\n", curr->room_name);
-		if (curr == end_room)
+		if (curr == info->end_room)
 			return (tmp);
 		else
 		{
@@ -188,12 +175,7 @@ t_path *bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info
 				if (visited(tmp, next) == FALSE)
 				{
 					if (*rear % PATH_BUFF_SIZE == 0)
-					{
 						extend_buffer(buff, rear, info);
-						// tmp = buff[front - 1];
-						//	printf("2.DFS:tmp = %p\n", tmp);
-						//	print_path(tmp);
-					}
 					enq(*buff, tmp, next, rear);
 				}
 				index++;
@@ -202,51 +184,6 @@ t_path *bfs_main(int *front, int *rear, t_room *end_room, t_path ***buff, t_info
 	}
 	return (NULL);
 }
-
-t_bool	check_single_path(t_path *p1, t_path *p2)
-{
-	int		i;
-	int		j;
-
-	i = 1;
-	if (p1 == p2)
-		return (TRUE);
-	while (i < p1->len)
-	{
-		j = 0;
-		while(j < p2->len)
-		{
-			if (p1->path[i] == p2->path[j])
-				return (FALSE);
-			j++;
-		}
-		i++;
-	}
-	return (TRUE);
-}
-/*
-t_bool	check_path(t_flow **head, t_path *path)
-{
-	t_flow *tmp;
-
-	tmp = *head;
-	while (tmp)
-	{
-		if (check_single_path(tmp->path, path) == FALSE && tmp->path->len != path->len)
-		{
-			printf("tmp: ");
-			print_path(tmp->path);
-			printf("path: ");
-			print_path(path);
-			return (FALSE);
-		}
-		if (tmp == NULL)
-			break ;
-		tmp = tmp->next;
-	}
-	return (TRUE);
-}
-*/
 
 void	print_path_list(t_path *tmp)
 {
@@ -262,16 +199,25 @@ void	print_path_list(t_path *tmp)
 	}
 }
 
-typedef struct s_conbination{
-	t_path	*path;
-	struct s_conbination *next;
-}				t_conbination;
-
-t_conbination	*new_conbinasion(t_path *path)
+void	print_flow(t_flow *tmp)
 {
-	t_conbination *new;
+	int		index;
 
-	new = (t_conbination *)malloc(sizeof(t_conbination));
+	index = 0;
+	while (tmp)
+	{
+		printf("flow[%d]: ", index);
+		print_path(tmp->path);
+		index++;
+		tmp = tmp->next;
+	}
+}
+
+t_flow	*new_flow(t_path *path)
+{
+	t_flow	*new;
+
+	new = (t_flow *)malloc(sizeof(t_flow));
 	if (new == NULL)
 		return (NULL);
 	new->path = path;
@@ -279,43 +225,135 @@ t_conbination	*new_conbinasion(t_path *path)
 	return (new);
 }
 
-t_bool bfs(t_info *info)
+t_bool	test_collision(t_path *p1, t_path *p2)
 {
-	t_path **buff;
-	t_room *start_room;
-	t_room *end_room;
-	int front;
-	int rear;
-	int size;
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < p1->len - 1)
+	{
+		j = 1;
+		while (j < p2->len - 1)
+		{
+			if (p1->path[i] == p2->path[j])
+				return (FALSE);
+			j++;
+		}
+		i++;
+	}
+	return (TRUE);
+}
+
+void	free_flow(t_flow *tmp)
+{
+	while(tmp)
+	{
+		free(tmp);
+		tmp = tmp->next;
+	}
+}
+
+t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, float *min)
+{
+	t_flow		*start;
+	t_flow		*next;
+	t_flow		*new;
+	int			total;
+	float			turn;
+
+	start = new_flow(curr);
+	next = start;
+	total = 1;
+	if (start == NULL)
+		return (FALSE);
+	while (head)
+	{
+		if (test_collision(head, start->path) && head != start->path)
+		{
+			new = new_flow(head);
+			if (next == NULL)
+				return (FALSE);
+			next->next = new;
+			next = new;
+			total++;
+		}
+		head = head->next;
+	}
+	printf("ants / how many path + longest length - 2 = %d\n", (info->quantity_of_ants / total) + (curr->len - 2));
+	print_flow(start);
+	printf("\n");
+	turn = (info->quantity_of_ants / (float)total) + (curr->len - 2);
+	printf("turn = %f\n", turn);
+	if (*result == NULL)
+	{
+		*result = start;
+		*min = turn;
+	}
+	else if (turn <= *min)
+	{
+//		free_flow(*result);
+		*result = start;
+		*min = turn;
+	}
+//	else
+//		free_flow(*result);
+	if (*min < turn)
+		return (FALSE);
+	return (TRUE);
+}
+
+t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
+{
+	t_path	*path_head;
+	t_path	*path_curr;
+	t_path	*path_next;
+	t_flow	*result;
+	float	min;
+	int		count_path;
+
+	path_curr = bfs_main(front, rear, buff, info);
+	path_head = path_curr;
+	min = 0;
+	printf("\n");
+	print_info(info);
+	count_path = 1;
+	result = NULL;
+	while (path_curr)
+	{
+		//printf("\n[ test %d ]\n", count_path);
+		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
+			break ;
+		print_path_list(path_head);
+		path_next = bfs_main(front, rear, buff, info);
+		if (path_next == NULL)
+			break ;
+		path_next->next = path_curr;
+		path_curr = path_next;
+		path_head = path_next;
+		count_path++;
+	}
+	printf("\n[ --- result --- ] min = %f\n", min);
+	print_flow(result);
+	printf("\n");
+	return (TRUE);
+}
+
+t_bool	solution(t_info *info)
+{
+	t_path	**buff;
+	int		front;
+	int		rear;
 
 	buff = NULL;
 	if (init_buff(&buff, info) == FALSE)
 		return (FALSE);
 	front = 0;
 	rear = 1;
-	size = info->quantity_of_rooms * RATIO;
-	start_room = hash_table_lookup(info->hash_table, info->start_room, size);
-	end_room = hash_table_lookup(info->hash_table, info->end_room, size);
-	init_queue(buff, start_room);
-	//print_info(info);
-	
-	t_path	*head = bfs_main(&front, &rear, end_room, &buff, info);
-	t_path	*path = head;
-	t_path	*tmp;
-	int		count_path = 1;
-	while (path)
-	{
-		print_path_list(head);
-		printf("ants / how many path + longest length - 2 = %d\n", (info->quantity_of_ants / count_path) * 1 + (path->len - 2));
-		tmp = bfs_main(&front, &rear, end_room, &buff, info);
-		path->next = tmp;
-		path = tmp;
-		count_path++;
-	}
-
+	init_queue(buff, info->start_room);
+	get_paths(&front, &rear, &buff, info);
 	// print_buff(buff);
 	// print_hash_table(info);
-	
 	free_buff(buff, rear);
 	return (TRUE);
 }
