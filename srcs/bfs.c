@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bfs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/12 16:12:01 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/14 12:09:44 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 	{
 		tmp = dep(*buff, front);
 		curr = top(tmp);
+		// printf("%d %d\n", *front, *rear);
+		// print_path(tmp);
 		if (curr == info->end_room)
 			return (tmp);
 		else
@@ -225,24 +227,33 @@ t_flow	*new_flow(t_path *path)
 	return (new);
 }
 
-t_bool	test_collision(t_path *p1, t_path *p2)
+t_bool mark_visited(t_bool *visited, t_path *path, t_info *info)
 {
-	int	i;
-	int	j;
+	int index;
 
-	i = 1;
-	while (i < p1->len - 1)
+	index = 0;
+	while (index < path->len)
 	{
-		j = 1;
-		while (j < p2->len - 1)
-		{
-			if (p1->path[i] == p2->path[j])
-				return (FALSE);
-			j++;
-		}
-		i++;
+		
 	}
-	return (TRUE);
+}
+
+t_bool	test_collision(t_path *head, t_path *curr, t_info *info)
+{
+	t_bool *visited;
+	int		index;
+
+	index = 1;
+	visited = (t_bool *)malloc(sizeof(t_bool) * info->quantity_of_rooms);
+	ft_memset(visited, FALSE, sizeof(t_bool) * info->quantity_of_rooms);
+	while (curr)
+	{
+		while (index < curr->len)
+		{
+			
+		}
+		curr = curr->next;
+	}
 }
 
 void	free_flow(t_flow *tmp)
@@ -269,7 +280,7 @@ t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, floa
 		return (FALSE);
 	while (head)
 	{
-		if (test_collision(head, start->path) && head != start->path)
+		if (test_collision(head, start->path, info) && head != start->path)
 		{
 			new = new_flow(head);
 			if (next == NULL)
@@ -280,9 +291,9 @@ t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, floa
 		}
 		head = head->next;
 	}
-	printf("ants / how many path + longest length - 2 = %d\n", (info->quantity_of_ants / total) + (curr->len - 2));
-	print_flow(start);
-	printf("\n");
+	// printf("ants / how many path + longest length - 2 = %d\n", (info->quantity_of_ants / total) + (curr->len - 2));
+	// print_flow(start);
+	// printf("\n");
 	turn = (info->quantity_of_ants / (float)total) + (curr->len - 2);
 	printf("turn = %f\n", turn);
 	if (*result == NULL)
@@ -298,8 +309,8 @@ t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, floa
 	}
 //	else
 //		free_flow(*result);
-	if (*min < turn)
-		return (FALSE);
+	// if (*min < turn)
+		// return (FALSE);
 	return (TRUE);
 }
 
@@ -315,16 +326,16 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	path_curr = bfs_main(front, rear, buff, info);
 	path_head = path_curr;
 	min = 0;
-	printf("\n");
-	print_info(info);
+	// print_info(info);
+	// printf("\n");
 	count_path = 1;
 	result = NULL;
 	while (path_curr)
 	{
-		//printf("\n[ test %d ]\n", count_path);
+		printf("\n[ test %d ]\n", count_path);
 		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
 			break ;
-		print_path_list(path_head);
+		// print_path_list(path_head);
 		path_next = bfs_main(front, rear, buff, info);
 		if (path_next == NULL)
 			break ;
@@ -333,9 +344,11 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 		path_head = path_next;
 		count_path++;
 	}
+	printf("%s", GREEN);
 	printf("\n[ --- result --- ] min = %f\n", min);
 	print_flow(result);
 	printf("\n");
+	printf("%s", WHITE);
 	return (TRUE);
 }
 
@@ -350,6 +363,7 @@ t_bool	solution(t_info *info)
 		return (FALSE);
 	front = 0;
 	rear = 1;
+	
 	init_queue(buff, info->start_room);
 	get_paths(&front, &rear, &buff, info);
 	// print_buff(buff);
