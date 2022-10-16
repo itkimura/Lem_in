@@ -137,35 +137,23 @@ void	free_buff(t_path **buff, int rear)
 	buff = NULL;
 }
 
-/*
- * total:		total number of input
- * max:			max turn for dfs
- * prev:		previous turn for dfs
- * tmp[]:		current temporary answer by dfs
- * ans[]:		final answer by dfs
- * turn:		total turn fot quick_sort
- * a_next:		a's next index in quick sort
- * b_next:		b's next index in quick sort
- * b_size:		b's stack size
- * q_last:		the last linked list of quick sort answer
- * next_size:	the string to keep the number of input move from stack_b
- */
-
-
 t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 {
 	t_path	*tmp;
 	t_room	*curr;
 	t_room	*next;
+	t_bool	*visited_array;
 	int		index;
 
-	index = 0;
+	visited_array = (t_bool *)malloc(sizeof(t_bool) * info->quantity_of_rooms);
+	ft_memset(visited_array, 0, sizeof(t_bool) * info->quantity_of_rooms);
 	while (is_empty(*front, *rear) == FALSE)
 	{
 		tmp = dep(*buff, front);
 		curr = top(tmp);
 		// printf("%d %d\n", *front, *rear);
-		// print_path(tmp);
+		//print_path(tmp);
+		//print_buff(*buff);
 		if (curr == info->end_room)
 			return (tmp);
 		else
@@ -174,11 +162,13 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 			while (index < curr->quantity_of_links)
 			{
 				next = curr->link[index];
-				if (visited(tmp, next) == FALSE)
+				//printf("curr[%s] %d, next[%s] %d\n", curr->room_name, visited_array[curr->index], next->room_name, visited_array[next->index]);
+				if (visited(tmp, next) == FALSE && (visited_array[next->index] <= visited_array[curr->index] || visited_array[next->index] == 0 || curr->quantity_of_links == 1 || next == info->end_room))
 				{
 					if (*rear % PATH_BUFF_SIZE == 0)
 						extend_buffer(buff, rear, info);
 					enq(*buff, tmp, next, rear);
+					visited_array[next->index] = visited_array[curr->index] + 1;
 				}
 				index++;
 			}
@@ -227,17 +217,7 @@ t_flow	*new_flow(t_path *path)
 	return (new);
 }
 
-t_bool mark_visited(t_bool *visited, t_path *path, t_info *info)
-{
-	int index;
-
-	index = 0;
-	while (index < path->len)
-	{
-		
-	}
-}
-
+/*
 t_bool	test_collision(t_path *head, t_path *curr, t_info *info)
 {
 	t_bool *visited;
@@ -256,6 +236,7 @@ t_bool	test_collision(t_path *head, t_path *curr, t_info *info)
 	}
 }
 
+*/
 void	free_flow(t_flow *tmp)
 {
 	while(tmp)
@@ -264,6 +245,7 @@ void	free_flow(t_flow *tmp)
 		tmp = tmp->next;
 	}
 }
+/*
 
 t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, float *min)
 {
@@ -313,6 +295,7 @@ t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, floa
 		// return (FALSE);
 	return (TRUE);
 }
+*/
 
 t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 {
@@ -330,12 +313,14 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	// printf("\n");
 	count_path = 1;
 	result = NULL;
-	while (path_curr)
+	while (path_curr && count_path < 20)
 	{
-		printf("\n[ test %d ]\n", count_path);
-		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
-			break ;
-		// print_path_list(path_head);
+		//printf("\n[ test %d ]\n", count_path);
+		print_path(path_curr);
+//		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
+//			break ;
+		//print_path_list(path_head);
+		(void)path_head;
 		path_next = bfs_main(front, rear, buff, info);
 		if (path_next == NULL)
 			break ;
