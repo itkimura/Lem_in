@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   bfs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/17 14:45:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/17 16:17:11 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
-t_bool	init_buff(t_path ***buff, t_info *info)
+t_bool init_buff(t_path ***buff, t_info *info)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	*buff = (t_path **)malloc(sizeof(t_path *) * PATH_BUFF_SIZE);
@@ -36,14 +36,14 @@ t_bool	init_buff(t_path ***buff, t_info *info)
 }
 
 /* return the current position */
-t_room	*top(t_path *path)
+t_room *top(t_path *path)
 {
 	return (path->path[path->len - 1]);
 }
 
-t_bool	visited(t_path *tmp, t_room *next, t_room *curr)
+t_bool visited(t_path *tmp, t_room *next, t_room *curr, t_room *end_room)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	while (index < tmp->len)
@@ -52,8 +52,8 @@ t_bool	visited(t_path *tmp, t_room *next, t_room *curr)
 			return (TRUE);
 		index++;
 	}
-	//if (next == info->end_room)
-	//	return (FALSE);
+	if (next == end_room)
+		return (FALSE);
 	if (next->level == 0)
 		return (FALSE);
 	if (next->level < curr->level)
@@ -66,7 +66,7 @@ t_bool	visited(t_path *tmp, t_room *next, t_room *curr)
 		while (index < curr->quantity_of_links)
 		{
 			if (curr->link[index]->level == 0)
-					return (TRUE);
+				return (TRUE);
 			index++;
 		}
 		return (FALSE);
@@ -82,23 +82,23 @@ t_bool	visited(t_path *tmp, t_room *next, t_room *curr)
 	return (TRUE);
 }
 
-void	init_queue(t_path **buff, t_room *start_room)
+void init_queue(t_path **buff, t_room *start_room)
 {
 	buff[0]->path[0] = start_room;
 	buff[0]->len = 1;
 }
 
-t_path	*dep(t_path **buff, int *front)
+t_path *dep(t_path **buff, int *front)
 {
 	return (buff[(*front)++]);
 }
 
-t_bool	extend_buffer(t_path ***buff, int *rear, t_info *info)
+t_bool extend_buffer(t_path ***buff, int *rear, t_info *info)
 {
-	t_path		**tmp;
-	int			index;
-	static int	tmp_nb;
-	static int	constance;
+	t_path **tmp;
+	int index;
+	static int tmp_nb;
+	static int constance;
 
 	index = 0;
 	if (tmp_nb == *rear)
@@ -128,9 +128,9 @@ t_bool	extend_buffer(t_path ***buff, int *rear, t_info *info)
 	return (TRUE);
 }
 
-void	enq(t_path **buff, t_path *tmp, t_room *next, int *rear)
+void enq(t_path **buff, t_path *tmp, t_room *next, int *rear)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	while (index < tmp->len)
@@ -143,14 +143,14 @@ void	enq(t_path **buff, t_path *tmp, t_room *next, int *rear)
 	(*rear)++;
 }
 
-t_bool	is_empty(int front, int rear)
+t_bool is_empty(int front, int rear)
 {
 	return (front == rear);
 }
 
-void	free_buff(t_path **buff, int rear)
+void free_buff(t_path **buff, int rear)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	while (index < ((rear + 99) / PATH_BUFF_SIZE) * PATH_BUFF_SIZE)
@@ -165,19 +165,19 @@ void	free_buff(t_path **buff, int rear)
 
 t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 {
-	t_path	*tmp;
-	t_room	*curr;
-	t_room	*next;
-	int		index;
+	t_path *tmp;
+	t_room *curr;
+	t_room *next;
+	int index;
 
 	while (is_empty(*front, *rear) == FALSE)
 	{
 		tmp = dep(*buff, front);
 		curr = top(tmp);
 		// printf("%d %d\n", *front, *rear);
-		print_path(tmp);
-		//print_buff(*buff);
-		printf("curr[%s] %d\n", curr->room_name, curr->level);
+		// print_path(tmp);
+		print_buff(*buff);
+		// printf("curr[%s] %d\n", curr->room_name, curr->level);
 		if (curr == info->end_room)
 			return (tmp);
 		else
@@ -186,9 +186,9 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 			while (index < curr->quantity_of_links)
 			{
 				next = curr->link[index];
-				printf("next[%s] %d\n", next->room_name, next->level);
-				//printf("curr[%s] %d, next[%s] %d\n", curr->room_name, curr->level, next->room_name, next->level);
-				if (visited(tmp, next, curr) == FALSE)
+				// printf("next[%s] %d\n", next->room_name, next->level);
+				// printf("curr[%s] %d,\tnext[%s] %d\n", curr->room_name, curr->level, next->room_name, next->level);
+				if (visited(tmp, next, curr, info->end_room) == FALSE)
 				{
 					if (*rear % PATH_BUFF_SIZE == 0)
 						extend_buffer(buff, rear, info);
@@ -201,12 +201,13 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 			}
 		}
 	}
+	// printf("info->end_room->level: %d\n", info->end_room->level);
 	return (NULL);
 }
 
-void	print_path_list(t_path *tmp)
+void print_path_list(t_path *tmp)
 {
-	int		index;
+	int index;
 
 	index = 0;
 	while (tmp)
@@ -218,9 +219,9 @@ void	print_path_list(t_path *tmp)
 	}
 }
 
-void	print_flow(t_flow *tmp)
+void print_flow(t_flow *tmp)
 {
-	int		index;
+	int index;
 
 	index = 0;
 	while (tmp)
@@ -232,9 +233,9 @@ void	print_flow(t_flow *tmp)
 	}
 }
 
-t_flow	*new_flow(t_path *path)
+t_flow *new_flow(t_path *path)
 {
-	t_flow	*new;
+	t_flow *new;
 
 	new = (t_flow *)malloc(sizeof(t_flow));
 	if (new == NULL)
@@ -257,16 +258,16 @@ t_bool	test_collision(t_path *head, t_path *curr, t_info *info)
 	{
 		while (index < curr->len)
 		{
-			
+
 		}
 		curr = curr->next;
 	}
 }
 
 */
-void	free_flow(t_flow *tmp)
+void free_flow(t_flow *tmp)
 {
-	while(tmp)
+	while (tmp)
 	{
 		free(tmp);
 		tmp = tmp->next;
@@ -324,14 +325,14 @@ t_bool	test_flow(t_path *curr, t_path *head, t_info *info, t_flow **result, floa
 }
 */
 
-t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
+t_bool get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 {
-	t_path	*path_head;
-	t_path	*path_curr;
-	t_path	*path_next;
-	t_flow	*result;
-	float	min;
-	int		count_path;
+	t_path *path_head;
+	t_path *path_curr;
+	t_path *path_next;
+	t_flow *result;
+	float min;
+	int count_path;
 
 	path_curr = bfs_main(front, rear, buff, info);
 	path_head = path_curr;
@@ -344,13 +345,13 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	{
 		printf("\n[ test %d ]\n", count_path);
 		print_path(path_curr);
-//		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
-//			break ;
+		//		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
+		//			break ;
 		print_path_list(path_head);
 		(void)path_head;
 		path_next = bfs_main(front, rear, buff, info);
 		if (path_next == NULL)
-			break ;
+			break;
 		path_next->next = path_curr;
 		path_curr = path_next;
 		path_head = path_next;
@@ -364,11 +365,11 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	return (TRUE);
 }
 
-t_bool	solution(t_info *info)
+t_bool solution(t_info *info)
 {
-	t_path	**buff;
-	int		front;
-	int		rear;
+	t_path **buff;
+	int front;
+	int rear;
 
 	buff = NULL;
 	if (init_buff(&buff, info) == FALSE)
@@ -379,6 +380,7 @@ t_bool	solution(t_info *info)
 	get_paths(&front, &rear, &buff, info);
 	// print_buff(buff);
 	// print_hash_table(info);
+	// print_room(info->room_head);
 	free_buff(buff, rear);
 	return (TRUE);
 }
