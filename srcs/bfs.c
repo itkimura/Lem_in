@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/14 12:09:44 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/17 14:45:35 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,45 @@ t_room	*top(t_path *path)
 	return (path->path[path->len - 1]);
 }
 
-t_bool	visited(t_path *path, t_room *room)
+t_bool	visited(t_path *tmp, t_room *next, t_room *curr)
 {
 	int	index;
 
 	index = 0;
-	(void)room;
-	while (index < path->len)
+	while (index < tmp->len)
 	{
-		if (path->path[index] == room)
+		if (tmp->path[index] == next)
 			return (TRUE);
 		index++;
 	}
-	return (FALSE);
+	//if (next == info->end_room)
+	//	return (FALSE);
+	if (next->level == 0)
+		return (FALSE);
+	if (next->level < curr->level)
+		return (TRUE);
+	if (next->index > curr->level)
+		return (FALSE);
+	if (next->level == curr->level)
+	{
+		index = 0;
+		while (index < curr->quantity_of_links)
+		{
+			if (curr->link[index]->level == 0)
+					return (TRUE);
+			index++;
+		}
+		return (FALSE);
+	}
+	/*
+	if (visited_array[next->index] < visited_array[curr->index])
+		return (FALSE);
+	if (visited_array[next->index] == 0)
+		return (FALSE);
+	if (curr->quantity_of_links == 2 && visited_array[next->index] == visited_array[curr->index])
+		return (FALSE);
+	*/
+	return (TRUE);
 }
 
 void	init_queue(t_path **buff, t_room *start_room)
@@ -137,7 +163,7 @@ void	free_buff(t_path **buff, int rear)
 	buff = NULL;
 }
 
-t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info, t_bool **visited_array)
+t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 {
 	t_path	*tmp;
 	t_room	*curr;
@@ -151,6 +177,7 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info, t_bool **v
 		// printf("%d %d\n", *front, *rear);
 		print_path(tmp);
 		//print_buff(*buff);
+		printf("curr[%s] %d\n", curr->room_name, curr->level);
 		if (curr == info->end_room)
 			return (tmp);
 		else
@@ -159,14 +186,16 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info, t_bool **v
 			while (index < curr->quantity_of_links)
 			{
 				next = curr->link[index];
-				printf("curr[%s] %d, next[%s] %d\n", curr->room_name, (*visited_array)[curr->index], next->room_name, (*visited_array)[next->index]);
-				if (visited(tmp, next) == FALSE && ((*visited_array)[next->index] < (*visited_array)[curr->index] || (*visited_array)[next->index] == 0 || (curr->quantity_of_links == 2 && (*visited_array)[next->index] == (*visited_array)[curr->index]) || next == info->end_room))
+				printf("next[%s] %d\n", next->room_name, next->level);
+				//printf("curr[%s] %d, next[%s] %d\n", curr->room_name, curr->level, next->room_name, next->level);
+				if (visited(tmp, next, curr) == FALSE)
 				{
 					if (*rear % PATH_BUFF_SIZE == 0)
 						extend_buffer(buff, rear, info);
 					enq(*buff, tmp, next, rear);
-					if ((*visited_array)[next->index] == 0)
-						(*visited_array)[next->index] = (*visited_array)[curr->index] + 1;
+					if (next->level == 0)
+						next->level = curr->level + 1;
+					info->end_room->level++;
 				}
 				index++;
 			}
@@ -301,28 +330,25 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	t_path	*path_curr;
 	t_path	*path_next;
 	t_flow	*result;
-	t_bool	*visited_array;
 	float	min;
 	int		count_path;
 
-	visited_array = (t_bool *)malloc(sizeof(t_bool) * info->quantity_of_rooms);
-	ft_memset(visited_array, 0, sizeof(t_bool) * info->quantity_of_rooms);
-	path_curr = bfs_main(front, rear, buff, info, &visited_array);
+	path_curr = bfs_main(front, rear, buff, info);
 	path_head = path_curr;
 	min = 0;
 	// print_info(info);
 	// printf("\n");
 	count_path = 1;
 	result = NULL;
-	while (path_curr && count_path < 20)
+	while (path_curr)
 	{
 		printf("\n[ test %d ]\n", count_path);
 		print_path(path_curr);
 //		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
 //			break ;
-		//print_path_list(path_head);
+		print_path_list(path_head);
 		(void)path_head;
-		path_next = bfs_main(front, rear, buff, info, &visited_array);
+		path_next = bfs_main(front, rear, buff, info);
 		if (path_next == NULL)
 			break ;
 		path_next->next = path_curr;
@@ -349,7 +375,6 @@ t_bool	solution(t_info *info)
 		return (FALSE);
 	front = 0;
 	rear = 1;
-	
 	init_queue(buff, info->start_room);
 	get_paths(&front, &rear, &buff, info);
 	// print_buff(buff);

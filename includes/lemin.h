@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/12 13:43:28 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/17 14:08:10 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_room
 {
 	char			*room_name;
 	int				index;
+	int				level;
 	int				quantity_of_links;
 	int				malloc_link;
 	struct s_room	**link;

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/12 15:32:53 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/17 14:22:17 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void print_single_room(t_room *room)
 		printf("Room is not existed.\n");
 		return;
 	}
-	printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
+	printf("room_name:[%s]\tindex:[%d]\tlevel[%d]\n", room->room_name, room->index, room->level);
 }
 
 void print_room(t_room *room)
@@ -32,7 +32,7 @@ void print_room(t_room *room)
 	}
 	while (room)
 	{
-		printf("room_name:[%10s]\t\tindex:[%d]\n", room->room_name, room->index);
+		printf("room_name:[%10s]\t\tindex:[%d]\tlevel[%d]\n", room->room_name, room->index, room->level);
 		room = room->list_next;
 	}
 	printf("\n");
