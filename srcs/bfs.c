@@ -137,22 +137,19 @@ void	free_buff(t_path **buff, int rear)
 	buff = NULL;
 }
 
-t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
+t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info, t_bool **visited_array)
 {
 	t_path	*tmp;
 	t_room	*curr;
 	t_room	*next;
-	t_bool	*visited_array;
 	int		index;
 
-	visited_array = (t_bool *)malloc(sizeof(t_bool) * info->quantity_of_rooms);
-	ft_memset(visited_array, 0, sizeof(t_bool) * info->quantity_of_rooms);
 	while (is_empty(*front, *rear) == FALSE)
 	{
 		tmp = dep(*buff, front);
 		curr = top(tmp);
 		// printf("%d %d\n", *front, *rear);
-		//print_path(tmp);
+		print_path(tmp);
 		//print_buff(*buff);
 		if (curr == info->end_room)
 			return (tmp);
@@ -162,13 +159,14 @@ t_path *bfs_main(int *front, int *rear, t_path ***buff, t_info *info)
 			while (index < curr->quantity_of_links)
 			{
 				next = curr->link[index];
-				//printf("curr[%s] %d, next[%s] %d\n", curr->room_name, visited_array[curr->index], next->room_name, visited_array[next->index]);
-				if (visited(tmp, next) == FALSE && (visited_array[next->index] <= visited_array[curr->index] || visited_array[next->index] == 0 || curr->quantity_of_links == 1 || next == info->end_room))
+				printf("curr[%s] %d, next[%s] %d\n", curr->room_name, (*visited_array)[curr->index], next->room_name, (*visited_array)[next->index]);
+				if (visited(tmp, next) == FALSE && ((*visited_array)[next->index] < (*visited_array)[curr->index] || (*visited_array)[next->index] == 0 || (curr->quantity_of_links == 2 && (*visited_array)[next->index] == (*visited_array)[curr->index]) || next == info->end_room))
 				{
 					if (*rear % PATH_BUFF_SIZE == 0)
 						extend_buffer(buff, rear, info);
 					enq(*buff, tmp, next, rear);
-					visited_array[next->index] = visited_array[curr->index] + 1;
+					if ((*visited_array)[next->index] == 0)
+						(*visited_array)[next->index] = (*visited_array)[curr->index] + 1;
 				}
 				index++;
 			}
@@ -303,10 +301,13 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	t_path	*path_curr;
 	t_path	*path_next;
 	t_flow	*result;
+	t_bool	*visited_array;
 	float	min;
 	int		count_path;
 
-	path_curr = bfs_main(front, rear, buff, info);
+	visited_array = (t_bool *)malloc(sizeof(t_bool) * info->quantity_of_rooms);
+	ft_memset(visited_array, 0, sizeof(t_bool) * info->quantity_of_rooms);
+	path_curr = bfs_main(front, rear, buff, info, &visited_array);
 	path_head = path_curr;
 	min = 0;
 	// print_info(info);
@@ -315,13 +316,13 @@ t_bool	get_paths(int *front, int *rear, t_path ***buff, t_info *info)
 	result = NULL;
 	while (path_curr && count_path < 20)
 	{
-		//printf("\n[ test %d ]\n", count_path);
+		printf("\n[ test %d ]\n", count_path);
 		print_path(path_curr);
 //		if (test_flow(path_curr, path_head, info, &result, &min) == FALSE)
 //			break ;
 		//print_path_list(path_head);
 		(void)path_head;
-		path_next = bfs_main(front, rear, buff, info);
+		path_next = bfs_main(front, rear, buff, info, &visited_array);
 		if (path_next == NULL)
 			break ;
 		path_next->next = path_curr;
