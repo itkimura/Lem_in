@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/17 14:08:10 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/21 15:46:40 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,23 @@ typedef struct s_room
 	char			*room_name;
 	int				index;
 	int				level;
-	int				quantity_of_links;
+	int				total_links;
 	int				malloc_link;
 	struct s_room	**link;
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
 }					t_room;
 
+typedef struct s_que
+{
+	t_room			*room;
+	struct s_que	*next;
+}					t_que;
+
 typedef struct s_path {
 	t_room			**path;
 	int				len;
-	struct s_path	*next;
 }	t_path;
-
-typedef struct s_flow{
-	t_path			*path;
-	struct s_flow	*next;
-}				t_flow;
 
 /* link-room structure */
 typedef struct s_link
@@ -88,9 +88,9 @@ typedef struct s_link
 /* adjacency matrix */
 typedef struct s_info
 {
-	int		quantity_of_ants;
-	int		quantity_of_rooms;
-	int		quantity_of_links;
+	int		total_ants;
+	int		total_rooms;
+	int		total_links;
 	t_room	*start_room;
 	t_room	*end_room;
 	char	*line;
@@ -125,7 +125,6 @@ void			print_hash_table(t_info *info);
 void			print_single_room(t_room *room);
 void			print_room(t_room *room);
 void			print_info(t_info *info);
-void			print_buff(t_path **buff);
 void			print_path(t_path	*path);
 
 

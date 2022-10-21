@@ -14,9 +14,9 @@
 
 t_bool	init_info(t_info *info)
 {
-	info->quantity_of_ants = 0;
-	info->quantity_of_rooms = 0;
-	info->quantity_of_links = 0;
+	info->total_ants = 0;
+	info->total_rooms = 0;
+	info->total_links = 0;
 	info->start_room = NULL;
 	info->end_room = NULL;
 	info->room_head = NULL;

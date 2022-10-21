@@ -29,7 +29,7 @@ t_bool	create_hash_table(t_info *info)
 {
 	int	size;
 
-	size = sizeof(t_room *) * (int)(info->quantity_of_rooms * RATIO);
+	size = sizeof(t_room *) * (int)(info->total_rooms * RATIO);
 	info->hash_table = (t_room **)malloc(size);
 	if (info->hash_table == NULL)
 		return (FALSE);
@@ -58,7 +58,7 @@ t_bool	hash_table_appending(t_info *info, t_room *list)
 	t_room	*tmp;
 	int		hash_value;
 
-	hash_value = hash(list->room_name, (int)(info->quantity_of_rooms * RATIO));
+	hash_value = hash(list->room_name, (int)(info->total_rooms * RATIO));
 	if (info->hash_table[hash_value] == NULL)
 		info->hash_table[hash_value] = list;
 	else

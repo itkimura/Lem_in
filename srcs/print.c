@@ -41,8 +41,8 @@ void print_room(t_room *room)
 void print_info(t_info *info)
 {
 	printf("--- info ---\n");
-	printf("quantity_of_ants: %d\n", info->quantity_of_ants);
-	printf("quantity_of_rooms: %d\n", info->quantity_of_rooms);
+	printf("total_ants: %d\n", info->total_ants);
+	printf("total_rooms: %d\n", info->total_rooms);
 	printf("start_room: %s\n", info->start_room->room_name);
 	printf("end_room: %s\n", info->end_room->room_name);
 }
@@ -50,7 +50,7 @@ void print_info(t_info *info)
 void print_hash_table(t_info *info)
 {
 	t_room *test = NULL;
-	int	size = info->quantity_of_rooms * RATIO;
+	int	size = info->total_rooms * RATIO;
 	int dup = 0;
 
 	for (int i = 0; i < size ; i++)
@@ -90,7 +90,7 @@ void print_hash_table(t_info *info)
 			}
 		}
 	}
-	printf("rooms: %d\n", info->quantity_of_rooms);
+	printf("rooms: %d\n", info->total_rooms);
 	printf("dup = %d\n", dup);
 }
 
