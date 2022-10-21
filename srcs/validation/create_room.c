@@ -33,7 +33,7 @@ t_bool	create_new_room(t_room **room, t_info *info)
 	else
 		(*room)->list_next = new;
 	*room = new;
-	(*room)->index = (info->quantity_of_rooms)++;
+	(*room)->index = (info->total_rooms)++;
 	return (TRUE);
 }
 

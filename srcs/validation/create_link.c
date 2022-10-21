@@ -32,8 +32,8 @@ t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 		ft_strdel(&room1);
 		if (new->room1 && new->room2)
 		{
-			new->room1->quantity_of_links++;
-			new->room2->quantity_of_links++;
+			new->room1->total_links++;
+			new->room2->total_links++;
 			return (TRUE);
 		}
 		tmp = ft_strchr(tmp + 1, '-');
@@ -52,10 +52,10 @@ t_bool	create_new_link(t_info *info)
 		return (error("Malloc fails.\n"), FALSE);
 	new->room1 = NULL;
 	new->room2 = NULL;
-	size = (int)(info->quantity_of_rooms * RATIO);
+	size = (int)(info->total_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (free(new), FALSE);
-	info->quantity_of_links++;
+	info->total_links++;
 	if (info->link_head == NULL)
 	{
 		info->link_head = new;

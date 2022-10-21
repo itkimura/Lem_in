@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/21 15:48:42 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/21 16:12:17 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,6 @@ t_bool	get_paths(t_info *info)
 
 t_bool	solution(t_info *info)
 {
-	get_paths(info);
+	//get_paths(info);
 	return (TRUE);
 }

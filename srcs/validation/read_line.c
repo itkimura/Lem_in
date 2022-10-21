@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/14 11:17:38 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/21 15:53:10 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_bool	get_ants(t_info *info, int type, int *stage)
 	nb = ft_atol(info->line);
 	if (nb < 0 || nb > INT_MAX)
 		return (error("Quantity of ants is not correct."), FALSE);
-	info->quantity_of_ants = nb;
+	info->total_ants = nb;
 	(*stage)++;
 	return (TRUE);
 }

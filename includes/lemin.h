@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/21 15:46:40 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/21 15:51:36 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_room
 	int				level;
 	int				total_links;
 	int				malloc_link;
-	struct s_room	**link;
+	struct s_link	**link;
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
 }					t_room;
