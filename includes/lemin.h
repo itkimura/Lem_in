@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/24 14:07:27 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:55:32 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef enum e_bool
 	FALSE,
 	TRUE,
 }	t_bool;
-
 
 enum
 {
@@ -104,6 +103,17 @@ typedef struct s_info
 	t_room	**hash_table;
 	t_link	*link_head;
 }			t_info;
+
+/* bfs */
+typedef struct s_bfs
+{
+	t_que	*head;
+	t_que	*tail;
+	t_bool	*visited;
+	t_room	**prev;
+	int		*distance;
+}	t_bfs;
+
 
 /* bfs.c */
 t_bool	solution(t_info *info);
