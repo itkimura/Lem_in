@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/21 15:51:36 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:07:27 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,16 @@ typedef struct s_path {
 }	t_path;
 
 /* link-room structure */
+/*
+ * one_two -> the weight from room 1 to room 2
+ * two_one -> the weight from room 2 to room 1
+ */
 typedef struct s_link
 {
 	t_room			*room1;
 	t_room			*room2;
+	int				one_two;
+	int				two_one;
 	struct s_link	*next;
 }					t_link;
 

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/17 15:21:45 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/24 13:31:32 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_bool	lem_in(void)
 	/*Delete start here*/
 	
 	print_info(&info);
-	// print_hash_table(&info);
+	//print_hash_table(&info);
 	solution(&info);
 	
 	// print_room(info.room_head);

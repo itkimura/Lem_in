@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/07 13:59:39 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/24 14:25:18 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ t_bool	create_new_link(t_info *info)
 	size = (int)(info->total_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (free(new), FALSE);
+	new->one_two = 1;
+	printf("new->one_two = %d\n", new->one_two);;
 	info->total_links++;
 	if (info->link_head == NULL)
 	{

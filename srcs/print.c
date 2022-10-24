@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/21 16:12:06 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/24 13:09:32 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void print_hash_table(t_info *info)
 			printf("\t%s \\____%smalloc_link:[%2d]\n", GREY, WHITE, test->malloc_link);
 			printf("\t%s      %slinks:[", GREY, WHITE);
 			for (int j = 0; j < test->malloc_link; j++)
-				printf("%s ", test->link[j]->room_name);
+			{
+				printf("ROOM1:%s ", test->link[j]->room1->room_name);
+				printf("ROOM2:%s ", test->link[j]->room2->room_name);
+			}
 			printf("]\n");
 			test = info->hash_table[i]->hash_table_next;
 			if (test != NULL)
@@ -81,7 +84,10 @@ void print_hash_table(t_info *info)
 					printf("\t%s \\____%slinks:[%2d]\n", GREY, WHITE, test->malloc_link);
 					printf("\t%s      %slinks:[", GREY, WHITE);
 					for (int j = 0; j < test->malloc_link; j++)
-						printf("%s ", test->link[j]->room_name);
+					{
+						printf("ROOM1:%s ", test->link[j]->room1->room_name);
+						printf("ROOM2:%s ", test->link[j]->room2->room_name);
+					}
 					printf("]\n");
 					printf("\n");
 					dup++;
