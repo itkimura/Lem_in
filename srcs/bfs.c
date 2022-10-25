@@ -6,27 +6,28 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/24 17:08:45 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/25 11:19:22 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
-t_que *pop(t_que **head)
+t_que	*pop(t_que **head)
 {
-	t_que *new;
+	t_que	*new;
+
 	if (!head || !(*head))
-		return NULL;
+		return (NULL);
 	new = *head;
 	*head = (*head)->next;
 	new->next = NULL;
-	return new;
+	return (new);
 }
 
-void push(t_que **tail, t_que **head, t_que *new)
+void	push(t_que **tail, t_que **head, t_que *new)
 {
 	if (!tail)
-		return;
+		return ;
 	if (*head == NULL)
 	{
 		*tail = new;
@@ -39,49 +40,51 @@ void push(t_que **tail, t_que **head, t_que *new)
 	}
 }
 
-t_que *mark_then_create(t_room *room, t_bool *visited)
+t_que	*mark_then_create(t_room *room, t_bool *visited)
 {
-	t_que *new = (t_que *)malloc(sizeof(t_que));
+	t_que	*new;
 
+	new = (t_que *)malloc(sizeof(t_que));
 	visited[room->index] = TRUE;
 	if (new)
 	{
 		new->room = room;
 		new->next = NULL;
 	}
-	return new;
+	return (new);
 }
 
-t_path *reverse_path(t_info *info, t_room **prev)
+t_bool	get_path_len(t_info *info, t_room **prev, t_path *path)
 {
-	t_room *tmp;
-	t_path *path;
-	int index;
+	t_room	*tmp;
 
-	index = 0;
-	// for (int i = 0; i < info->total_rooms; i++)
-	// {
-	// 	if (prev[i])
-	// 		printf("prev[%d] = %s\n", i, prev[i]->room_name);
-	// 	else
-	// 		printf("prev[%d] = NULL\n", i);
-
-	// }
-	path = (t_path *)malloc(sizeof(t_path));
-	if (path == NULL)
-		return (NULL);
-	path->len = 0;
 	tmp = info->end_room;
 	while (tmp != NULL)
 	{
-		// printf("out here");
 		tmp = prev[tmp->index];
 		path->len++;
 	}
-	printf("path->len: %d\n", path->len);
 	path->path = (t_room **)malloc(sizeof(t_room *) * path->len);
 	if (path->path == NULL)
+		return (FALSE);
+	return (TRUE);
+}
+
+t_path	*reverse_path(t_info *info, t_room **prev)
+{
+	t_room	*tmp;
+	t_path	*path;
+	int		index;
+
+	index = 0;
+	path = (t_path *)malloc(sizeof(t_path));
+	if (path == NULL)
 		return (NULL);
+	if (get_path_len(info, prev, path) == FALSE)
+	{
+		free(path);
+		return (NULL);
+	}
 	index = path->len - 1;
 	tmp = info->end_room;
 	while (tmp)
@@ -94,9 +97,9 @@ t_path *reverse_path(t_info *info, t_room **prev)
 	return (path);
 }
 
-t_bool init_bfs(t_info *info, t_bfs *b)
+t_bool	init_bfs(t_info *info, t_bfs *b)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	b->visited = (t_bool *)malloc(sizeof(t_bool) * info->total_rooms);
@@ -120,9 +123,9 @@ t_bool init_bfs(t_info *info, t_bfs *b)
 	return (TRUE);
 }
 
-void bfs_condition(t_bfs *b, t_room *curr, t_room **next, int index)
+void	bfs_condition(t_bfs *b, t_room *curr, t_room **next, int index)
 {
-	int weight;
+	int	weight;
 
 	weight = curr->link[index]->one_two;
 	*next = curr->link[index]->room2;
@@ -139,12 +142,12 @@ void bfs_condition(t_bfs *b, t_room *curr, t_room **next, int index)
 	}
 }
 
-t_path *bfs(t_info *info)
+t_path	*bfs(t_info *info)
 {
 	t_bfs	b;
-	t_room *curr;
-	t_room *next;
-	int index;
+	t_room	*curr;
+	t_room	*next;
+	int		index;
 
 	if (init_bfs(info, &b) == FALSE)
 		return (NULL);
@@ -163,16 +166,16 @@ t_path *bfs(t_info *info)
 	return (NULL);
 }
 
-t_bool get_paths(t_info *info)
+t_bool	get_paths(t_info *info)
 {
-	t_path *path_curr;
+	t_path	*path_curr;
 
 	path_curr = bfs(info);
 	// print_path(path_curr);
 	return (TRUE);
 }
 
-t_bool solution(t_info *info)
+t_bool	solution(t_info *info)
 {
 	printf("_____START BFS____\n");
 	print_room(info->room_head);

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/24 16:55:32 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/25 11:06:57 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,8 @@ typedef struct s_bfs
 	int		*distance;
 }	t_bfs;
 
-
 /* bfs.c */
-t_bool	solution(t_info *info);
+t_bool			solution(t_info *info);
 
 /* lem-in.c */
 t_bool			init_info(t_info *info);
@@ -143,7 +142,6 @@ void			print_room(t_room *room);
 void			print_info(t_info *info);
 void			print_path(t_path	*path);
 
-
 /* validation/read_line.c */
 int				type_of_line(char *str);
 t_bool			get_ants(t_info *info, int type, int *stage);
@@ -164,8 +162,5 @@ t_bool			get_links(t_info *info);
 /* validation/onnect_rooms.c */
 void			create_link_array(t_info *info);
 t_bool			connect_rooms(t_info *info);
-
-
-
 
 #endif

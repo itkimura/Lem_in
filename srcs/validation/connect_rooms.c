@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:06:59 by itkimura          #+#    #+#             */
-/*   Updated: 2022/10/21 16:12:16 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/25 11:07:31 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_bool	link_exist(t_link *link)
 	index = 0;
 	while (index < link->room1->malloc_link)
 	{
-		if (link->room1->link[index]->room1 == link->room2 
-				|| link->room1->link[index]->room2 == link->room2)
+		if (link->room1->link[index]->room1 == link->room2
+			|| link->room1->link[index]->room2 == link->room2)
 			return (TRUE);
 		index++;
 	}
