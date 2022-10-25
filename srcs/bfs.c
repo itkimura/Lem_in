@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/25 11:19:22 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/25 12:09:10 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,55 @@ void	bfs_condition(t_bfs *b, t_room *curr, t_room **next, int index)
 	}
 }
 
+void	free_bfs(t_bfs *b)
+{
+	free(b->visited);
+	free(b->prev);
+	free(b->distance);
+}
+
+void	free_path(t_path *path)
+{
+	free(path->path);
+	free(path);
+	path = NULL;
+}
+
+void	print_que(t_que *head)
+{
+	int	index;
+
+	index = 0;
+	while (head)
+	{
+		printf("que[%d] = %s\n", index, head->room->room_name);
+		head = head->next;
+		index++;
+	}
+	printf("\n");
+}
+void	free_que(t_que *head)
+{
+	t_que	*next;
+
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
+}
+
 t_path	*bfs(t_info *info)
 {
 	t_bfs	b;
+	t_path	*path;
 	t_room	*curr;
 	t_room	*next;
 	int		index;
+	int		i;
 
+	i = 0;
 	if (init_bfs(info, &b) == FALSE)
 		return (NULL);
 	while (b.head)
@@ -159,9 +201,19 @@ t_path	*bfs(t_info *info)
 		{
 			bfs_condition(&b, curr, &next, index);
 			if (next == info->end_room)
-				return (reverse_path(info, b.prev));
+			{
+				path = reverse_path(info, b.prev);
+				free_bfs(&b);
+				return (path);
+			}
 			index++;
 		}
+		printf("curr = %s\n", curr->room_name);
+		printf("head = %s\n", b.head->room->room_name);
+		print_que(b.head);
+		free(curr);
+		printf("turn = %d\n", i);
+		i++;
 	}
 	return (NULL);
 }
@@ -171,6 +223,7 @@ t_bool	get_paths(t_info *info)
 	t_path	*path_curr;
 
 	path_curr = bfs(info);
+	free_path(path_curr);
 	// print_path(path_curr);
 	return (TRUE);
 }

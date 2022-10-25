@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/10/25 11:08:54 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/25 11:23:36 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_bool	lem_in(void)
 	/*Delete end here*/
 	free(info.hash_table);
 	free_rooms(&(info.room_head));
+	free_links(&(info.link_head));
 	// return (printf("\n%sSuccess.\n%s", GREEN, WHITE), TRUE);
 	return (TRUE);
 }
