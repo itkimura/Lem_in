@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/25 14:06:03 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/25 16:44:55 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,9 @@ void print_buff(t_path **buff)
 
 void print_path(t_path *path)
 {
+	if (path == NULL)
+		printf("No path\n");
 	for (int i = 0; i < path->len; i++)
 		printf("[%s]", path->path[i]->room_name);
-
 	printf("\n");
 }

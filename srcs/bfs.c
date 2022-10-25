@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/25 16:16:27 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/25 17:19:36 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,11 @@ t_path *reverse_path(t_info *info, t_room **prev)
 	int index;
 
 	index = 0;
+	if (prev[info->end_room->index] == NULL)
+		return (NULL);
 	path = (t_path *)malloc(sizeof(t_path));
 	if (path == NULL)
 		return (NULL);
-	// printf("path->len = %d\n", path->len);
 	if (get_path_len(info, prev, path) == FALSE)
 	{
 		free(path);
@@ -114,7 +115,6 @@ t_path *reverse_path(t_info *info, t_room **prev)
 		tmp = prev[tmp->index];
 		index--;
 	}
-	// print_path(path);
 	return (path);
 }
 
@@ -160,6 +160,11 @@ void bfs_condition(t_bfs *b, t_room *curr, t_room **next, int index)
 	}
 	if (b->visited[(*next)->index] == FALSE && b->distance[(*next)->index] > b->distance[curr->index] + weight)
 	{
+		// if (weight < 0)
+		// {
+		// 	push(&(b->tail), &(b->head), mark_then_create((*next), b->visited));
+		// 	return ;
+		// }
 		push(&(b->tail), &(b->head), mark_then_create((*next), b->visited));
 		b->distance[(*next)->index] = b->distance[curr->index] + weight;
 		b->prev[(*next)->index] = curr;
@@ -204,6 +209,7 @@ char room_name_index(int index)
 void printing_bfs(t_info *info, t_bfs *b)
 {
 	printf("i\tvisited\troom\tprev\tdist\n");
+	// printf("i\tvisited\tprev\tdist\n");
 	for(int index = 0; index < info->total_rooms; index++)
 	{
 		printf("%d\t", index);
@@ -235,20 +241,24 @@ t_path *bfs(t_info *info)
 		while (index < curr->malloc_link)
 		{
 			bfs_condition(&b, curr, &next, index);
-			if (next == info->end_room)
-			{
-				printing_bfs(info, &b);
-				path = reverse_path(info, b.prev);
-				free_que(b.head);
-				free_bfs(&b);
-				printf("%s/*--------BFS ENDS--------*/%s\n", PINK, WHITE);
-				return (path);
-			}
+			// if (next == info->end_room)
+			// {
+			// 	printing_bfs(info, &b);
+			// 	path = reverse_path(info, b.prev);
+			// 	free_que(b.head);
+			// 	free_bfs(&b);
+			// 	printf("%s/*--------BFS ENDS--------*/%s\n", PINK, WHITE);
+			// 	return (path);
+			// }
 			index++;
 		}
 	}
+	printing_bfs(info, &b);
+	path = reverse_path(info, b.prev);
 	printf("%s/*--------BFS ENDS--------*/%s\n", PINK, WHITE);
-	return (NULL);
+	free_que(b.head);
+	free_bfs(&b);
+	return (path);
 }
 
 void drop_link(t_link *link, t_room *room)
@@ -301,16 +311,40 @@ t_bool get_paths(t_info *info)
 {
 	t_path *path_curr;
 
-	path_curr = bfs(info);
-	update_link_weight(info, path_curr);
-	print_path(path_curr);
-	free_path(path_curr);
+	
 
 	path_curr = bfs(info);
-	// path_curr = bfs(info);
+	while (path_curr)
+	{
+		update_link_weight(info, path_curr);
+		print_path(path_curr);
+		printf("\n");
+		free_path(path_curr);
+		path_curr = bfs(info);
+	}
 	print_path(path_curr);
-	free_path(path_curr);
-	// update_link_weight(info, path_curr);
+
+	// path_curr = bfs(info);
+	// if (path_curr)
+	// 	update_link_weight(info, path_curr);
+	// print_path(path_curr);
+	// if (path_curr)
+	// 	free_path(path_curr);
+
+	// path_curr = bfs(info);
+	// if (path_curr)
+	// 	update_link_weight(info, path_curr);
+	// print_path(path_curr);
+	// if (path_curr)
+	// 	free_path(path_curr);
+	
+	// path_curr = bfs(info);
+	// if (path_curr)
+	// 	update_link_weight(info, path_curr);
+	// print_path(path_curr);
+	// if (path_curr)
+	// 	free_path(path_curr);
+
 	return (TRUE);
 }
 
