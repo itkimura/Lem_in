@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/25 16:44:55 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/28 02:14:15 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,20 @@ void print_hash_table(t_info *info)
 		{
 			printf("%s[%s%3d%s]-----------------------------%s\n", YELLOW, PINK, i, YELLOW, WHITE);
 			test = info->hash_table[i];
-			printf("\t[%s]\n", test->room_name);
+			printf("\t[%s] splitted:%d\n", test->room_name, test->splitted);
 			printf("\t%s \\____%smalloc_link:[%2d]\n", GREY, WHITE, test->malloc_link);
 			printf("\t%s      %slinks:[", GREY, WHITE);
 			for (int j = 0; j < test->malloc_link; j++)
 			{
 				if (test->link[j] != NULL)
 				{
-					printf("ROOM1:%s ", test->link[j]->room1->room_name);
-					printf("ROOM2:%s ", test->link[j]->room2->room_name);
-					printf("one_two: %d | two_one%d\n", test->link[j]->one_two, test->link[j]->two_one);
+					printf("(r1: %s ", test->link[j]->room1->room_name);
+					printf("r2: %s ", test->link[j]->room2->room_name);
+					printf("[one_two: %d | two_one: %d]), ", test->link[j]->one_two, test->link[j]->two_one);
 				}
 				else
 				{
-					printf("NULL");
+					printf("(NULL),");
 				}
 			}
 			printf("]\n");
@@ -88,20 +88,20 @@ void print_hash_table(t_info *info)
 			{
 				while (test)
 				{
-					printf("\t[%s]\n", test->room_name);
+					printf("\t[%s] splitted:%d\n", test->room_name, test->splitted);
 					printf("\t%s \\____%slinks:[%2d]\n", GREY, WHITE, test->malloc_link);
 					printf("\t%s      %slinks:[", GREY, WHITE);
 					for (int j = 0; j < test->malloc_link; j++)
 					{
 						if (test->link[j] != NULL)
 						{
-							printf("ROOM1:%s ", test->link[j]->room1->room_name);
-							printf("ROOM2:%s ", test->link[j]->room2->room_name);
-							printf("one_two: %d | two_one%d\n", test->link[j]->one_two, test->link[j]->two_one);
+							printf("(r1: %s ", test->link[j]->room1->room_name);
+							printf("r2: %s ", test->link[j]->room2->room_name);
+							printf("[one_two: %d | two_one: %d]), ", test->link[j]->one_two, test->link[j]->two_one);
 						}
 						else
 						{
-							printf("NULL");
+							printf("(NULL),");
 						}
 					}
 					printf("]\n");
@@ -112,8 +112,8 @@ void print_hash_table(t_info *info)
 			}
 		}
 	}
-	printf("rooms: %d\n", info->total_rooms);
-	printf("dup = %d\n", dup);
+	// printf("rooms: %d\n", info->total_rooms);
+	// printf("dup = %d\n", dup);
 }
 
 void print_buff(t_path **buff)
@@ -131,7 +131,10 @@ void print_buff(t_path **buff)
 void print_path(t_path *path)
 {
 	if (path == NULL)
+	{
 		printf("No path\n");
+		return;
+	}
 	for (int i = 0; i < path->len; i++)
 		printf("[%s]", path->path[i]->room_name);
 	printf("\n");

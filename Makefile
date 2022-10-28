@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thle <thle@student.42.fr>                  +#+  +:+       +#+         #
+#    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/10/10 11:15:27 by thle             ###   ########.fr        #
+#    Updated: 2022/10/26 22:57:18 by thule            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
-# FLAGS = 
+# FLAGS = -Wall -Wextra -Werror
+FLAGS = 
 NAME = lem-in
 
 DEBUG_FLAG = -g

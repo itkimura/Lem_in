@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_room.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/07 14:39:13 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/27 22:51:28 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_bool	create_new_room(t_room **room, t_info *info)
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
+
 	ft_memset(new, 0, sizeof(t_room));
 	new->room_name = room_name;
 	if (*room == NULL)

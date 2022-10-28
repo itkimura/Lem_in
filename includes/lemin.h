@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/25 11:06:57 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/10/28 04:27:58 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define CYAN "\x1B[36m"
 # define WHITE "\x1B[37m"
 
-# define RATIO 1.5
+# define RATIO 1
 # define PATH_BUFF_SIZE 100
 
 typedef enum e_bool
@@ -52,15 +52,33 @@ enum
 	EMPTY,
 };
 
+typedef enum s_visited
+{
+	V_NOT,
+	V_OUT,
+	V_IN,
+	V_BOTH
+}	t_visited;
+
+typedef enum e_direction
+{
+	OUT,
+	IN,
+	NEUTRAL
+}			t_direction;
+
 /* room */
 typedef struct s_room
 {
 	char			*room_name;
 	int				index;
 	int				level;
+	t_bool			splitted;
+	int				dist[2];
 	int				total_links;
 	int				malloc_link;
 	struct s_link	**link;
+	struct s_room	*prev[2]; // malloc ?
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
 }					t_room;
@@ -68,6 +86,8 @@ typedef struct s_room
 typedef struct s_que
 {
 	t_room			*room;
+	int				direction;
+	int				weight;
 	struct s_que	*next;
 }					t_que;
 
@@ -104,11 +124,20 @@ typedef struct s_info
 	t_link	*link_head;
 }			t_info;
 
+typedef struct s_table
+{
+	t_room		*prev[2];
+	int			distance[2];
+}	t_table;
+
 /* bfs */
 typedef struct s_bfs
 {
-	t_que	*head;
-	t_que	*tail;
+	t_que		*head;
+	t_que		*tail;
+	t_visited	*visited_test;
+	t_table		*table;
+	
 	t_bool	*visited;
 	t_room	**prev;
 	int		*distance;
