@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/28 04:27:58 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/28 04:52:52 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef enum e_direction
 {
 	OUT,
 	IN,
-	NEUTRAL
 }			t_direction;
 
 /* room */
@@ -72,13 +71,11 @@ typedef struct s_room
 {
 	char			*room_name;
 	int				index;
-	int				level;
 	t_bool			splitted;
-	int				dist[2];
+	int				level;
 	int				total_links;
 	int				malloc_link;
 	struct s_link	**link;
-	struct s_room	*prev[2]; // malloc ?
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
 }					t_room;
@@ -126,6 +123,7 @@ typedef struct s_info
 
 typedef struct s_table
 {
+	t_bool		visited[2];
 	t_room		*prev[2];
 	int			distance[2];
 }	t_table;

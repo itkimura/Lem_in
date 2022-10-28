@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/28 03:36:07 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/28 06:45:52 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ void print_que(t_que *head)
 	index = 0;
 	while (head)
 	{
-		printf("que[%d] = %s | weight: %d\n", index, head->room->room_name, head->weight);
+		if (head->direction == OUT)
+			printf("que[%d] = %s | weight: %d | direction: OUT\n", index, head->room->room_name, head->weight);
+		else
+			printf("que[%d] = %s | weight: %d | direction: IN\n", index, head->room->room_name, head->weight);
+			
 		head = head->next;
 		index++;
 	}
@@ -65,6 +69,42 @@ t_room *pop(t_que **head)
 	return hold->room;
 }
 
+t_que *pop_test(t_que **head)
+{
+	t_que *tmp;
+	t_que *first;
+	t_que *second;
+	t_que *hold;
+
+	if (!head || !(*head))
+		return (NULL);
+	tmp = *head;
+	if (tmp->next == NULL)
+	{
+		*head = (*head)->next;
+		return tmp;
+	}
+	hold = tmp;
+	while (tmp && tmp->next)
+	{
+		if (hold->weight > tmp->next->weight)
+		{
+			first = tmp;
+			hold = tmp->next;
+			second = tmp->next->next;
+		}
+		tmp = tmp->next;
+	}
+	if (hold == *head)
+	{
+		*head = (*head)->next;
+		return hold;
+	}
+	hold->next = NULL;
+	first->next = second;
+	return hold;
+}
+
 void push(t_que **tail, t_que **head, t_que *new)
 {
 	if (!tail)
@@ -81,7 +121,7 @@ void push(t_que **tail, t_que **head, t_que *new)
 	}
 }
 
-t_que *create(t_room *room, int weight)
+t_que *create(t_room *room, int weight, int direction)
 {
 	t_que *new;
 
@@ -89,6 +129,7 @@ t_que *create(t_room *room, int weight)
 	if (new)
 	{
 		new->room = room;
+		new->direction = direction;
 		new->weight = weight;
 		new->next = NULL;
 	}
@@ -349,6 +390,34 @@ void update_link_weight(t_info *info, t_path *path)
 	}
 }
 
+// t_path *reverse_path_test(t_info *info, t_table *table)
+// {
+// 	t_room *tmp;
+// 	t_path *path;
+// 	int index;
+
+// 	index = 0;
+// 	if (table[info->end_room->index].prev[OUT] == NULL)
+// 		return (NULL);
+// 	path = (t_path *)malloc(sizeof(t_path));
+// 	if (path == NULL)
+// 		return (NULL);
+// 	// if (get_path_len(info, prev, path) == FALSE)
+// 	// {
+// 	// 	free(path);
+// 	// 	return (NULL);
+// 	// }
+// 	// index = path->len - 1;
+// 	// tmp = info->end_room;
+// 	// while (tmp)
+// 	// {
+// 	// 	path->path[index] = tmp;
+// 	// 	tmp = prev[tmp->index];
+// 	// 	index--;
+// 	// }
+// 	// return (path);
+// }
+
 t_bool init_bfs_test(t_info *info, t_bfs *b)
 {
 	int index;
@@ -369,6 +438,8 @@ t_bool init_bfs_test(t_info *info, t_bfs *b)
 		b->table[index].distance[IN] = INT_MAX;
 		b->table[index].prev[OUT] = NULL;
 		b->table[index].prev[IN] = NULL;
+		b->table[index].visited[OUT] = FALSE;
+		b->table[index].visited[IN] = FALSE;
 		index++;
 	}
 	return (TRUE);
@@ -392,6 +463,7 @@ char *get_name_test(int index)
 		return "5";
 	else
 		return "6";
+
 }
 
 void print_bfs_test(t_info *info, t_bfs *b)
@@ -400,22 +472,23 @@ void print_bfs_test(t_info *info, t_bfs *b)
 	{
 		printf("%d\t", index);
 
-		printf("%s\t", get_name_test(index));
+		// printf("%s\t", get_name_test(index));
+		printf("%c\t", room_name_index(index));
 
-		int visited_status = b->visited_test[index];
-		if (visited_status == V_NOT)
-			printf("V_NOT\t");
-		else if (visited_status == V_OUT)
-			printf("V_OUT\t");
-		else if (visited_status == V_IN)
-			printf("V_IN\t");
+		if (b->table[index].visited[OUT] == TRUE)
+			printf("[OUT]: TRUE\t");
 		else
-			printf("V_BOTH\t");
+			printf("[OUT]: FALSE\t");
+			
+		if (b->table[index].visited[IN] == TRUE)
+			printf("[IN]: TRUE\n");
+		else
+			printf("[IN]: FALSE\n");
 
 		if (b->table[index].distance[OUT] == INT_MAX)
-			printf("[OUT]: INF\t");
+			printf("\t\t[OUT]: INF\t");
 		else
-			printf("[OUT]: %d\t", b->table[index].distance[OUT]);
+			printf("\t\t[OUT]: %d\t", b->table[index].distance[OUT]);
 			
 		if (b->table[index].distance[IN] == INT_MAX)
 			printf("[IN]: INF\n");
@@ -424,9 +497,9 @@ void print_bfs_test(t_info *info, t_bfs *b)
 
 
 		if (b->table[index].prev[OUT] == NULL)
-			printf("\t\t\t[OUT]: NULL");
+			printf("\t\t[OUT]: NULL");
 		else
-			printf("\t\t\t[OUT]: %s", b->table[index].prev[OUT]->room_name);
+			printf("\t\t[OUT]: %s", b->table[index].prev[OUT]->room_name);
 
 		if (b->table[index].prev[IN] == NULL)
 			printf("\t[IN]: NULL\n");
@@ -441,20 +514,23 @@ void bfs_test(t_info *info)
 
 	t_bfs b;
 	t_room *curr;
+	t_que *curr_que;
+	t_direction direction;
 	int index;
 
 	init_bfs_test(info, &b);
 
-	b.head = create(info->start_room, 0);
+	b.head = create(info->start_room, 0, OUT);
 	b.tail = b.head;
-	b.visited_test[info->start_room->index] = V_OUT;
+	b.table[info->start_room->index].visited[OUT] = TRUE;
 	b.table[info->start_room->index].distance[OUT] = 0;
 
-	// print_bfs_test(info, &b);
-	// print_que(b.head);
-	while (b.head)
+	int count = 0;
+	while (b.head && count < 5)
 	{
-		curr = pop(&(b.head));
+		curr_que = pop_test(&(b.head));
+		curr = curr_que->room;
+		direction = curr_que->direction;
 		index = 0;
 		while (index < curr->malloc_link)
 		{
@@ -470,45 +546,80 @@ void bfs_test(t_info *info)
 				weight = curr->link[index]->two_one;
 				next = curr->link[index]->room1;
 			}
-			if (next->splitted == FALSE && b.visited_test[next->index] == V_NOT)
+			
+			if (next->splitted == FALSE && b.table[next->index].visited[OUT] == FALSE)
 			{
-				push(&(b.tail), &(b.head), create(next, b.table[curr->index].distance[OUT] + weight));
-				b.visited_test[next->index] = V_OUT;
-				if (b.table[next->index].distance[OUT] > b.table[curr->index].distance[OUT] + weight)
+				int alt = b.table[curr->index].distance[direction] + weight;
+				b.table[next->index].visited[OUT] = TRUE;
+				if (alt < b.table[next->index].distance[OUT])
 				{
-					b.table[next->index].distance[OUT] =  b.table[curr->index].distance[OUT] + weight;
+					b.table[next->index].distance[OUT] = alt;
 					b.table[next->index].prev[OUT] = curr;
 				}
+				push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
 			}
-			if (next->splitted == TRUE && b.visited_test[next->index] != V_IN && b.visited_test[next->index] != V_BOTH)
+			else if (next->splitted == TRUE)
 			{
-				// printf("weight: %d\n", weight);
-				b.visited_test[next->index] = V_IN;
-				b.table[next->index].distance[IN] =  b.table[curr->index].distance[OUT] + weight;
-				b.table[next->index].prev[IN] = curr;
-				for (int j = 0; j < next->malloc_link; j++)
+				if (curr->splitted == FALSE)
 				{
-					t_room *next_in_line;
-					if (next->link[j] != NULL && (next->link[j]->one_two == 0 || next->link[j]->two_one == 0))
+					if (b.table[next->index].visited[IN] == FALSE)
 					{
-						push(&(b.tail), &(b.head), create(next_in_line, b.table[next->index].distance[IN]));
-						next_in_line = next->link[j]->room1;
-						if (next_in_line == next)
-							next_in_line = next->link[j]->room2;
-						b.visited_test[next_in_line->index] = V_OUT;
-						b.table[next_in_line->index].distance[OUT] = b.table[next->index].distance[IN];
-						b.table[next_in_line->index].prev[OUT] = next;
+						int alt = b.table[curr->index].distance[direction] + weight;
+						b.table[next->index].visited[IN] = TRUE;
+						if (alt < b.table[next->index].distance[IN])
+						{
+							b.table[next->index].distance[IN] = alt;
+							b.table[next->index].prev[IN] = curr;
+						}
+						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
+					}
+					else if (b.table[next->index].visited[IN] == TRUE && b.table[next->index].visited[OUT] == FALSE)
+					{
+						int alt = b.table[curr->index].distance[direction] + weight;
+						b.table[next->index].visited[OUT] = TRUE;
+						if (alt < b.table[next->index].distance[OUT])
+						{
+							b.table[next->index].distance[OUT] = alt;
+							b.table[next->index].prev[OUT] = curr;
+						}
+						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
+					}
+					
+				}
+				else
+				{
+					if (direction == IN && b.table[next->index].visited[OUT] == FALSE)
+					{
+						int alt = b.table[curr->index].distance[direction] + weight;
+						b.table[next->index].visited[OUT] = TRUE;
+						if (alt < b.table[next->index].distance[OUT])
+						{
+							b.table[next->index].distance[OUT] = alt;
+							b.table[next->index].prev[OUT] = curr;
+						}
+						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
+						break;
+					}
+					else if (direction == OUT)
+					{
+						if (b.table[next->index].visited[IN] == FALSE)
+						{
+							int alt = b.table[curr->index].distance[direction] + weight;
+							b.table[next->index].visited[IN] = TRUE;
+							if (alt < b.table[next->index].distance[IN])
+							{
+								b.table[next->index].distance[IN] = alt;
+								b.table[next->index].prev[IN] = curr;
+							}
+							push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
+						}
 					}
 				}
-				printf("next: %s\n", next->room_name);
-				printf("splitted\n");
-				print_que(b.head);
-				break;
 			}
-			printf("outside\n");
-			print_que(b.head);
 			index++;
 		}
+		print_que(b.head);
+		// count++;
 		print_bfs_test(info, &b);
 		printf("----------------\n");
 	}
@@ -520,8 +631,8 @@ t_bool get_paths(t_info *info)
 	t_path *path_curr;
 	// int count = 1;
 
-	path_curr = bfs(info);
-	update_link_weight(info, path_curr);
+	// path_curr = bfs(info);
+	// update_link_weight(info, path_curr);
 	// print_hash_table(info);
 	// printf("\n\n");
 	
