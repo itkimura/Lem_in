@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/28 06:45:52 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/28 07:53:30 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,33 +390,50 @@ void update_link_weight(t_info *info, t_path *path)
 	}
 }
 
-// t_path *reverse_path_test(t_info *info, t_table *table)
-// {
-// 	t_room *tmp;
-// 	t_path *path;
-// 	int index;
+t_path *reverse_path_test(t_info *info, t_table *table)
+{
+	t_room *tmp;
+	t_path *path;
+	int index;
 
-// 	index = 0;
-// 	if (table[info->end_room->index].prev[OUT] == NULL)
-// 		return (NULL);
-// 	path = (t_path *)malloc(sizeof(t_path));
-// 	if (path == NULL)
-// 		return (NULL);
-// 	// if (get_path_len(info, prev, path) == FALSE)
-// 	// {
-// 	// 	free(path);
-// 	// 	return (NULL);
-// 	// }
-// 	// index = path->len - 1;
-// 	// tmp = info->end_room;
-// 	// while (tmp)
-// 	// {
-// 	// 	path->path[index] = tmp;
-// 	// 	tmp = prev[tmp->index];
-// 	// 	index--;
-// 	// }
-// 	// return (path);
-// }
+	index = 0;
+	tmp = info->end_room;
+	if (table[info->end_room->index].prev[OUT] == NULL)
+		return (NULL);
+	path = (t_path *)malloc(sizeof(t_path));
+	if (path == NULL)
+		return (NULL);
+
+	path->len = 0;
+	while (tmp != NULL)
+	{
+		if (table[tmp->index].distance[IN] < table[tmp->index].distance[OUT])
+			tmp = table[tmp->index].prev[IN];
+		else
+			tmp = table[tmp->index].prev[OUT];
+		path->len++;
+	}
+
+	path->path = (t_room **)malloc(sizeof(t_room *) * path->len);
+	if (path->path == NULL)
+	{
+		free(path);
+		return NULL;
+	}
+	
+	index = path->len - 1;
+	tmp = info->end_room;
+	while (tmp)
+	{
+		path->path[index] = tmp;
+		if (table[tmp->index].distance[IN] < table[tmp->index].distance[OUT])
+			tmp = table[tmp->index].prev[IN];
+		else
+			tmp = table[tmp->index].prev[OUT];
+		index--;
+	}
+	return path;
+}
 
 t_bool init_bfs_test(t_info *info, t_bfs *b)
 {
@@ -472,8 +489,8 @@ void print_bfs_test(t_info *info, t_bfs *b)
 	{
 		printf("%d\t", index);
 
-		// printf("%s\t", get_name_test(index));
-		printf("%c\t", room_name_index(index));
+		printf("%s\t", get_name_test(index));
+		// printf("%c\t", room_name_index(index));
 
 		if (b->table[index].visited[OUT] == TRUE)
 			printf("[OUT]: TRUE\t");
@@ -509,7 +526,7 @@ void print_bfs_test(t_info *info, t_bfs *b)
 	}
 }
 
-void bfs_test(t_info *info)
+t_path *bfs_test(t_info *info)
 {
 
 	t_bfs b;
@@ -526,7 +543,7 @@ void bfs_test(t_info *info)
 	b.table[info->start_room->index].distance[OUT] = 0;
 
 	int count = 0;
-	while (b.head && count < 5)
+	while (b.head && b.table[info->end_room->index].visited[OUT] == FALSE)
 	{
 		curr_que = pop_test(&(b.head));
 		curr = curr_que->room;
@@ -588,21 +605,9 @@ void bfs_test(t_info *info)
 				}
 				else
 				{
-					if (direction == IN && b.table[next->index].visited[OUT] == FALSE)
+					if (direction == OUT)
 					{
-						int alt = b.table[curr->index].distance[direction] + weight;
-						b.table[next->index].visited[OUT] = TRUE;
-						if (alt < b.table[next->index].distance[OUT])
-						{
-							b.table[next->index].distance[OUT] = alt;
-							b.table[next->index].prev[OUT] = curr;
-						}
-						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
-						break;
-					}
-					else if (direction == OUT)
-					{
-						if (b.table[next->index].visited[IN] == FALSE)
+						if (b.table[next->index].visited[IN] == FALSE && next->splitted == FALSE)
 						{
 							int alt = b.table[curr->index].distance[direction] + weight;
 							b.table[next->index].visited[IN] = TRUE;
@@ -614,22 +619,35 @@ void bfs_test(t_info *info)
 							push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
 						}
 					}
+					else if (direction == IN && b.table[next->index].visited[OUT] == FALSE)
+					{
+						int alt = b.table[curr->index].distance[direction] + weight;
+						b.table[next->index].visited[OUT] = TRUE;
+						if (alt < b.table[next->index].distance[OUT])
+						{
+							b.table[next->index].distance[OUT] = alt;
+							b.table[next->index].prev[OUT] = curr;
+						}
+						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
+						break;
+					}
 				}
 			}
 			index++;
 		}
-		print_que(b.head);
+		// print_que(b.head);
 		// count++;
-		print_bfs_test(info, &b);
-		printf("----------------\n");
+		// print_bfs_test(info, &b);
+		// printf("----------------\n");
 	}
-	// print_bfs_test(info, &b);
+	print_bfs_test(info, &b);
+	return reverse_path_test(info, b.table);
 }
 
 t_bool get_paths(t_info *info)
 {
 	t_path *path_curr;
-	// int count = 1;
+	int count = 1;
 
 	// path_curr = bfs(info);
 	// update_link_weight(info, path_curr);
@@ -637,7 +655,19 @@ t_bool get_paths(t_info *info)
 	// printf("\n\n");
 	
 	
-	bfs_test(info);
+	path_curr = bfs_test(info);
+	while (path_curr)
+	{
+		update_link_weight(info, path_curr);
+		print_path(path_curr);
+		free_path(path_curr);
+		if (count == 2)
+			break;
+		path_curr = bfs_test(info);
+		count++;
+	}
+
+
 	// while (path_curr)
 	// {
 	// 	update_link_weight(info, path_curr);
