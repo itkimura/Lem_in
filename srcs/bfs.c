@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/28 07:53:30 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/29 21:30:27 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,13 +376,20 @@ void update_link_weight(t_info *info, t_path *path)
 		{
 			if (curr->link[j] != NULL && (prev == curr->link[j]->room1 || prev == curr->link[j]->room2))
 			{
-				if (prev == curr->link[j]->room1)
+				if (curr->link[j]->two_one == 0 || curr->link[j]->one_two == 0)
+				{
+					drop_link(curr->link[j], prev);
+				}
+				else
+				{
+					if (prev == curr->link[j]->room1)
 					curr->link[j]->two_one = 0;
-				if (prev == curr->link[j]->room2)
-					curr->link[j]->one_two = 0;
-				drop_link(curr->link[j], prev);
-				if (i == 1 || i == path->len - 1)
-					drop_link(curr->link[j], curr);
+					if (prev == curr->link[j]->room2)
+						curr->link[j]->one_two = 0;
+					drop_link(curr->link[j], prev);
+					// if (i == 1 || i == path->len - 1)
+					// 	drop_link(curr->link[j], curr);
+				}
 			}
 			j++;
 		}
@@ -392,12 +399,13 @@ void update_link_weight(t_info *info, t_path *path)
 
 t_path *reverse_path_test(t_info *info, t_table *table)
 {
-	t_room *tmp;
+	t_room *curr = NULL;
+	t_room *hold = NULL;
 	t_path *path;
 	int index;
 
 	index = 0;
-	tmp = info->end_room;
+	curr = info->end_room;
 	if (table[info->end_room->index].prev[OUT] == NULL)
 		return (NULL);
 	path = (t_path *)malloc(sizeof(t_path));
@@ -405,12 +413,25 @@ t_path *reverse_path_test(t_info *info, t_table *table)
 		return (NULL);
 
 	path->len = 0;
-	while (tmp != NULL)
+	while (curr != NULL)
 	{
-		if (table[tmp->index].distance[IN] < table[tmp->index].distance[OUT])
-			tmp = table[tmp->index].prev[IN];
+	// printf("path->len: %d\n", path->len);
+		if (hold != NULL && hold->splitted == FALSE && curr->splitted == TRUE)
+		{
+			hold = curr;
+			if (table[curr->index].prev[OUT] && table[curr->index].prev[OUT]->splitted == TRUE)
+				curr = table[curr->index].prev[OUT];
+			else
+				curr = table[curr->index].prev[IN];
+		}
 		else
-			tmp = table[tmp->index].prev[OUT];
+		{
+			hold = curr;
+			if (table[curr->index].distance[IN] < table[curr->index].distance[OUT])
+				curr = table[curr->index].prev[IN];
+			else
+				curr = table[curr->index].prev[OUT];
+		}
 		path->len++;
 	}
 
@@ -421,15 +442,28 @@ t_path *reverse_path_test(t_info *info, t_table *table)
 		return NULL;
 	}
 	
+	hold = NULL;
 	index = path->len - 1;
-	tmp = info->end_room;
-	while (tmp)
+	curr = info->end_room;
+	while (curr)
 	{
-		path->path[index] = tmp;
-		if (table[tmp->index].distance[IN] < table[tmp->index].distance[OUT])
-			tmp = table[tmp->index].prev[IN];
+		path->path[index] = curr;
+		if (hold != NULL && hold->splitted == FALSE && curr->splitted == TRUE)
+		{
+			hold = curr;
+			if (table[curr->index].prev[OUT] && table[curr->index].prev[OUT]->splitted == TRUE)
+				curr = table[curr->index].prev[OUT];
+			else
+				curr = table[curr->index].prev[IN];
+		}
 		else
-			tmp = table[tmp->index].prev[OUT];
+		{
+			hold = curr;
+			if (table[curr->index].distance[IN] < table[curr->index].distance[OUT])
+				curr = table[curr->index].prev[IN];
+			else
+				curr = table[curr->index].prev[OUT];
+		}
 		index--;
 	}
 	return path;
@@ -489,8 +523,8 @@ void print_bfs_test(t_info *info, t_bfs *b)
 	{
 		printf("%d\t", index);
 
-		printf("%s\t", get_name_test(index));
-		// printf("%c\t", room_name_index(index));
+		// printf("%s\t", get_name_test(index));
+		printf("%c\t", room_name_index(index));
 
 		if (b->table[index].visited[OUT] == TRUE)
 			printf("[OUT]: TRUE\t");
@@ -516,12 +550,12 @@ void print_bfs_test(t_info *info, t_bfs *b)
 		if (b->table[index].prev[OUT] == NULL)
 			printf("\t\t[OUT]: NULL");
 		else
-			printf("\t\t[OUT]: %s", b->table[index].prev[OUT]->room_name);
+			printf("\t\t[OUT]: %s%s%s", GREEN, b->table[index].prev[OUT]->room_name, WHITE);
 
 		if (b->table[index].prev[IN] == NULL)
 			printf("\t[IN]: NULL\n");
 		else
-			printf("\t[IN]: %s\n", b->table[index].prev[IN]->room_name);
+			printf("\t[IN]: %s%s%s\n", GREEN, b->table[index].prev[IN]->room_name, WHITE);
 		printf("\n");
 	}
 }
@@ -573,12 +607,18 @@ t_path *bfs_test(t_info *info)
 					b.table[next->index].distance[OUT] = alt;
 					b.table[next->index].prev[OUT] = curr;
 				}
+				// printf("next->splitted == FALSE && b.table[next->index].visited[OUT] == FALSE\n");
 				push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
 			}
 			else if (next->splitted == TRUE)
 			{
 				if (curr->splitted == FALSE)
 				{
+					if (b.table[next->index].visited[OUT] == TRUE && b.table[next->index].visited[IN] == FALSE)
+					{
+						index++;
+						continue ;
+					}
 					if (b.table[next->index].visited[IN] == FALSE)
 					{
 						int alt = b.table[curr->index].distance[direction] + weight;
@@ -589,6 +629,7 @@ t_path *bfs_test(t_info *info)
 							b.table[next->index].prev[IN] = curr;
 						}
 						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
+						// printf("next->splitted == TRUE && b.table[next->index].visited[IN] == FALSE\n");
 					}
 					else if (b.table[next->index].visited[IN] == TRUE && b.table[next->index].visited[OUT] == FALSE)
 					{
@@ -600,6 +641,7 @@ t_path *bfs_test(t_info *info)
 							b.table[next->index].prev[OUT] = curr;
 						}
 						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
+						// printf("next->splitted == TRUE && b.table[next->index].visited[IN] == TRUE && b.table[next->index].visited[OUT] == FALSE\n");
 					}
 					
 				}
@@ -617,6 +659,7 @@ t_path *bfs_test(t_info *info)
 								b.table[next->index].prev[IN] = curr;
 							}
 							push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
+							// printf("next->splitted == TRUE && else && direction == OUT\n");
 						}
 					}
 					else if (direction == IN && b.table[next->index].visited[OUT] == FALSE)
@@ -629,6 +672,7 @@ t_path *bfs_test(t_info *info)
 							b.table[next->index].prev[OUT] = curr;
 						}
 						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
+						// printf("next->splitted == TRUE && else && direction == IN && b.table[next->index].visited[OUT] == FALSE\n");
 						break;
 					}
 				}
@@ -640,7 +684,7 @@ t_path *bfs_test(t_info *info)
 		// print_bfs_test(info, &b);
 		// printf("----------------\n");
 	}
-	print_bfs_test(info, &b);
+	// print_bfs_test(info, &b);
 	return reverse_path_test(info, b.table);
 }
 
@@ -659,13 +703,23 @@ t_bool get_paths(t_info *info)
 	while (path_curr)
 	{
 		update_link_weight(info, path_curr);
+		printf("%d: ", count);
 		print_path(path_curr);
 		free_path(path_curr);
-		if (count == 2)
-			break;
+		// if (count == 2)
+		// 	break;
 		path_curr = bfs_test(info);
 		count++;
 	}
+	// print_hash_table(info);
+
+	// path_curr = bfs_test(info);
+	// while (path_curr)
+	// {
+	// 	print_path(path_curr);
+	// 	free_path(path_curr);
+	// 	path_curr = bfs_test(info);
+	// }
 
 
 	// while (path_curr)
