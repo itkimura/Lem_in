@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/29 21:30:27 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/29 22:00:57 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,8 +387,8 @@ void update_link_weight(t_info *info, t_path *path)
 					if (prev == curr->link[j]->room2)
 						curr->link[j]->one_two = 0;
 					drop_link(curr->link[j], prev);
-					// if (i == 1 || i == path->len - 1)
-					// 	drop_link(curr->link[j], curr);
+					if (i == 1 || i == path->len - 1)
+						drop_link(curr->link[j], curr);
 				}
 			}
 			j++;
