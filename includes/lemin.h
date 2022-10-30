@@ -57,7 +57,6 @@ typedef struct s_room
 {
 	char			*room_name;
 	int				index;
-	int				level;
 	int				total_links;
 	int				malloc_link;
 	struct s_link	**link;
@@ -74,6 +73,7 @@ typedef struct s_que
 typedef struct s_path {
 	t_room			**path;
 	int				len;
+	struct s_path	*next;
 }	t_path;
 
 /* link-room structure */
@@ -115,6 +115,28 @@ typedef struct s_bfs
 }	t_bfs;
 
 /* bfs.c */
+t_bool			get_path_len(t_info *info, t_room **prev, t_path *path);
+t_path			*reverse_path(t_info *info, t_room **prev);
+t_bool			init_bfs(t_info *info, t_bfs *b);
+void			bfs_condition(t_bfs *b, t_room *curr, int index);
+t_path			*bfs(t_info *info);
+
+/* free_bfs.h */
+void			free_bfs(t_bfs *b);
+void			free_path(t_path *path);
+void			free_que(t_que *head);
+
+/* bfs_utils.c */
+t_room			*pop(t_que **head);
+void			push(t_que **tail, t_que **head, t_que *new);
+t_que			*create(t_room *room);
+
+/* count_turn.c */
+t_bool			init_path_array(t_path *list, int count_path, int ***path);
+void			devide_ants(t_info *info, int ***path, int count_path);
+t_bool			count_turn(t_info *info, t_path *list, int count_path, int *curr_turn);
+
+/* solution.c */
 t_bool			solution(t_info *info);
 
 /* lem-in.c */
@@ -138,9 +160,15 @@ void			free_links(t_link **link);
 /* print.c */
 void			print_hash_table(t_info *info);
 void			print_single_room(t_room *room);
-void			print_room(t_room *room);
+void			print_rooms(t_room *room);
 void			print_info(t_info *info);
-void			print_path(t_path	*path);
+void			print_single_path(t_path	*path);
+void			print_paths(t_path *path);
+void			print_single_link(t_link *link);
+void			print_links(t_info *info);
+char			room_name_index(int index);
+void			printing_bfs(t_info *info, t_bfs *b);
+void			print_que(t_que *head, t_bfs *b);
 
 /* validation/read_line.c */
 int				type_of_line(char *str);

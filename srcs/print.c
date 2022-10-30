@@ -19,10 +19,10 @@ void print_single_room(t_room *room)
 		printf("Room is not existed.\n");
 		return;
 	}
-	printf("room_name:[%s]\tindex:[%d]\tlevel[%d]\n", room->room_name, room->index, room->level);
+	printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
 }
 
-void print_room(t_room *room)
+void print_rooms(t_room *room)
 {
 	printf("--- room ---\n");
 	if (room == NULL)
@@ -32,7 +32,7 @@ void print_room(t_room *room)
 	}
 	while (room)
 	{
-		printf("room_name:[%10s]\t\tindex:[%d]\tlevel[%d]\n", room->room_name, room->index, room->level);
+		printf("room_name:[%10s]\t\tindex:[%d]\n", room->room_name, room->index);
 		room = room->list_next;
 	}
 	printf("\n");
@@ -128,11 +128,83 @@ void print_buff(t_path **buff)
 	}
 }
 
-void print_path(t_path *path)
+void print_single_path(t_path *path)
 {
 	if (path == NULL)
 		printf("No path\n");
-	for (int i = 0; i < path->len; i++)
-		printf("[%s]", path->path[i]->room_name);
+	else
+	{
+		printf("len:%d\t", path->len);
+		for (int i = 0; i < path->len; i++)
+			printf("[%s]", path->path[i]->room_name);
+	}
+	printf("\n");
+}
+
+void	print_paths(t_path *path)
+{
+	int	index;
+
+	index = 0;
+	while (path)
+	{
+		printf("No.%3d ", index);
+		print_single_path(path);
+		path = path->next;
+		index++;
+	}
+}
+
+void	print_single_link(t_link *link)
+{
+	printf("room1 = %s, room2 = %s, one_two = %d, two_one = %d\n", link->room1->room_name, link->room2->room_name, link->one_two, link->two_one);
+}
+
+void	print_links(t_info *info)
+{
+	t_link	*tmp;
+
+	tmp = info->link_head;
+	while (tmp)
+	{
+		print_single_link(tmp);
+		tmp = tmp->next;
+	}
+}
+
+char room_name_index(int index)
+{
+	char *str = "abcdefghijklmn";
+	return str[index];
+}
+
+void printing_bfs(t_info *info, t_bfs *b)
+{
+	printf("i\troom\tprev\tdist\n");
+	// printf("i\tvisited\tprev\tdist\n");
+	for(int index = 0; index < info->total_rooms; index++)
+	{
+		printf("%d\t", index);
+		//printf("%d\t", b->visited[index]);
+		printf("%c\t", room_name_index(index));
+		if (b->prev[index])
+			printf("%s\t", b->prev[index]->room_name);
+		else
+			printf("(null)\t");
+		printf("%d \n", b->distance[index]);
+	}
+}
+
+void print_que(t_que *head, t_bfs *b)
+{
+	int index;
+
+	index = 0;
+	while (head)
+	{
+		printf("que[%d] = %s b->distance = %d\n", index, head->room->room_name, b->distance[head->room->index]);
+		head = head->next;
+		index++;
+	}
 	printf("\n");
 }

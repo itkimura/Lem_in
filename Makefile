@@ -19,8 +19,10 @@ DEBUG_FLAG = -g
 
 INCLUDES_DIR = ./includes/
 
-FILES = lem-in.c read_line.c		utils.c hash_table.c	create_room.c	\
-		create_link.c				connect_rooms.c			print.c		bfs.c
+FILES = lem-in.c read_line.c	utils.c hash_table.c	create_room.c	\
+		create_link.c			connect_rooms.c			print.c			\
+		bfs.c					bfs_utils.c				free_bfs.c		\
+		solution.c				count_turn.c
 
 
 SRCS_DIR = ./srcs/
