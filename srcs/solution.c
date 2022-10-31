@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/25 17:19:36 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/31 14:30:48 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	remove_inverse_edge(t_info *info)
 
 void	update_links(t_info *info, t_path *head)
 {
-	/*make all one_two =1 & two_one = 1*/
+	/*make all one_two = 1 & two_one = 1*/
 	init_links(info);
 	/*update edge weight by bfs result*/
 	update_edge_weight(info, head);
@@ -285,22 +285,22 @@ t_path *test_maps(t_info *info)
 
 t_bool	get_paths(t_info *info)
 {
-	//int		min_turn;
-	//int		total_path;
+	int		min_turn;
+	int		total_path;
 	t_path	*list;
 
 	/* run bfs first and get the linked list */
 	list = test_maps(info);
 	print_paths(list);
 	/*remove inverse edge*/
-	//update_links(info, list);
+	update_links(info, list);
 	/* find the conbination in first bfs result*/
 	//printf("--- update min ---\n");
-	//total_path = 0;
-	//min_turn = 0;
-	//update_min(info, list, &min_turn, &total_path);
+	total_path = 0;
+	min_turn = 0;
+	update_min(info, list, &min_turn, &total_path);
 	/*run bfs again to find conbination*/
-	//best_conbination(info, list, &min_turn, &total_path);
+	best_conbination(info, list, &min_turn, &total_path);
 	return (TRUE);
 }
 

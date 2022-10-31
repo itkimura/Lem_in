@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/25 17:19:36 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/31 14:29:14 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ t_bool		init_path_array(t_path *list, int count_path, int ***path)
 		}
 		(*path)[index][0] = tmp->len - 1;
 		(*path)[index][1] = 0;
-		printf("tmp->len = %d\n", tmp->len);
 		tmp = tmp->next;
 		index++;
 	}
-	printf("index = %d\n", index);
 	return (TRUE);
 }
 

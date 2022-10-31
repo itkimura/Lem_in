@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/25 17:19:36 by thle             ###   ########.fr       */
+/*   Updated: 2022/10/31 18:12:55 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void bfs_condition(t_bfs *b, t_room *curr, int index)
 		from = curr->link[index]->room2;
 		to = curr->link[index]->room1;
 	}
+	printf("from:%s to:%s weight = %d\n", from->room_name, to->room_name, weight);
 	if (b->distance[from->index] != INT_MAX && b->distance[to->index] > b->distance[from->index] + weight)
 	{
 		push(&(b->tail), &(b->head), create(to));
@@ -152,6 +153,10 @@ t_path *bfs(t_info *info)
 	}
 	//printing_bfs(info, &b);
 	path = reverse_path(info, b.prev);
+	//print_rooms(info->room_head);
+	//print_links(info);
+	//printing_bfs(info, &b);
+	print_single_path(path);
 	//printf("%s/*--------BFS ENDS--------*/%s\n", PINK, WHITE);
 	free_que(b.head);
 	free_bfs(&b);
