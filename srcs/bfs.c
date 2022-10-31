@@ -6,11 +6,16 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/29 22:00:57 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/31 19:51:34 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lemin.h"
+#include "lemin.h"
+
+/*
+augment_0.map gives 1 more line
+prioritize inverse edge first in que
+*/
 
 void print_que(t_que *head)
 {
@@ -24,49 +29,12 @@ void print_que(t_que *head)
 			printf("que[%d] = %s | weight: %d | direction: OUT\n", index, head->room->room_name, head->weight);
 		else
 			printf("que[%d] = %s | weight: %d | direction: IN\n", index, head->room->room_name, head->weight);
-			
+
 		head = head->next;
 		index++;
 	}
 	printf("end!\n\n");
 	printf("\n");
-}
-
-t_room *pop(t_que **head)
-{
-	t_que *tmp;
-	t_que *first;
-	t_que *second;
-	t_que *hold;
-
-	if (!head || !(*head))
-		return (NULL);
-	tmp = *head;
-	if (tmp->next == NULL)
-	{
-		*head = (*head)->next;
-		return tmp->room;
-	}
-	hold = tmp;
-	while (tmp && tmp->next)
-	{
-		if (hold->weight > tmp->next->weight)
-		{
-			first = tmp;
-			hold = tmp->next;
-			second = tmp->next->next;
-		}
-		tmp = tmp->next;
-	}
-	if (hold == *head)
-	{
-		*head = (*head)->next;
-		return hold->room;
-	}
-
-	hold->next = NULL;
-	first->next = second;
-	return hold->room;
 }
 
 t_que *pop_test(t_que **head)
@@ -136,104 +104,6 @@ t_que *create(t_room *room, int weight, int direction)
 	return (new);
 }
 
-t_que *mark_then_create(t_room *room, int weight)
-{
-	t_que *new;
-
-	new = (t_que *)malloc(sizeof(t_que));
-	// visited[room->index] = TRUE;
-	if (new)
-	{
-		new->room = room;
-		new->weight = weight;
-		new->next = NULL;
-	}
-	return (new);
-}
-
-t_bool get_path_len(t_info *info, t_room **prev, t_path *path)
-{
-	t_room *tmp;
-
-	tmp = info->end_room;
-	path->len = 0;
-	while (tmp != NULL)
-	{
-		tmp = prev[tmp->index];
-		path->len++;
-	}
-	path->path = (t_room **)malloc(sizeof(t_room *) * path->len);
-	if (path->path == NULL)
-		return (FALSE);
-	return (TRUE);
-}
-
-t_path *reverse_path(t_info *info, t_room **prev)
-{
-
-	t_room *tmp;
-	t_path *path;
-	int index;
-
-	index = 0;
-	if (prev[info->end_room->index] == NULL)
-		return (NULL);
-	path = (t_path *)malloc(sizeof(t_path));
-	if (path == NULL)
-		return (NULL);
-	if (get_path_len(info, prev, path) == FALSE)
-	{
-		free(path);
-		return (NULL);
-	}
-	index = path->len - 1;
-	tmp = info->end_room;
-	while (tmp)
-	{
-		path->path[index] = tmp;
-		tmp = prev[tmp->index];
-		index--;
-	}
-	return (path);
-}
-
-t_bool init_bfs(t_info *info, t_bfs *b)
-{
-	int index;
-
-	index = 0;
-	b->visited = (t_bool *)malloc(sizeof(t_bool) * info->total_rooms);
-	if (b->visited == NULL)
-		return (FALSE);
-	ft_memset(b->visited, FALSE, sizeof(t_bool) * info->total_rooms);
-	b->prev = (t_room **)malloc(sizeof(t_room *) * info->total_rooms);
-	if (b->prev == NULL)
-		return (FALSE);
-	ft_memset(b->prev, 0, sizeof(t_room *) * info->total_rooms);
-	b->distance = (int *)malloc(sizeof(int) * info->total_rooms);
-	if (b->distance == NULL)
-		return (FALSE);
-	while (index < info->total_rooms)
-	{
-		(b->distance)[index] = INT_MAX;
-		index++;
-	}
-	b->distance[info->start_room->index] = 0;
-	b->head = mark_then_create(info->start_room, 0);
-	b->tail = b->head;
-	return (TRUE);
-}
-
-void free_bfs(t_bfs *b)
-{
-	free(b->visited);
-	b->visited = NULL;
-	free(b->prev);
-	b->prev = NULL;
-	free(b->distance);
-	b->distance = NULL;
-}
-
 void free_path(t_path *path)
 {
 	free(path->path);
@@ -259,98 +129,6 @@ char room_name_index(int index)
 	return str[index];
 }
 
-void printing_bfs(t_info *info, t_bfs *b)
-{
-	printf("i\tvisited\troom\tprev\tdist\n");
-	// printf("i\tvisited\tprev\tdist\n");
-	for (int index = 0; index < info->total_rooms; index++)
-	{
-		printf("%d\t", index);
-		printf("%d\t", b->visited[index]);
-		printf("%c\t", room_name_index(index));
-		if (b->prev[index])
-			printf("%s\t", b->prev[index]->room_name);
-		else
-			printf("(null)\t");
-		printf("%d \n", b->distance[index]);
-	}
-}
-
-void bfs_condition(t_bfs *b, t_room *curr, t_room **next, int index)
-{
-	int weight;
-
-	if (curr->link[index] == NULL)
-		return;
-	weight = curr->link[index]->one_two;
-	*next = curr->link[index]->room2;
-	if (curr->link[index]->room2 == curr)
-	{
-		weight = curr->link[index]->two_one;
-		*next = curr->link[index]->room1;
-	}
-	if (b->visited[(*next)->index] == FALSE)
-	{
-		push(&(b->tail), &(b->head), mark_then_create((*next), b->distance[curr->index] + weight));
-		b->visited[(*next)->index] = TRUE;
-		b->distance[(*next)->index] = b->distance[curr->index] + weight;
-		b->prev[(*next)->index] = curr;
-	}
-}
-
-t_path *bfs(t_info *info)
-{
-	// printf("%s/*--------BFS START--------*/%s\n", PINK, WHITE);
-	t_bfs b;
-	t_path *path;
-	t_room *curr;
-	t_room *next;
-	int index;
-
-	int count = 0;
-	if (init_bfs(info, &b) == FALSE)
-		return (NULL);
-	b.visited[info->start_room->index] = TRUE;
-	while (b.head && count < 10 && b.prev[info->end_room->index] == NULL)
-	{
-		curr = pop(&(b.head));
-		index = 0;
-		// printf("curr: %s\n", curr->room_name);
-		while (index < curr->malloc_link)
-		{
-			bfs_condition(&b, curr, &next, index);
-			index++;
-		}
-		// print_que(b.head);
-		// count++;
-	}
-
-	// printing_bfs(info, &b);
-	path = reverse_path(info, b.prev);
-	// print_path(path);
-	// printf("%s/*--------BFS ENDS--------*/%s\n", PINK, WHITE);
-	// return NULL;
-	free_que(b.head);
-	free_bfs(&b);
-	return (path);
-}
-
-void drop_link(t_link *link, t_room *room)
-{
-	int index;
-
-	index = 0;
-	while (index < room->malloc_link)
-	{
-		if (room->link[index] == link)
-		{
-			room->link[index] = NULL;
-			break;
-		}
-		index++;
-	}
-}
-
 void update_link_weight(t_info *info, t_path *path)
 {
 	(void)info;
@@ -365,8 +143,6 @@ void update_link_weight(t_info *info, t_path *path)
 		j = 0;
 		curr = path->path[i];
 		prev = path->path[i - 1];
-		// printf("curr: %s\n", curr->room_name);
-		// printf("prev: %s\n", prev->room_name);
 		if (i != 1 && i != path->len - 1)
 		{
 			curr->splitted = TRUE;
@@ -376,19 +152,19 @@ void update_link_weight(t_info *info, t_path *path)
 		{
 			if (curr->link[j] != NULL && (prev == curr->link[j]->room1 || prev == curr->link[j]->room2))
 			{
-				if (curr->link[j]->two_one == 0 || curr->link[j]->one_two == 0)
-				{
-					drop_link(curr->link[j], prev);
-				}
+				if (curr->link[j]->one_two == INVERSE)
+					curr->link[j]->one_two = USED_INVERSE;
+				else if (curr->link[j]->two_one == INVERSE)
+					curr->link[j]->two_one = USED_INVERSE;
 				else
 				{
-					if (prev == curr->link[j]->room1)
-					curr->link[j]->two_one = 0;
+					curr->link[j]->two_one = INVERSE;
+					curr->link[j]->one_two = SKIP;
 					if (prev == curr->link[j]->room2)
-						curr->link[j]->one_two = 0;
-					drop_link(curr->link[j], prev);
-					if (i == 1 || i == path->len - 1)
-						drop_link(curr->link[j], curr);
+					{
+						curr->link[j]->one_two = INVERSE;
+						curr->link[j]->two_one = SKIP;
+					}
 				}
 			}
 			j++;
@@ -415,7 +191,6 @@ t_path *reverse_path_test(t_info *info, t_table *table)
 	path->len = 0;
 	while (curr != NULL)
 	{
-	// printf("path->len: %d\n", path->len);
 		if (hold != NULL && hold->splitted == FALSE && curr->splitted == TRUE)
 		{
 			hold = curr;
@@ -441,7 +216,7 @@ t_path *reverse_path_test(t_info *info, t_table *table)
 		free(path);
 		return NULL;
 	}
-	
+
 	hold = NULL;
 	index = path->len - 1;
 	curr = info->end_room;
@@ -474,10 +249,6 @@ t_bool init_bfs_test(t_info *info, t_bfs *b)
 	int index;
 
 	index = 0;
-	b->visited_test = (t_visited *)malloc(sizeof(t_visited) * info->total_rooms);
-	if (b->visited_test == NULL)
-		return (FALSE);
-	ft_memset(b->visited_test, V_NOT, sizeof(t_bool) * info->total_rooms);
 
 	b->table = (t_table *)malloc(sizeof(t_table) * info->total_rooms);
 
@@ -498,6 +269,7 @@ t_bool init_bfs_test(t_info *info, t_bfs *b)
 
 char *get_name_test(int index)
 {
+	//test
 	if (index == 0)
 		return "3";
 	else if (index == 1)
@@ -515,22 +287,34 @@ char *get_name_test(int index)
 	else
 		return "6";
 
+	// augment_0.map
+	// char *str = malloc(2);
+	// str[1] = '\0';
+	// if (index == 0)
+	// 	return "s";
+	// else if (index == 1)
+	// 	return "end";
+	// else
+	// {
+	// 	str[0] = index + 'a' - 2;
+	// 	return str;
+	// }
 }
 
 void print_bfs_test(t_info *info, t_bfs *b)
 {
-	for(int index = 0; index < info->total_rooms; index++)
+	for (int index = 0; index < info->total_rooms; index++)
 	{
 		printf("%d\t", index);
 
-		// printf("%s\t", get_name_test(index));
-		printf("%c\t", room_name_index(index));
+		printf("%s\t", get_name_test(index));
+		// printf("%c\t", room_name_index(index));
 
 		if (b->table[index].visited[OUT] == TRUE)
 			printf("[OUT]: TRUE\t");
 		else
 			printf("[OUT]: FALSE\t");
-			
+
 		if (b->table[index].visited[IN] == TRUE)
 			printf("[IN]: TRUE\n");
 		else
@@ -540,12 +324,11 @@ void print_bfs_test(t_info *info, t_bfs *b)
 			printf("\t\t[OUT]: INF\t");
 		else
 			printf("\t\t[OUT]: %d\t", b->table[index].distance[OUT]);
-			
+
 		if (b->table[index].distance[IN] == INT_MAX)
 			printf("[IN]: INF\n");
 		else
 			printf("[IN]: %d\n", b->table[index].distance[IN]);
-
 
 		if (b->table[index].prev[OUT] == NULL)
 			printf("\t\t[OUT]: NULL");
@@ -597,7 +380,16 @@ t_path *bfs_test(t_info *info)
 				weight = curr->link[index]->two_one;
 				next = curr->link[index]->room1;
 			}
-			
+			if (weight == USED_INVERSE || weight == SKIP)
+			{
+				index++;
+				continue;
+			}
+			if (direction == IN && weight != INVERSE)
+			{
+				index++;
+				continue;
+			}
 			if (next->splitted == FALSE && b.table[next->index].visited[OUT] == FALSE)
 			{
 				int alt = b.table[curr->index].distance[direction] + weight;
@@ -607,7 +399,6 @@ t_path *bfs_test(t_info *info)
 					b.table[next->index].distance[OUT] = alt;
 					b.table[next->index].prev[OUT] = curr;
 				}
-				// printf("next->splitted == FALSE && b.table[next->index].visited[OUT] == FALSE\n");
 				push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
 			}
 			else if (next->splitted == TRUE)
@@ -617,7 +408,7 @@ t_path *bfs_test(t_info *info)
 					if (b.table[next->index].visited[OUT] == TRUE && b.table[next->index].visited[IN] == FALSE)
 					{
 						index++;
-						continue ;
+						continue;
 					}
 					if (b.table[next->index].visited[IN] == FALSE)
 					{
@@ -629,7 +420,6 @@ t_path *bfs_test(t_info *info)
 							b.table[next->index].prev[IN] = curr;
 						}
 						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
-						// printf("next->splitted == TRUE && b.table[next->index].visited[IN] == FALSE\n");
 					}
 					else if (b.table[next->index].visited[IN] == TRUE && b.table[next->index].visited[OUT] == FALSE)
 					{
@@ -641,29 +431,14 @@ t_path *bfs_test(t_info *info)
 							b.table[next->index].prev[OUT] = curr;
 						}
 						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
-						// printf("next->splitted == TRUE && b.table[next->index].visited[IN] == TRUE && b.table[next->index].visited[OUT] == FALSE\n");
 					}
-					
 				}
-				else
+				else //next->splitted == TRUE && curr->splitted = TRUE
 				{
-					if (direction == OUT)
+					if (b.table[next->index].visited[OUT] == FALSE) // curr is splitted && next is splitted
 					{
-						if (b.table[next->index].visited[IN] == FALSE && next->splitted == FALSE)
-						{
-							int alt = b.table[curr->index].distance[direction] + weight;
-							b.table[next->index].visited[IN] = TRUE;
-							if (alt < b.table[next->index].distance[IN])
-							{
-								b.table[next->index].distance[IN] = alt;
-								b.table[next->index].prev[IN] = curr;
-							}
-							push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[IN], IN));
-							// printf("next->splitted == TRUE && else && direction == OUT\n");
-						}
-					}
-					else if (direction == IN && b.table[next->index].visited[OUT] == FALSE)
-					{
+						// printf("curr: %s\n", curr->room_name);
+						// printf("next: %s\n", next->room_name);
 						int alt = b.table[curr->index].distance[direction] + weight;
 						b.table[next->index].visited[OUT] = TRUE;
 						if (alt < b.table[next->index].distance[OUT])
@@ -672,19 +447,16 @@ t_path *bfs_test(t_info *info)
 							b.table[next->index].prev[OUT] = curr;
 						}
 						push(&(b.tail), &(b.head), create(next, b.table[next->index].distance[OUT], OUT));
-						// printf("next->splitted == TRUE && else && direction == IN && b.table[next->index].visited[OUT] == FALSE\n");
-						break;
+						// break;
 					}
 				}
 			}
+			// print_que(b.head);
+		// print_bfs_test(info, &b);
+		// printf("\n");
 			index++;
 		}
-		// print_que(b.head);
-		// count++;
-		// print_bfs_test(info, &b);
-		// printf("----------------\n");
 	}
-	// print_bfs_test(info, &b);
 	return reverse_path_test(info, b.table);
 }
 
@@ -693,57 +465,34 @@ t_bool get_paths(t_info *info)
 	t_path *path_curr;
 	int count = 1;
 
-	// path_curr = bfs(info);
-	// update_link_weight(info, path_curr);
-	// print_hash_table(info);
-	// printf("\n\n");
-	
-	
 	path_curr = bfs_test(info);
-	while (path_curr)
-	{
-		update_link_weight(info, path_curr);
-		printf("%d: ", count);
-		print_path(path_curr);
-		free_path(path_curr);
-		// if (count == 2)
-		// 	break;
-		path_curr = bfs_test(info);
-		count++;
-	}
-	// print_hash_table(info);
+	printf("%s", BOLD);
+	// printf("%d: ", count);
+	print_path(path_curr);
+	printf("%s", NORMAL);
 
-	// path_curr = bfs_test(info);
-	// while (path_curr)
-	// {
-	// 	print_path(path_curr);
-	// 	free_path(path_curr);
-	// 	path_curr = bfs_test(info);
-	// }
-
-
+	
 	// while (path_curr)
 	// {
 	// 	update_link_weight(info, path_curr);
+	// 	printf("%s", BOLD);
+	// 	printf("%d: ", count);
 	// 	print_path(path_curr);
-	// 	printf("\n");
+	// 	printf("%s", NORMAL);
 	// 	free_path(path_curr);
-	// 	print_hash_table(info);
+	// 	// print_hash_table(info);
 	// 	// if (count == 2)
 	// 	// 	break;
-	// 	path_curr = bfs(info);
+	// 	path_curr = bfs_test(info);
 	// 	count++;
 	// }
-	// print_path(path_curr);
-
+	// print_links(info);
 	return (TRUE);
 }
 
 t_bool solution(t_info *info)
 {
-	// printf("_____START BFS____\n");
 	// print_room(info->room_head);
-
 	get_paths(info);
 	return (TRUE);
 }
