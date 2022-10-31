@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/10/28 00:15:24 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/31 18:38:04 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ t_bool	create_new_link(t_info *info)
 	size = (int)(info->total_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (free(new), FALSE);
-	new->one_two = 2;
-	new->two_one = 2;
+	new->one_two = NORMAL_WEIGHT;
+	new->two_one = NORMAL_WEIGHT;
 	info->total_links++;
 	if (info->link_head == NULL)
 	{

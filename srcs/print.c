@@ -6,11 +6,28 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/28 02:14:15 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/31 15:34:27 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+void	print_single_link(t_link *link)
+{
+		printf("room1 = %s, room2 = %s, one_two = %d, two_one = %d\n", link->room1->room_name, link->room2->room_name, link->one_two, link->two_one);
+}
+
+void	print_links(t_info *info)
+{
+	t_link	*tmp;
+
+	tmp = info->link_head;
+	while (tmp)
+	{
+		print_single_link(tmp);
+		tmp = tmp->next;
+	}
+}
 
 void print_single_room(t_room *room)
 {

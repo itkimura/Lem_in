@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/28 04:52:52 by thule            ###   ########.fr       */
+/*   Updated: 2022/10/31 21:46:01 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 
 # define NORMAL "\x1B[0m"
+# define BOLD "\033[1m"
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
 # define YELLOW "\x1B[33m"
@@ -34,6 +35,11 @@
 
 # define RATIO 1
 # define PATH_BUFF_SIZE 100
+
+# define NORMAL_WEIGHT 2
+# define INVERSE 0
+# define USED_INVERSE -5
+# define SKIP -10
 
 typedef enum e_bool
 {
@@ -51,14 +57,6 @@ enum
 	LINK,
 	EMPTY,
 };
-
-typedef enum s_visited
-{
-	V_NOT,
-	V_OUT,
-	V_IN,
-	V_BOTH
-}	t_visited;
 
 typedef enum e_direction
 {
@@ -107,6 +105,28 @@ typedef struct s_link
 	struct s_link	*next;
 }					t_link;
 
+typedef struct	s_path_link
+{
+	t_link	*link;
+	int		start;
+	struct s_path_link	*next;
+}				t_path_link;
+
+typedef struct	s_path_set
+{
+	t_path_link *head;
+	// t_path_link *tail;
+	int			len;
+	int			level;
+}				t_path_set;
+
+typedef struct	s_flow {
+	t_link	**link;
+	int		number_of_flow;
+}				t_flow;
+
+
+
 /* adjacency matrix */
 typedef struct s_info
 {
@@ -124,7 +144,7 @@ typedef struct s_info
 typedef struct s_table
 {
 	t_bool		visited[2];
-	t_room		*prev[2];
+	t_room		*prev[2]; //OUT:0      IN:1
 	int			distance[2];
 }	t_table;
 
@@ -133,12 +153,12 @@ typedef struct s_bfs
 {
 	t_que		*head;
 	t_que		*tail;
-	t_visited	*visited_test;
+	// t_visited	*visited_test;
 	t_table		*table;
 	
-	t_bool	*visited;
-	t_room	**prev;
-	int		*distance;
+	// t_bool	*visited;
+	// t_room	**prev;
+	// int		*distance;
 }	t_bfs;
 
 /* bfs.c */
@@ -168,6 +188,8 @@ void			print_single_room(t_room *room);
 void			print_room(t_room *room);
 void			print_info(t_info *info);
 void			print_path(t_path	*path);
+void			print_links(t_info *info);
+void			print_single_link(t_link *link);
 
 /* validation/read_line.c */
 int				type_of_line(char *str);
