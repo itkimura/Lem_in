@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/31 21:58:05 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/01 11:59:26 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ t_path *reverse_path_test(t_info *info, t_table *table)
 
 	hold = NULL;
 	index = path->len - 1;
+	path->next = NULL;
 	curr = info->end_room;
 	while (curr)
 	{
@@ -343,84 +344,7 @@ void print_bfs_test(t_info *info, t_bfs *b)
 	}
 }
 
-int get_path_len(t_info *info, t_table *table)
-{
-	t_room *curr = NULL;
-	t_room *hold = NULL;
-	int len;
 
-	curr = info->end_room;
-	if (table[info->end_room->index].prev[OUT] == NULL)
-		return (0);
-	len = 0;
-	while (curr != NULL)
-	{
-		if (hold != NULL && hold->splitted == FALSE && curr->splitted == TRUE)
-		{
-			hold = curr;
-			if (table[curr->index].prev[OUT] && table[curr->index].prev[OUT]->splitted == TRUE)
-				curr = table[curr->index].prev[OUT];
-			else
-				curr = table[curr->index].prev[IN];
-		}
-		else
-		{
-			hold = curr;
-			if (table[curr->index].distance[IN] < table[curr->index].distance[OUT])
-				curr = table[curr->index].prev[IN];
-			else
-				curr = table[curr->index].prev[OUT];
-		}
-		len++;
-	}
-	return len - 1;
-}
-
-t_link	*retrieve_link(t_room *curr, t_room *prev)
-{
-	int index;
-
-	index = 0;
-	while (index < curr->malloc_link)
-	{
-		if (curr->link[index]->room1 == prev || curr->link[index]->room2 == prev)
-			return (curr->link[index]);
-		index++;
-	}
-	return NULL;
-}
-
-void create_path_link(t_info *info, t_table *table)
-{
-	int len = get_path_len(info, table);
-	if (len < 1)
-		return ;
-
-	// t_path_set *path = (t_path_set *)malloc(sizeof(t_path_set));
-	// path->len = len;
-	// path->level = 0;
-
-	t_path_link *tmp;
-	t_path_link *head = NULL;
-
-	t_room *curr = curr = info->end_room;
-	t_room *hold = NULL;
-
-	tmp = (t_path_link *)malloc(sizeof(t_path_link));
-	tmp->link = retrieve_link(curr, table[curr->index].prev[OUT]);
-	tmp->start = 1;
-	if (curr == tmp->link->room2)
-		tmp->start = 2;
-	tmp->next = NULL;
-	
-
-	print_single_link(head->link);
-
-	// while (curr != NULL)
-	// {
-		
-	// }
-}
 
 t_path *bfs_test(t_info *info)
 {
@@ -536,44 +460,146 @@ t_path *bfs_test(t_info *info)
 			index++;
 		}
 	}
-	print_bfs_test(info, &b);
-	create_path_link(info, b.table);
-	return NULL;
-	// return reverse_path_test(info, b.table);
+	// print_bfs_test(info, &b);
+	// create_path_link(info, b.table);
+	// return NULL;
+	return reverse_path_test(info, b.table);
 }
 
-t_bool get_paths(t_info *info)
+/*
+ * path[0] = length of each path
+ * path[1] = how many ants
+ */
+
+t_bool		init_path_array(t_path *list, int count_path, int ***path)
 {
-	t_path *path_curr;
-	int count = 1;
+	t_path	*tmp;
+	int		index;
+
+	*path = (int **)malloc(sizeof(int *) * count_path);
+	if (path == NULL)
+		return (FALSE);
+	index = 0;
+	tmp = list;
+	while (index < count_path)
+	{
+		(*path)[index] = (int *)malloc(sizeof(int) * 2);
+		if ((*path)[index] == NULL)
+		{
+			while (--index)
+				free(path[index]);
+			free(path);
+			return (FALSE);
+		}
+		(*path)[index][0] = tmp->len - 1;
+		(*path)[index][1] = 0;
+		tmp = tmp->next;
+		index++;
+	}
+	return (TRUE);
+}
+
+/*
+ * path[0] = length of each path
+ * path[1] = how many ants
+ */
+
+/* devide ants in paths */
+void		devide_ants(t_info *info, int ***path, int count_path)
+{
+	int	i; /* loop for ants one by one*/
+	int	j; /* loop for path one by one*/
+	int	next;
+	int	prev; /* tmp int for compering paths*/
+
+	i = 0;
+	while (i < info->total_ants)
+	{
+		if (i == 0)
+			(*path)[0][1]++;
+		else
+		{
+			j = 0;
+			while (j < count_path - 1)
+			{
+				prev = (*path)[j][0] + (*path)[j][1];
+				next = (*path)[j + 1][0] + (*path)[j + 1][1];
+				if (prev < next)
+				{
+					(*path)[j][1]++;
+					break;
+				}
+				j++;
+			}
+			if (j == count_path - 1)
+				(*path)[j][1]++;
+		}
+		i++;
+	}
+}
+
+t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
+{
+	int	**path;
+
+	if (init_path_array(list, count_path, &path) == FALSE)
+		return (FALSE);
+	devide_ants(info, &path, count_path);
+	*curr_turn = 0;
+	for (int i = 0; i < count_path ; i++)
+	{
+		if (*curr_turn < path[i][0] - 1 + path[i][1])
+			*curr_turn = path[i][0] - 1 + path[i][1];
+	}
+	for (int i = 0; i < count_path ; i++)
+		printf("path[0] = %d path[1] = %d total:%d\n", path[i][0], path[i][1], path[i][0] + path[i][1]);
+	return (TRUE);
+}
+
+t_path *run_bfs1(t_info *info)
+{
+	t_path	*path_curr;
+	t_path	*path_next;
+	t_path	*path_head;
 
 	path_curr = bfs_test(info);
-	// printf("%s", BOLD);
-	// printf("%d: ", count);
-	// print_path(path_curr);
-	// printf("%s", NORMAL);
+	path_head = path_curr;
+	while (path_curr)
+	{
+		update_link_weight(info, path_curr);
+		path_next = bfs_test(info);
+		path_curr->next = path_next;
+		path_curr = path_next;
+	}
+	printf("--- path linked list ---\n");
+	print_paths(path_head);
+	return (TRUE);
+}
 
-	
-	// while (path_curr)
-	// {
-	// 	update_link_weight(info, path_curr);
-	// 	printf("%s", BOLD);
-	// 	printf("%d: ", count);
-	// 	print_path(path_curr);
-	// 	printf("%s", NORMAL);
-	// 	free_path(path_curr);
-	// 	// print_hash_table(info);
-	// 	// if (count == 2)
-	// 	// 	break;
-	// 	path_curr = bfs_test(info);
-	// 	count++;
-	// }
-	// print_links(info);
+t_bool	get_paths(t_info *info)
+{
+	int		min_turn;
+	int		total_path;
+	t_path	*list;
+
+	/* run bfs first and get the linked list */
+	list = test_maps(info);
+	print_paths(list);
+	/*remove inverse edge*/
+	update_links(info, list);
+	/* find the conbination in first bfs result*/
+	//printf("--- update min ---\n");
+	total_path = 0;
+	min_turn = 0;
+	update_min(info, list, &min_turn, &total_path);
+	/*run bfs again to find conbination*/
+	best_conbination(info, list, &min_turn, &total_path);
 	return (TRUE);
 }
 
 t_bool solution(t_info *info)
 {
+	print_info(info);
 	// print_room(info->room_head);
 	get_paths(info);
 	return (TRUE);

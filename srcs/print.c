@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/31 15:34:27 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/01 11:51:47 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,29 @@ void print_buff(t_path **buff)
 	}
 }
 
-void print_path(t_path *path)
+void print_single_path(t_path *path)
 {
 	if (path == NULL)
-	{
 		printf("No path\n");
-		return;
+	else
+	{
+		printf("len:%d\t", path->len);
+		for (int i = 0; i < path->len; i++)
+			printf("[%s]", path->path[i]->room_name);
 	}
-	for (int i = 0; i < path->len; i++)
-		printf("[%s]", path->path[i]->room_name);
 	printf("\n");
+}
+
+void	print_paths(t_path *path)
+{
+	int	index;
+
+	index = 0;
+	while (path)
+	{
+		printf("No.%3d ", index);
+		print_single_path(path);
+		path = path->next;
+		index++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/31 21:46:01 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/01 11:52:31 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_que
 typedef struct s_path {
 	t_room			**path;
 	int				len;
+	struct s_path	*next;
 }	t_path;
 
 /* link-room structure */
@@ -164,6 +165,8 @@ typedef struct s_bfs
 /* bfs.c */
 t_bool			solution(t_info *info);
 
+
+/**/
 /* lem-in.c */
 t_bool			init_info(t_info *info);
 t_bool			check_digit_and_space(char *line);
@@ -187,9 +190,10 @@ void			print_hash_table(t_info *info);
 void			print_single_room(t_room *room);
 void			print_room(t_room *room);
 void			print_info(t_info *info);
-void			print_path(t_path	*path);
 void			print_links(t_info *info);
 void			print_single_link(t_link *link);
+void			print_paths(t_path	*path);
+void			print_single_path(t_path *path);
 
 /* validation/read_line.c */
 int				type_of_line(char *str);
