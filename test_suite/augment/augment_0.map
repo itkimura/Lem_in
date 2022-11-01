@@ -2,7 +2,7 @@
 ##start
 s 0 0
 ##end
-t 1 1
+end 1 1
 a 2 2
 b 3 3
 c 4 4
@@ -35,16 +35,16 @@ h-k
 i-l
 j-m
 k-n
-l-t
-m-t
+l-end
+m-end
 n-o
-o-t
+o-end
 #
 #       a -- d - e
 #      /           \
 #     /   f ------- i -- l	
 #    /   /   \             \
-#   S - b     j ----- m	---- t
+#   S - b     j ----- m	---- end
 #    \       /              /
 #     \    g               /
 #      \ /  |             /	

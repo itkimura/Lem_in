@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/01 11:51:47 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/01 14:56:32 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ void	print_single_link(t_link *link)
 void	print_links(t_info *info)
 {
 	t_link	*tmp;
+	int		index;
 
+	index = 0;
 	tmp = info->link_head;
 	while (tmp)
 	{
+		printf("No.%d ", index);
 		print_single_link(tmp);
 		tmp = tmp->next;
+		index++;
 	}
 }
 

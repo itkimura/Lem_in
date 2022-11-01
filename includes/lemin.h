@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/01 11:52:31 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/01 18:08:31 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,27 +106,6 @@ typedef struct s_link
 	struct s_link	*next;
 }					t_link;
 
-typedef struct	s_path_link
-{
-	t_link	*link;
-	int		start;
-	struct s_path_link	*next;
-}				t_path_link;
-
-typedef struct	s_path_set
-{
-	t_path_link *head;
-	// t_path_link *tail;
-	int			len;
-	int			level;
-}				t_path_set;
-
-typedef struct	s_flow {
-	t_link	**link;
-	int		number_of_flow;
-}				t_flow;
-
-
 
 /* adjacency matrix */
 typedef struct s_info
@@ -145,8 +124,8 @@ typedef struct s_info
 typedef struct s_table
 {
 	t_bool		visited[2];
-	t_room		*prev[2]; //OUT:0      IN:1
 	int			distance[2];
+	t_room		*prev[2]; //OUT:0      IN:1
 }	t_table;
 
 /* bfs */
@@ -156,17 +135,34 @@ typedef struct s_bfs
 	t_que		*tail;
 	// t_visited	*visited_test;
 	t_table		*table;
-	
 	// t_bool	*visited;
 	// t_room	**prev;
 	// int		*distance;
 }	t_bfs;
 
-/* bfs.c */
+/* solution.c */
+t_path			*run_bfs1(t_info *info);
+t_bool			get_paths(t_info *info);
 t_bool			solution(t_info *info);
 
+/* reverse_path.c */
+void			get_prev_room(t_table *table, t_room **hold, t_room **curr);
+t_path			*malloc_path(int len);
+t_path			*reverse_path_test(t_info *info, t_table *table);
 
-/**/
+/* bfs.c */
+void			update_link_weight(t_info *info, t_path *path);
+t_path			*bfs_test(t_info *info, t_bool flag);
+
+/* update_link.c  */
+t_bool	remove_inverse_edge(t_info *info);
+void	update_links(t_info *info, t_path *head);
+
+/* count_turn.c */
+t_bool		init_path_array(t_path *list, int count_path, int ***path);
+void		devide_ants(t_info *info, int ***path, int count_path);
+t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn);
+
 /* lem-in.c */
 t_bool			init_info(t_info *info);
 t_bool			check_digit_and_space(char *line);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bfs.c                                              :+:      :+:    :+:   */
+/*   count_turn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/31 14:29:14 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:02:46 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
 	}
 	for (int i = 0; i < count_path ; i++)
 		printf("path[0] = %d path[1] = %d total:%d\n", path[i][0], path[i][1], path[i][0] + path[i][1]);
+	printf("curr_turn = %d\n", *curr_turn);
 	return (TRUE);
 }
