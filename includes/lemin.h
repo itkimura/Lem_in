@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/01 18:08:31 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/02 11:45:54 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,14 @@ t_path			*reverse_path_test(t_info *info, t_table *table);
 void			update_link_weight(t_info *info, t_path *path);
 t_path			*bfs_test(t_info *info, t_bool flag);
 
+
+/* free_bfs.c  */
+void			free_path(t_path *path);
+void			free_que(t_que *head);
+
 /* update_link.c  */
-t_bool	remove_inverse_edge(t_info *info);
-void	update_links(t_info *info, t_path *head);
+t_bool			remove_inverse_edge(t_info *info);
+void			update_links(t_info *info, t_path *head);
 
 /* count_turn.c */
 t_bool		init_path_array(t_path *list, int count_path, int ***path);

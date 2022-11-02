@@ -6,7 +6,7 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/11/01 18:08:52 by itkimura         ###   ########.fr        #
+#    Updated: 2022/11/02 11:46:46 by itkimura         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ INCLUDES_DIR = ./includes/
 
 FILES = lem-in.c read_line.c		utils.c hash_table.c	create_room.c	\
 		create_link.c				connect_rooms.c			print.c			\
-		bfs.c						reverse_path.c \
+		bfs.c						free_bfs.c				reverse_path.c \
 		update_link.c				solution.c				count_turn.c
 
 

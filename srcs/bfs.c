@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/01 18:07:22 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/02 11:44:48 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,25 +102,6 @@ t_que *create(t_room *room, int weight, int direction)
 		new->next = NULL;
 	}
 	return (new);
-}
-
-void free_path(t_path *path)
-{
-	free(path->path);
-	free(path);
-	path = NULL;
-}
-
-void free_que(t_que *head)
-{
-	t_que *next;
-
-	while (head)
-	{
-		next = head->next;
-		free(head);
-		head = next;
-	}
 }
 
 char room_name_index(int index)
