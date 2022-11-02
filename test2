@@ -1,0 +1,125 @@
+----[Test test_suite/augment/augment_0.map]----
+--- info ---
+total_ants: 10
+total_rooms: 17
+start_room: s
+end_room: end
+len:6	[s][b][f][i][l][end]
+len:6	[s][b][f][i][l][end]
+len:6	[s][c][g][j][m][end]
+len:13	[s][a][d][e][i][f][j][g][h][k][n][o][end]
+No path
+
+
+----[Test test_suite/augment/augment_1.map]----
+--- info ---
+total_ants: 30
+total_rooms: 64
+start_room: start
+end_room: end
+len:4	[start][1][2][end]
+len:4	[start][1][2][end]
+len:14	[start][27][28][29][30][31][32][33][34][35][36][37][38][end]
+len:28	[start][3][4][5][6][7][8][9][10][11][12][13][14][2][1][15][16][17][18][19][20][21][22][23][24][25][26][end]
+len:38	[start][39][40][41][42][43][44][45][46][47][48][49][50][38][37][36][35][34][33][32][31][30][29][28][27][51][52][53][54][55][56][57][58][59][60][61][62][end]
+No path
+
+
+----[Test test_suite/augment/augment_2.map]----
+--- info ---
+total_ants: 11
+total_rooms: 13
+start_room: start
+end_room: end
+len:5	[start][1][2][3][end]
+len:5	[start][1][2][3][end]
+len:10	[start][8][9][10][11][3][2][4][5][end]
+No path
+
+
+----[Test test_suite/augment/augment_3.map]----
+--- info ---
+total_ants: 6
+total_rooms: 21
+start_room: start
+end_room: end
+len:7	[start][1][2][3][4][5][end]
+len:7	[start][1][2][3][4][5][end]
+len:11	[start][12][13][14][3][2][8][9][10][11][end]
+No path
+
+
+----[Test test_suite/augment/augment_4.map]----
+--- info ---
+total_ants: 6
+total_rooms: 21
+start_room: start
+end_room: end
+len:7	[start][1][2][3][4][5][end]
+len:7	[start][1][2][3][4][5][end]
+len:13	[start][14][15][16][17][4][3][2][6][7][8][9][end]
+No path
+
+
+----[Test test_suite/augment/augment_5.map]----
+--- info ---
+total_ants: 26
+total_rooms: 30
+start_room: start
+end_room: end
+len:7	[start][1][2][3][4][5][end]
+len:7	[start][1][2][3][4][5][end]
+len:13	[start][14][15][16][17][4][3][2][6][7][8][9][end]
+len:15	[start][10][11][12][13][18][19][20][21][22][23][24][25][26][end]
+No path
+
+
+----[Test test_suite/augment/augment_6.map]----
+--- info ---
+total_ants: 11
+total_rooms: 22
+start_room: start
+end_room: end
+len:5	[start][1][2][3][end]
+len:5	[start][1][2][3][end]
+len:10	[start][8][9][10][11][3][2][4][5][end]
+No path
+
+
+----[Test test_suite/augment/augment_7.map]----
+--- info ---
+total_ants: 6
+total_rooms: 16
+start_room: start
+end_room: end
+len:6	[start][1][2][3][4][end]
+len:6	[start][1][2][3][4][end]
+len:11	[start][11][12][2][1][6][7][8][9][10][end]
+No path
+
+
+----[Test test_suite/augment/augment_8.map]----
+--- info ---
+total_ants: 16
+total_rooms: 17
+start_room: a
+end_room: k
+len:5	[a][b][c][j][k]
+len:5	[a][b][c][j][k]
+len:5	[a][o][d][q][k]
+len:7	[a][f][o][c][q][l][k]
+No path
+
+
+----[Test test_suite/augment/augment_9.map]----
+--- info ---
+total_ants: 8
+total_rooms: 14
+start_room: start
+end_room: end
+len:5	[start][a][b][c][end]
+len:5	[start][a][b][c][end]
+len:13	[start][d][e][f][b][a][g][h][i][j][k][l][end]
+No path
+
+

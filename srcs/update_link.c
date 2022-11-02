@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_link.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itkimura <itkimura@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:10:45 by itkimura          #+#    #+#             */
-/*   Updated: 2022/11/01 16:16:24 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:49:02 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_bool	remove_inverse_edge(t_info *info)
 
 void	update_links(t_info *info, t_path *head)
 {
+	(void)head;
 	/*remove inverse links*/
 	remove_inverse_edge(info);
 	/*delete all links and initiarize mallok_link = 0 */
