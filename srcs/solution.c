@@ -74,53 +74,60 @@ void init_nodes(t_info *info)
 	}
 }
 
-/*
- * bfs FALSE = normal bfs, room is splitted
- * bfs TRUE = not normal, room is not splitted and weight = 2
- */
-// t_path	*best_conbination(t_info *info)
-// {
-// 	t_path	*path_curr;
-// 	t_path	*path_head;
-// 	t_path	*path_next;
+void	update_visited(t_path *path, t_bool **visited)
+{
+	int	index;
 
-// 	path_curr = get_inverse_edges(info);
-// 	path_head = path_curr;
-// 	while (path_curr)
-// 	{
-// 		path_next = get_inverse_edges(info);
-// 		print_single_path(path_curr);
-// 		print_single_path(path_next);
-// 		path_curr->next = path_next;
-// 		path_curr = path_next;
-// 		break ;
-// 	}
-// 	return (path_head);
-// }
+	index = 1;
+	while (index < path->len - 1)
+	{
+		(*visited)[path->path[index]->index] = TRUE;
+		index++;
+	}
+}
 
 t_bool get_paths(t_info *info)
 {
 	t_path *path_curr;
-	// t_path *path_next;
-	// t_path *path_head;
-	// t_path *list;
+	t_path *path_next;
+	t_bool	find_inverse_edge;
 
-	path_curr = get_inverse_edges(info);
-	// print_single_path(path_curr);
+	path_curr = NULL;
+	if (get_inverse_edges(info, &path_curr) == FALSE)
+		return (FALSE);
+	print_single_path(path_curr);
+	
+	update_link_weight(path_curr);
+	path_next = NULL;
+	if (get_inverse_edges(info, &path_next) == FALSE)
+		return (FALSE);
+	print_single_path(path_next);
+	
+	find_inverse_edge = update_link_weight(path_next);
+	printf("find_inverse_edge = %d\n", find_inverse_edge);
+
+	t_bool *visited = NULL;
+	if (create_visited(info, &visited) == FALSE)
+		return (FALSE);
+	t_path *path = NULL;
+	bfs(info, &path, visited);
+	print_single_path(path);
+
+	update_visited(path, &visited);
+	bfs(info, &path, visited);
+	print_single_path(path);
+	/*
 	while (1)
 	{
-		path_curr = get_inverse_edges(info);
-		print_single_path(path_curr);
-		if (path_curr == NULL)
-			break;
-		update_link_weight(info, path_curr);
-		// print_links(info);
-		// remove_inverse_edge(info);
-		// printf("-- best --\n");
-		// list = best_conbination(info);
-		// break ;
-		// print_paths(list);
+		find_inverse_edge = update_link_weight(path_curr);
+		if (find_inverse_edge == TRUE)
+		{
+			printf("find inverse edge!\n");
+		}
+
+		count_path++;
 	}
+	*/
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 14:10:45 by itkimura          #+#    #+#             */
-/*   Updated: 2022/11/02 15:49:02 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/02 16:44:08 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,20 @@ t_bool	remove_inverse_edge(t_info *info)
 		curr = next;
 	}
 	return (flag);
+}
+
+t_bool	is_inverse_edge(t_info *info)
+{
+	t_link	*curr;
+
+	curr = info->link_head;
+	while (curr)
+	{
+		if (curr->one_two < 0 && curr->two_one < 0)
+			return (TRUE);
+		curr = curr->next;
+	}
+	return (FALSE);
 }
 
 void	update_links(t_info *info, t_path *head)

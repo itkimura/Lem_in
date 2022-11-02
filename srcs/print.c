@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/02 11:56:53 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/02 16:11:00 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,4 +174,107 @@ void	print_paths(t_path *path)
 		path = path->next;
 		index++;
 	}
+}
+
+char room_name_index(int index)
+{
+	char *str = "abcdefghijklmn";
+	return str[index];
+}
+
+void print_get_inverse_edges(t_info *info, t_bfs *b)
+{
+	for (int index = 0; index < info->total_rooms; index++)
+	{
+		printf("%d\t", index);
+
+		// printf("%s\t", get_name_test(index));
+		printf("%c\t", room_name_index(index));
+
+		if (b->table[index].visited[OUT] == TRUE)
+			printf("[OUT]: TRUE\t");
+		else
+			printf("[OUT]: FALSE\t");
+
+		if (b->table[index].visited[IN] == TRUE)
+			printf("[IN]: TRUE\n");
+		else
+			printf("[IN]: FALSE\n");
+
+		if (b->table[index].distance[OUT] == INT_MAX)
+			printf("\t\t[OUT]: INF\t");
+		else
+			printf("\t\t[OUT]: %d\t", b->table[index].distance[OUT]);
+
+		if (b->table[index].distance[IN] == INT_MAX)
+			printf("[IN]: INF\n");
+		else
+			printf("[IN]: %d\n", b->table[index].distance[IN]);
+
+		if (b->table[index].prev[OUT] == NULL)
+			printf("\t\t[OUT]: NULL");
+		else
+			printf("\t\t[OUT]: %s%s%s", GREEN, b->table[index].prev[OUT]->room_name, WHITE);
+
+		if (b->table[index].prev[IN] == NULL)
+			printf("\t[IN]: NULL\n");
+		else
+			printf("\t[IN]: %s%s%s\n", GREEN, b->table[index].prev[IN]->room_name, WHITE);
+		printf("\n");
+	}
+}
+
+char *get_name_test(int index)
+{
+	// test
+	if (index == 0)
+		return "3";
+	else if (index == 1)
+		return "start";
+	else if (index == 2)
+		return "end";
+	else if (index == 3)
+		return "4";
+	else if (index == 4)
+		return "1";
+	else if (index == 5)
+		return "2";
+	else if (index == 6)
+		return "5";
+	else
+		return "6";
+
+	// augment_0.map
+	// char *str = malloc(2);
+	// str[1] = '\0';
+	// if (index == 0)
+	// 	return "s";
+	// else if (index == 1)
+	// 	return "end";
+	// else
+	// {
+	// 	str[0] = index + 'a' - 2;
+	// 	return str;
+	// }
+}
+
+
+void print_que(t_que *head)
+{
+	printf("start:\n");
+	int index;
+
+	index = 0;
+	while (head)
+	{
+		if (head->dir == OUT)
+			printf("que[%d] = %s | weight: %d | dir: OUT\n", index, head->room->room_name, head->weight);
+		else
+			printf("que[%d] = %s | weight: %d | dir: IN\n", index, head->room->room_name, head->weight);
+
+		head = head->next;
+		index++;
+	}
+	printf("end!\n\n");
+	printf("\n");
 }

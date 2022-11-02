@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/02 15:58:59 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/02 18:23:08 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ typedef struct s_room
 
 typedef struct s_que
 {
-	t_room *room;
-	int dir;
-	int weight;
-	struct s_que *next;
-} t_que;
+	t_room			*room;
+	int				dir;
+	int				weight;
+	struct s_que	*next;
+}					t_que;
 
 typedef struct s_path
 {
@@ -147,8 +147,7 @@ t_path *malloc_path(int len);
 t_path *reverse_path_test(t_info *info, t_table *table);
 
 /* bfs.c */
-void update_link_weight(t_info *info, t_path *path);
-t_path *get_inverse_edges(t_info *info);
+t_bool	bfs(t_info *info, t_path **path, t_bool *visited);
 
 /* free_bfs.c  */
 void free_path(t_path *path);
@@ -157,6 +156,7 @@ void free_que(t_que *head);
 /* update_link.c  */
 t_bool remove_inverse_edge(t_info *info);
 void update_links(t_info *info, t_path *head);
+t_bool	is_inverse_edge(t_info *info);
 
 /* count_turn.c */
 t_bool init_path_array(t_path *list, int count_path, int ***path);
@@ -190,6 +190,7 @@ void print_links(t_info *info);
 void print_single_link(t_link *link);
 void print_paths(t_path *path);
 void print_single_path(t_path *path);
+void print_que(t_que *head);
 
 /* validation/read_line.c */
 int type_of_line(char *str);
@@ -215,7 +216,15 @@ t_bool connect_rooms(t_info *info);
 /* get_inverse_edgges.c */
 t_dir get_flag_gie_condition(t_bfs *b, t_room *curr, t_room *next);
 t_bool set_gie_condition(t_bfs *b, t_room *curr, t_room *next, int alt);
-t_path *get_inverse_edges(t_info *info);
+t_bool get_inverse_edges(t_info *info, t_path **path);
+
+/* bfs_utils.c */
+t_que *pop(t_que **head);
+void push(t_que **tail, t_que **head, t_que *new);
+t_que *create(t_room *room, int weight, int dir);
+t_bool update_link_weight(t_path *path);
+t_bool init_bfs(t_info *info, t_bfs *b);
+void get_weight_and_next(int *weight, t_room *curr, t_room **next, t_link *link);
 
 
 #endif
