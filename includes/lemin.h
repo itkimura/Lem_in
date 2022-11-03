@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/03 22:34:17 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:56:56 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ typedef struct s_bfs
 	t_que	*tail;
 	t_bool	*visited;
 	t_room	**prev;
-	int		*distance;
 }	t_bfs;
 
 /* bfs.c */
