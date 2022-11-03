@@ -86,47 +86,107 @@ void	update_visited(t_path *path, t_bool **visited)
 	}
 }
 
+/* run bfs after reverse inverse edges */
+t_bool	run_bfs(t_info *info, int count_path, t_path **result_list)
+{
+	int	index;
+	t_path *path_curr;
+	t_path *path_next;
+	t_bool	*visited;
+
+	index = 0;
+	if (create_visited(info, &visited) == FALSE)
+		return (FALSE);
+	path_curr = NULL;
+	if (bfs(info, &path_curr, visited) == FALSE)
+		return (FALSE);
+	*result_list = path_curr;
+	while (index < count_path && path_curr)
+	{
+		update_visited(path_curr, &visited);
+		if (bfs(info, &path_next, visited) == FALSE)
+			return (FALSE);
+		path_curr->next = path_next;
+		path_curr = path_next;
+		index++;
+	}
+	return (TRUE);
+}
+
 t_bool get_paths(t_info *info)
 {
 	t_path *path_curr;
 	t_path *path_next;
-	t_bool	find_inverse_edge;
+	t_path *path_head;
+	int		count;
 
+	int		min_turn;
+	int		curr_turn;
+
+	t_path *result_list;
+	int		res_count;
+	int		flag;
+
+	count = 1;
 	path_curr = NULL;
+	result_list = NULL;
 	if (get_inverse_edges(info, &path_curr) == FALSE)
 		return (FALSE);
-	print_single_path(path_curr);
-	
 	update_link_weight(path_curr);
-	path_next = NULL;
-	if (get_inverse_edges(info, &path_next) == FALSE)
-		return (FALSE);
-	print_single_path(path_next);
-	
-	find_inverse_edge = update_link_weight(path_next);
-	printf("find_inverse_edge = %d\n", find_inverse_edge);
-
-	t_bool *visited = NULL;
-	if (create_visited(info, &visited) == FALSE)
-		return (FALSE);
-	t_path *path = NULL;
-	bfs(info, &path, visited);
-	print_single_path(path);
-
-	update_visited(path, &visited);
-	bfs(info, &path, visited);
-	print_single_path(path);
+	path_head = path_curr;
+	count_turn(info, path_head, count, &curr_turn);
+	min_turn = curr_turn;
+	printf("\n--- before while ---\n");
+	print_single_path(path_curr);
+	res_count = count;
+	printf("count_path = %d min = %d curr = %d\n", res_count, min_turn, curr_turn);
+	printf("--- while start ---\n");
+	flag = TRUE;
+	(void)path_next;
+	(void)flag;
+	(void)result_list;
 	/*
-	while (1)
+	while (path_curr)
 	{
-		find_inverse_edge = update_link_weight(path_curr);
-		if (find_inverse_edge == TRUE)
+		if (get_inverse_edges(info, &path_next) == FALSE)
+			return (FALSE);
+		print_single_path(path_next);
+		if (path_next == NULL)
+			break ;
+		if (update_link_weight(path_next) == TRUE)
 		{
-			printf("find inverse edge!\n");
+			run_bfs(info, count, &result_list);
+			print_paths(result_list);
+			count_turn(info, result_list, count, &curr_turn);
+			path_curr->next = path_next;
+			path_curr = path_next;
+			count++;
+			res_count = count;
+			flag = FALSE;
 		}
-
-		count_path++;
+		else if (flag)
+		{
+			printf("-- no inverse edge -- \n");
+			print_single_path(path_curr);
+			print_single_path(path_next);
+			path_curr->next = path_next;
+			path_curr = path_next;
+			count++;
+			count_turn(info, path_head, count, &curr_turn);
+			if (min_turn > curr_turn)
+			{
+				min_turn = curr_turn;
+				result_list = path_head;
+				res_count = count;
+			}
+			else
+				break ;
+		}
+		printf("count_path = %d min = %d curr = %d\n", count, min_turn, curr_turn);
 	}
+	printf("--- after while in get_path ---\n");
+	printf("res_count = %d min = %d curr = %d\n", res_count, min_turn, curr_turn);
+	print_paths(result_list);
 	*/
 	return (TRUE);
 }

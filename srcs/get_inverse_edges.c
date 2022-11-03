@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:57:11 by thule             #+#    #+#             */
-/*   Updated: 2022/11/02 16:40:22 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:36:43 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_bool get_inverse_edges(t_info *info, t_path **path)
 	while (b.head && b.table[info->end_room->index].visited[OUT] == FALSE)
 	{
 		curr = pop(&(b.head));
+		printf("curr = %s\n", curr->room->room_name);
 		if (gie_check_links(&b, curr->room, curr->dir) == FALSE)
 		{
 			free(curr);
@@ -96,6 +97,7 @@ t_bool get_inverse_edges(t_info *info, t_path **path)
 			free_que(b.head);
 			return (FALSE);
 		}
+		print_que(b.head);
 		free(curr);
 	}
 	*path = reverse_path_test(info, b.table);
