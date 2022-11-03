@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/10/25 16:44:55 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/03 19:57:47 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,12 +180,12 @@ char room_name_index(int index)
 
 void printing_bfs(t_info *info, t_bfs *b)
 {
-	printf("i\troom\tprev\tdist\n");
-	// printf("i\tvisited\tprev\tdist\n");
+	//printf("i\troom\tprev\tdist\n");
+	printf("i\tvisited\tprev\tdist\n");
 	for(int index = 0; index < info->total_rooms; index++)
 	{
 		printf("%d\t", index);
-		//printf("%d\t", b->visited[index]);
+		printf("%d\t", b->visited[index]);
 		printf("%c\t", room_name_index(index));
 		if (b->prev[index])
 			printf("%s\t", b->prev[index]->room_name);
@@ -202,7 +202,7 @@ void print_que(t_que *head, t_bfs *b)
 	index = 0;
 	while (head)
 	{
-		printf("que[%d] = %s b->distance = %d\n", index, head->room->room_name, b->distance[head->room->index]);
+		printf("que[%d] = %s b->visited = %d b->distance = %d\n", index, head->room->room_name, b->visited[head->room->index], b->distance[head->room->index]);
 		head = head->next;
 		index++;
 	}

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/10/25 11:06:57 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:34:17 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,9 @@ typedef struct s_bfs
 }	t_bfs;
 
 /* bfs.c */
-t_bool			get_path_len(t_info *info, t_room **prev, t_path *path);
-t_path			*reverse_path(t_info *info, t_room **prev);
-t_bool			init_bfs(t_info *info, t_bfs *b);
-void			bfs_condition(t_bfs *b, t_room *curr, int index);
 t_path			*bfs(t_info *info);
 
-/* free_bfs.h */
+/* bfs_free.c */
 void			free_bfs(t_bfs *b);
 void			free_path(t_path *path);
 void			free_que(t_que *head);
