@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/03 23:26:00 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 00:05:58 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ void	bfs_condition(t_info *info, t_bfs *b, t_room *curr)
 		if (curr->link[index] == NULL)
 			continue ;
 		get_next_weight(curr->link[index], curr, &next, &weight);
-		//printf("from:%s to:%s weight = %d index = %d curr->malloc_link = %d\n", from->room_name, to->room_name, weight, index, curr->malloc_link);
+		//printf("from:%s to:%s weight = %d index = %d curr->malloc_link = %d\n", curr->room_name, next->room_name, weight, index, curr->malloc_link);
 		if (b->visited[next->index] == FALSE && weight != 1)
 		{
 			push(&(b->tail), &(b->head), create(next));
 			b->prev[next->index] = curr;
 			b->visited[next->index] = TRUE;
 		}
-		if (next == info->end_room)
+		if (b->prev[info->end_room->index])
 			break ;
 		index++;
 	}

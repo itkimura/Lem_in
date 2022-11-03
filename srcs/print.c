@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/03 22:58:09 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 00:00:49 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,9 +189,9 @@ void printing_bfs(t_info *info, t_bfs *b)
 		printf("%d\t", b->visited[index]);
 		printf("%c\t", room_name_index(index));
 		if (b->prev[index])
-			printf("%s\t", b->prev[index]->room_name);
+			printf("%s\t\n", b->prev[index]->room_name);
 		else
-			printf("(null)\t");
+			printf("(null)\t\n");
 	}
 }
 
