@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 12:35:41 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:54:36 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,15 @@ void	init_links(t_link *link)
 	}
 }
 
+void	init_path_nb(t_room *room)
+{
+	while (room)
+	{
+		room->path_nb = 0;
+		room = room->list_next;
+	}
+}
+
 t_bool	get_paths(t_info *info)
 {
 	t_path *path_curr;
@@ -101,12 +110,13 @@ t_bool	get_paths(t_info *info)
 		//printf("count:%d ", count);
 		if (count == 1)
 			tmp_head = path_curr;
-		print_single_path(path_curr);
+		//print_single_path(path_curr);
 		//printf("--- bfs %d ---\n", count++);
+		init_path_nb(info->room_head);
 		if (update_edge_weight(info, path_curr))
 		{
 			init_links(info->link_head);
-			printf("--- remove inverse edge ---\n");
+		//	printf("--- remove inverse edge ---\n");
 			count = 0;
 		}
 		else
@@ -130,12 +140,13 @@ t_bool	get_paths(t_info *info)
 	}
 	//printf("--- all paths ---\n");
 	//print_paths(path_head);
-	printf("--- best paths ---\n");
+	//printf("--- best paths ---\n");
+	//printf("curr_turn = %d min = %d total = %d\n", curr_turn, min_turn, total);
+	/*
 	if (best_paths == NULL)
 		printf("best_paths empty\n");
 	else
 	{
-		printf("curr_turn = %d min = %d total = %d\n", curr_turn, min_turn, total);
 		t_path *tmp = best_paths;
 		for (int i = 0; i < total; i++)
 		{
@@ -145,13 +156,25 @@ t_bool	get_paths(t_info *info)
 			tmp = tmp->next;
 		}
 	}
+	*/
 	free_paths(path_head);
 	return (TRUE);
+}
+
+void	test(t_info *info)
+{
+	t_path *path;
+
+	path = bfs(info);
+	print_single_path(path);
+
+	print_rooms(info->room_head);
 }
 
 t_bool solution(t_info *info)
 {
 	printf("_____START BFS____\n");
+	//test(info);
 	get_paths(info);
 	return (TRUE);
 }

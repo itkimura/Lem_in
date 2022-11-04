@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/04 12:25:16 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 13:14:59 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_room
 	int				index;
 	int				total_links;
 	int				malloc_link;
+	int				path_nb;
 	struct s_link	**link;
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
@@ -110,7 +111,7 @@ typedef struct s_bfs
 	t_que	*head;
 	t_que	*tail;
 	t_bool	*visited;
-	t_room	**prev;
+	t_room	***prev;
 }	t_bfs;
 
 /* bfs.c */

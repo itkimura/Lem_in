@@ -6,13 +6,13 @@
 #    By: thle <thle@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/11/03 22:33:44 by itkimura         ###   ########.fr        #
+#    Updated: 2022/11/04 13:27:04 by itkimura         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
-# FLAGS = 
+#FLAGS = -Wall -Wextra -Werror
+FLAGS = 
 NAME = lem-in
 
 DEBUG_FLAG = -g

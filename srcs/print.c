@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/04 00:00:49 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:40:21 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void print_rooms(t_room *room)
 	}
 	while (room)
 	{
-		printf("room_name:[%10s]\t\tindex:[%d]\n", room->room_name, room->index);
+		printf("room_name:[%10s]\t\tindex:[%d]\t\tpath_nb[%d]\n", room->room_name, room->index, room->path_nb);
 		room = room->list_next;
 	}
 	printf("\n");
@@ -189,7 +189,7 @@ void printing_bfs(t_info *info, t_bfs *b)
 		printf("%d\t", b->visited[index]);
 		printf("%c\t", room_name_index(index));
 		if (b->prev[index])
-			printf("%s\t\n", b->prev[index]->room_name);
+			printf("%s\t\n", b->prev[0][index]->room_name);
 		else
 			printf("(null)\t\n");
 	}
@@ -202,7 +202,7 @@ void print_que(t_que *head, t_bfs *b)
 	index = 0;
 	while (head)
 	{
-		printf("que[%d] = %s b->visited = %d\n", index, head->room->room_name, b->visited[head->room->index]);
+		printf("que[%d] = %s\tvisited = %d\tpath_nb = %d\n", index, head->room->room_name, b->visited[head->room->index], head->room->path_nb);
 		head = head->next;
 		index++;
 	}

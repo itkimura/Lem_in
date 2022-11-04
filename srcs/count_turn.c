@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 12:34:20 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 13:44:26 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
 		if (*curr_turn < path[i][0] - 1 + path[i][1])
 			*curr_turn = path[i][0] - 1 + path[i][1];
 	}
+	/*
 	for (int i = 0; i < count_path ; i++)
 		printf("path[0] = %d path[1] = %d total:%d\n", path[i][0], path[i][1], path[i][0] + path[i][1]);
+		*/
 	free_int_array(&path, count_path);
 	return (TRUE);
 }
