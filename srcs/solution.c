@@ -6,38 +6,68 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 00:06:56 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:35:41 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
-/* update edge weight by paths */
-void	update_edge_weight(t_info *info, t_path *head)
+/* update one_two and two_one in link*/
+void	update_link_weight(t_room *from, t_room *to, t_link *link, t_bool *flag)
 {
+	while (link)
+	{
+		if (link->room1 == from && link->room2 == to)
+		{
+			link->one_two = 1;
+			if (link->two_one != 1)
+				link->two_one = -1;
+			if (link->one_two == 1 && link->two_one == 1)
+				*flag = TRUE;
+		}
+		if (link->room2 == from && link->room1 == to)
+		{
+			link->two_one = 1;
+			if (link->one_two != 1)
+				link->one_two = -1;
+			if (link->two_one == 1 && link->one_two == 1)
+				*flag = TRUE;
+		}
+		link = link->next;
+	}
+}
+
+/* update edge weight by paths */
+t_bool	update_edge_weight(t_info *info, t_path *head)
+{
+	t_room	*from;
+	t_room	*to;
+	t_bool	flag;
+
+	flag = FALSE;
 	while (head)
 	{
 		for (int i = 0; i < head->len - 1; i++)
 		{
-			t_room *from = head->path[i];
-			t_room *to = head->path[i + 1];
-			t_link *link_tmp = info->link_head;
-			while (link_tmp)
-			{
-				if (link_tmp->room1 == from && link_tmp->room2 == to)
-				{
-					link_tmp->one_two = 1;
-					link_tmp->two_one = -1;
-				}
-				if (link_tmp->room2 == from && link_tmp->room1 == to)
-				{
-					link_tmp->two_one = 1;
-					link_tmp->one_two = -1;
-				}
-				link_tmp = link_tmp->next;
-			}
+			from = head->path[i];
+			to = head->path[i + 1];
+			update_link_weight(from, to, info->link_head, &flag);
 		}
 		head = head->next;
+	}
+	return (flag);
+}
+
+void	init_links(t_link *link)
+{
+	while (link)
+	{
+		if (!(link->one_two == 1 && link->two_one == 1))
+		{
+			link->one_two = 0;
+			link->two_one = 0;
+		}
+		link = link->next;
 	}
 }
 
@@ -45,16 +75,77 @@ t_bool	get_paths(t_info *info)
 {
 	t_path *path_curr;
 	t_path *path_next;
+	t_path *path_head;
 
+	t_path *tmp_head;
+	t_path	*best_paths;
+	int		total;
+	int		min_turn;
+	int		curr_turn;
+	int		count;
+
+	/* get the first path from bfs */
+	count = 1;
 	path_curr = bfs(info);
+	path_head = path_curr;
+	/* save min_turn with the shortest path*/
+	curr_turn = 0;
+	count_turn(info, path_head, count, &curr_turn);
+	min_turn = curr_turn;
+	total = count;
+	//printf("min = %d total = %d\n", min_turn, total);
+	//print_links(info);
+	printf("_____START BFS____\n");
 	while (path_curr)
 	{
+		//printf("count:%d ", count);
+		if (count == 1)
+			tmp_head = path_curr;
 		print_single_path(path_curr);
-		update_edge_weight(info, path_curr);
+		//printf("--- bfs %d ---\n", count++);
+		if (update_edge_weight(info, path_curr))
+		{
+			init_links(info->link_head);
+			printf("--- remove inverse edge ---\n");
+			count = 0;
+		}
+		else
+		{
+			count_turn(info, tmp_head, count, &curr_turn);
+			if (min_turn > curr_turn)
+			{
+				min_turn = curr_turn;
+				total = count;
+		//		printf("tmp_head: ");
+		//		print_single_path(tmp_head);
+				best_paths = tmp_head;
+			}
+			//printf("curr_turn = %d min = %d total = %d\n", curr_turn, min_turn, total);
+		}
+		//print_links(info);
 		path_next = bfs(info);
-		free_path(path_curr);
+		path_curr->next = path_next;
 		path_curr = path_next;
+		count++;
 	}
+	//printf("--- all paths ---\n");
+	//print_paths(path_head);
+	printf("--- best paths ---\n");
+	if (best_paths == NULL)
+		printf("best_paths empty\n");
+	else
+	{
+		printf("curr_turn = %d min = %d total = %d\n", curr_turn, min_turn, total);
+		t_path *tmp = best_paths;
+		for (int i = 0; i < total; i++)
+		{
+			if (tmp == NULL)
+				break ;
+			print_single_path(tmp);
+			tmp = tmp->next;
+		}
+	}
+	free_paths(path_head);
 	return (TRUE);
 }
 

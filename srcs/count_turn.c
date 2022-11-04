@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bfs.c                                              :+:      :+:    :+:   */
+/*   count_turn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/10/31 14:29:14 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:34:20 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,19 @@ void		devide_ants(t_info *info, int ***path, int count_path)
 	}
 }
 
+void	free_int_array(int ***path, int count_path)
+{
+	int	index;
+	
+	index = 0;
+	while (index < count_path)
+	{
+		free((*path)[index]);
+		index++;
+	}
+	free(*path);
+}
+
 t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
 {
 	int	**path;
@@ -99,5 +112,6 @@ t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
 	}
 	for (int i = 0; i < count_path ; i++)
 		printf("path[0] = %d path[1] = %d total:%d\n", path[i][0], path[i][1], path[i][0] + path[i][1]);
+	free_int_array(&path, count_path);
 	return (TRUE);
 }

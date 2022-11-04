@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/03 22:57:14 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:24:50 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ void free_path(t_path *path)
 	free(path->path);
 	free(path);
 	path = NULL;
+}
+
+void free_paths(t_path *path)
+{
+	while (path)
+	{
+		free_path(path);
+		path = path->next;
+	}
 }
 
 void free_que(t_que *head)

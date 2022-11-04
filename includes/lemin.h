@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/03 22:56:56 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:25:16 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_path			*bfs(t_info *info);
 /* bfs_free.c */
 void			free_bfs(t_bfs *b);
 void			free_path(t_path *path);
+void			free_paths(t_path *path);
 void			free_que(t_que *head);
 
 /* bfs_utils.c */
