@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/04 13:14:59 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:41:33 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define FD 0
 # include "libft.h"
 # include "get_next_line.h"
+
 /* remove later */
 # include <stdio.h>
 
@@ -73,9 +74,22 @@ typedef struct s_que
 
 typedef struct s_path {
 	t_room			**path;
+	// int				at_room;
 	int				len;
 	struct s_path	*next;
 }	t_path;
+
+typedef struct s_result
+{
+	t_path	*path_head;
+	t_path	*tmp_head;
+	t_path	*best_paths;
+	int		min_turn;
+	int		curr_turn;
+	int		total; //total paths that we are using for res
+	int		**divide_ants;
+} t_result;
+
 
 /* link-room structure */
 /*
@@ -118,7 +132,7 @@ typedef struct s_bfs
 t_path			*bfs(t_info *info);
 
 /* bfs_free.c */
-void			free_bfs(t_bfs *b);
+void			free_bfs(t_bfs *b, int	malloc_link);
 void			free_path(t_path *path);
 void			free_paths(t_path *path);
 void			free_que(t_que *head);
@@ -131,7 +145,8 @@ t_que			*create(t_room *room);
 /* count_turn.c */
 t_bool			init_path_array(t_path *list, int count_path, int ***path);
 void			devide_ants(t_info *info, int ***path, int count_path);
-t_bool			count_turn(t_info *info, t_path *list, int count_path, int *curr_turn);
+t_bool			count_turn(t_info *info, t_result *result, int count_path);
+void			free_divide_ants_array(int ***path, int count_path);
 
 /* solution.c */
 t_bool			solution(t_info *info);

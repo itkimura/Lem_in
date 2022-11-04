@@ -121,3 +121,28 @@ From STDIN
 Phase 1: number_of_ants
 Phase 2: the_rooms
 Phase 3: the_links
+
+[struct, struct ...]
+
+[1] 1
+[2]	2
+[3] 1
+[4] 2
+[5] 1
+[6] 2
+[7] 1
+[8] 1
+
+l1-d l2-a
+l1-e l2-g l3-d l4-a
+l1-f l2-h 
+
+struc {
+	path_number;
+	at_which room;
+}
+
+while (index < line)
+{
+
+}

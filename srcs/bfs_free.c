@@ -3,21 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   bfs_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 12:24:50 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:15:16 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
-void free_bfs(t_bfs *b)
+void free_bfs(t_bfs *b, int	malloc_link)
 {
+	int	index;
+
+	index = 0;
+	while (index < malloc_link)
+	{
+		free(b->prev[index]);
+		index++;
+	}
 	free(b->visited);
 	b->visited = NULL;
 	free(b->prev);
 	b->prev = NULL;
+	free_que(b->head);
 }
 
 void free_path(t_path *path)

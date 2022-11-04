@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solution.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 15:54:36 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:31:32 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,101 +80,66 @@ void	init_path_nb(t_room *room)
 	}
 }
 
-t_bool	get_paths(t_info *info)
+void	get_result_condition(t_info *info, t_result *result,\
+							t_path *path_curr, int *count)
 {
-	t_path *path_curr;
-	t_path *path_next;
-	t_path *path_head;
+	if (*count == 1)
+		result->tmp_head = path_curr;
+	init_path_nb(info->room_head);
+	if (update_edge_weight(info, path_curr))
+	{
+		init_links(info->link_head);
+		*count = 0;
+	}
+	else
+		count_turn(info, result, *count);
+}
 
-	t_path *tmp_head;
-	t_path	*best_paths;
-	int		total;
-	int		min_turn;
-	int		curr_turn;
-	int		count;
+t_bool	get_result(t_info *info, t_result *result)
+{
+	t_path		*path_curr;
+	t_path		*path_next;
+	int			count;
 
-	/* get the first path from bfs */
 	count = 1;
 	path_curr = bfs(info);
-	path_head = path_curr;
-	/* save min_turn with the shortest path*/
-	curr_turn = 0;
-	count_turn(info, path_head, count, &curr_turn);
-	min_turn = curr_turn;
-	total = count;
-	//printf("min = %d total = %d\n", min_turn, total);
-	//print_links(info);
-	printf("_____START BFS____\n");
+	result->path_head = path_curr;
+	result->curr_turn = 0;
+	result->tmp_head = path_curr;
+	count_turn(info, result, count);
 	while (path_curr)
 	{
-		//printf("count:%d ", count);
-		if (count == 1)
-			tmp_head = path_curr;
-		//print_single_path(path_curr);
-		//printf("--- bfs %d ---\n", count++);
-		init_path_nb(info->room_head);
-		if (update_edge_weight(info, path_curr))
-		{
-			init_links(info->link_head);
-		//	printf("--- remove inverse edge ---\n");
-			count = 0;
-		}
-		else
-		{
-			count_turn(info, tmp_head, count, &curr_turn);
-			if (min_turn > curr_turn)
-			{
-				min_turn = curr_turn;
-				total = count;
-		//		printf("tmp_head: ");
-		//		print_single_path(tmp_head);
-				best_paths = tmp_head;
-			}
-			//printf("curr_turn = %d min = %d total = %d\n", curr_turn, min_turn, total);
-		}
-		//print_links(info);
+		get_result_condition(info, result, path_curr, &count);
 		path_next = bfs(info);
 		path_curr->next = path_next;
 		path_curr = path_next;
 		count++;
 	}
-	//printf("--- all paths ---\n");
-	//print_paths(path_head);
-	//printf("--- best paths ---\n");
-	//printf("curr_turn = %d min = %d total = %d\n", curr_turn, min_turn, total);
-	/*
-	if (best_paths == NULL)
-		printf("best_paths empty\n");
-	else
-	{
-		t_path *tmp = best_paths;
-		for (int i = 0; i < total; i++)
-		{
-			if (tmp == NULL)
-				break ;
-			print_single_path(tmp);
-			tmp = tmp->next;
-		}
-	}
-	*/
-	free_paths(path_head);
 	return (TRUE);
-}
-
-void	test(t_info *info)
-{
-	t_path *path;
-
-	path = bfs(info);
-	print_single_path(path);
-
-	print_rooms(info->room_head);
 }
 
 t_bool solution(t_info *info)
 {
-	printf("_____START BFS____\n");
-	//test(info);
-	get_paths(info);
+	t_result	result;
+	
+	ft_memset(&result, 0, sizeof(result));
+	get_result(info, &result);
+
+	t_path *tmp;
+	int		index;
+
+	index = 0;
+	tmp = result.best_paths;
+	printf("total: %d | min: %d\n", result.total, result.min_turn);
+	while (index < result.total && tmp)
+	{
+		print_single_path(tmp);
+		tmp = tmp->next;
+		index++;
+	}
+	for (int i = 0; i < result.total ; i++)
+        printf("[%d] path[0] = %d path[1] = %d total:%d\n", i+1, result.divide_ants[i][0], result.divide_ants[i][1], result.divide_ants[i][0] + result.divide_ants[i][1] - 1);
+	free_paths(result.path_head);
+	free_divide_ants_array(&result.divide_ants, result.total);
 	return (TRUE);
 }
