@@ -6,7 +6,11 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/10/29 20:47:22 by thule            ###   ########.fr       */
+=======
+/*   Updated: 2022/11/03 22:34:48 by itkimura         ###   ########.fr       */
+>>>>>>> origin/itoe_bfs2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +93,11 @@ t_bool	lem_in(void)
 		return (error("\nError.\n"), FALSE);
 	}
 	/*Delete start here*/
+<<<<<<< HEAD
 	// print_info(&info);
+=======
+	//print_info(&info);
+>>>>>>> origin/itoe_bfs2
 	//print_hash_table(&info);
 	solution(&info);
 	// print_room(info.room_head);

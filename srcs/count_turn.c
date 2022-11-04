@@ -6,7 +6,11 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/11/03 13:27:26 by itkimura         ###   ########.fr       */
+=======
+/*   Updated: 2022/11/04 13:44:26 by itkimura         ###   ########.fr       */
+>>>>>>> origin/itoe_bfs2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +88,22 @@ void		devide_ants(t_info *info, int ***path, int count_path)
 	}
 }
 
+<<<<<<< HEAD
+=======
+void	free_int_array(int ***path, int count_path)
+{
+	int	index;
+	
+	index = 0;
+	while (index < count_path)
+	{
+		free((*path)[index]);
+		index++;
+	}
+	free(*path);
+}
+
+>>>>>>> origin/itoe_bfs2
 t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
 {
 	int	**path;
@@ -97,7 +117,15 @@ t_bool		count_turn(t_info *info, t_path *list, int count_path, int *curr_turn)
 		if (*curr_turn < path[i][0] - 1 + path[i][1])
 			*curr_turn = path[i][0] - 1 + path[i][1];
 	}
+<<<<<<< HEAD
 	//for (int i = 0; i < count_path ; i++)
 	//	printf("path[0] = %d path[1] = %d total:%d\n", path[i][0], path[i][1], path[i][0] + path[i][1]);
+=======
+	/*
+	for (int i = 0; i < count_path ; i++)
+		printf("path[0] = %d path[1] = %d total:%d\n", path[i][0], path[i][1], path[i][0] + path[i][1]);
+		*/
+	free_int_array(&path, count_path);
+>>>>>>> origin/itoe_bfs2
 	return (TRUE);
 }

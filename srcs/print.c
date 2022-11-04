@@ -6,7 +6,11 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/11/02 16:11:00 by itkimura         ###   ########.fr       */
+=======
+/*   Updated: 2022/11/04 14:40:21 by itkimura         ###   ########.fr       */
+>>>>>>> origin/itoe_bfs2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +47,7 @@ void print_single_room(t_room *room)
 	printf("room_name:[%s]\tindex:[%d]\n", room->room_name, room->index);
 }
 
-void print_room(t_room *room)
+void print_rooms(t_room *room)
 {
 	printf("--- room ---\n");
 	if (room == NULL)
@@ -53,7 +57,11 @@ void print_room(t_room *room)
 	}
 	while (room)
 	{
+<<<<<<< HEAD
 		printf("room_name:[%10s]\t\tindex:[%d]\n", room->room_name, room->index);
+=======
+		printf("room_name:[%10s]\t\tindex:[%d]\t\tpath_nb[%d]\n", room->room_name, room->index, room->path_nb);
+>>>>>>> origin/itoe_bfs2
 		room = room->list_next;
 	}
 	printf("\n");
@@ -176,12 +184,33 @@ void	print_paths(t_path *path)
 	}
 }
 
+<<<<<<< HEAD
+=======
+void	print_single_link(t_link *link)
+{
+	printf("room1 = %s, room2 = %s, one_two = %d, two_one = %d\n", link->room1->room_name, link->room2->room_name, link->one_two, link->two_one);
+}
+
+void	print_links(t_info *info)
+{
+	t_link	*tmp;
+
+	tmp = info->link_head;
+	while (tmp)
+	{
+		print_single_link(tmp);
+		tmp = tmp->next;
+	}
+}
+
+>>>>>>> origin/itoe_bfs2
 char room_name_index(int index)
 {
 	char *str = "abcdefghijklmn";
 	return str[index];
 }
 
+<<<<<<< HEAD
 void print_get_inverse_edges(t_info *info, t_bfs *b)
 {
 	for (int index = 0; index < info->total_rooms; index++)
@@ -262,11 +291,33 @@ char *get_name_test(int index)
 void print_que(t_que *head)
 {
 	printf("start:\n");
+=======
+void printing_bfs(t_info *info, t_bfs *b)
+{
+	//printf("i\troom\tprev\tdist\n");
+	//printf("i\tvisited\tprev\tdist\n");
+	printf("i\tvisited\tprev\n");
+	for(int index = 0; index < info->total_rooms; index++)
+	{
+		printf("%d\t", index);
+		printf("%d\t", b->visited[index]);
+		printf("%c\t", room_name_index(index));
+		if (b->prev[index])
+			printf("%s\t\n", b->prev[0][index]->room_name);
+		else
+			printf("(null)\t\n");
+	}
+}
+
+void print_que(t_que *head, t_bfs *b)
+{
+>>>>>>> origin/itoe_bfs2
 	int index;
 
 	index = 0;
 	while (head)
 	{
+<<<<<<< HEAD
 		if (head->dir == OUT)
 			printf("que[%d] = %s | weight: %d | dir: OUT\n", index, head->room->room_name, head->weight);
 		else
@@ -276,5 +327,11 @@ void print_que(t_que *head)
 		index++;
 	}
 	printf("end!\n\n");
+=======
+		printf("que[%d] = %s\tvisited = %d\tpath_nb = %d\n", index, head->room->room_name, b->visited[head->room->index], head->room->path_nb);
+		head = head->next;
+		index++;
+	}
+>>>>>>> origin/itoe_bfs2
 	printf("\n");
 }

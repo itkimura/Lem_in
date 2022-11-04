@@ -6,24 +6,35 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/11/02 17:49:12 by itkimura         ###   ########.fr        #
+=======
+#    Updated: 2022/11/04 13:27:04 by itkimura         ###   ########.fr        #
+>>>>>>> origin/itoe_bfs2
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
-# FLAGS = 
+#FLAGS = -Wall -Wextra -Werror
+FLAGS = 
 NAME = lem-in
 
 DEBUG_FLAG = -g
 
 INCLUDES_DIR = ./includes/
 
+<<<<<<< HEAD
 FILES = lem-in.c read_line.c		utils.c hash_table.c	create_room.c	\
 		create_link.c				connect_rooms.c			print.c			\
 		bfs_utils.c					bfs_free.c				reverse_path.c \
 		update_link.c				solution.c				count_turn.c \
 		get_inverse_edges.c			bfs.c
+=======
+FILES = lem-in.c read_line.c	utils.c hash_table.c	create_room.c	\
+		create_link.c			connect_rooms.c			print.c			\
+		bfs.c					bfs_utils.c				bfs_free.c		\
+		solution.c				count_turn.c
+>>>>>>> origin/itoe_bfs2
 
 
 SRCS_DIR = ./srcs/

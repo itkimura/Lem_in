@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+<<<<<<< HEAD
 /*   bfs_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
 /*   Updated: 2022/11/03 13:20:10 by itkimura         ###   ########.fr       */
+=======
+/*   bfs.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
+/*   Updated: 2022/10/25 17:19:36 by thle             ###   ########.fr       */
+>>>>>>> origin/itoe_bfs2
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
+<<<<<<< HEAD
 /*
 augment_0.map gives 1 more line
 prioritize inverse edge first in que
@@ -23,10 +33,17 @@ t_que *pop(t_que **head)
 	t_que *first;
 	t_que *second;
 	t_que *hold;
+=======
+t_room *pop(t_que **head)
+{
+	t_que *tmp;
+	t_room *room;
+>>>>>>> origin/itoe_bfs2
 
 	if (!head || !(*head))
 		return (NULL);
 	tmp = *head;
+<<<<<<< HEAD
 	if (tmp->next == NULL)
 	{
 		*head = (*head)->next;
@@ -51,6 +68,14 @@ t_que *pop(t_que **head)
 	hold->next = NULL;
 	first->next = second;
 	return hold;
+=======
+	*head = (*head)->next;
+	tmp->next = NULL;
+	room = tmp->room;
+	free(tmp);
+	tmp = NULL;
+	return (room);
+>>>>>>> origin/itoe_bfs2
 }
 
 void push(t_que **tail, t_que **head, t_que *new)
@@ -69,7 +94,11 @@ void push(t_que **tail, t_que **head, t_que *new)
 	}
 }
 
+<<<<<<< HEAD
 t_que *create(t_room *room, int weight, int dir)
+=======
+t_que *create(t_room *room)
+>>>>>>> origin/itoe_bfs2
 {
 	t_que *new;
 
@@ -77,12 +106,16 @@ t_que *create(t_room *room, int weight, int dir)
 	if (new)
 	{
 		new->room = room;
+<<<<<<< HEAD
 		new->dir = dir;
 		new->weight = weight;
+=======
+>>>>>>> origin/itoe_bfs2
 		new->next = NULL;
 	}
 	return (new);
 }
+<<<<<<< HEAD
 
 t_bool update_link_weight(t_path *path)
 {
@@ -162,3 +195,5 @@ t_bool init_bfs(t_info *info, t_bfs *b)
 	b->table[info->start_room->index].distance[OUT] = 0;
 	return (TRUE);
 }
+=======
+>>>>>>> origin/itoe_bfs2
