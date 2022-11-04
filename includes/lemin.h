@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/04 17:41:33 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/04 20:49:50 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ typedef struct s_result
 	int		**divide_ants;
 } t_result;
 
+typedef struct s_ants
+{
+	t_path	*path;
+	int		position;
+}	t_ants;
 
 /* link-room structure */
 /*
