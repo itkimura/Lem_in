@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/04 20:49:50 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/05 14:47:00 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_room
 	int				total_links;
 	int				malloc_link;
 	int				path_nb;
+	t_bool			is_occupied;
 	struct s_link	**link;
 	struct s_room	*hash_table_next;
 	struct s_room	*list_next;
@@ -92,6 +93,7 @@ typedef struct s_result
 
 typedef struct s_ants
 {
+	char	*number;
 	t_path	*path;
 	int		position;
 }	t_ants;
@@ -207,5 +209,11 @@ t_bool			get_links(t_info *info);
 /* validation/onnect_rooms.c */
 void			create_link_array(t_info *info);
 t_bool			connect_rooms(t_info *info);
+
+/* print_ants.c */
+void assign_ants_order(t_result *result, t_info *info, t_ants *ants);
+void print_ants(t_result *result, t_ants *ants, t_info *info);
+t_bool mangage_ants(t_result *result, t_info *info);
+
 
 #endif

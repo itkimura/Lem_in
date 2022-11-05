@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thle <thle@student.42.fr>                  +#+  +:+       +#+         #
+#    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/11/04 13:27:04 by itkimura         ###   ########.fr        #
+#    Updated: 2022/11/05 14:03:22 by thule            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-#FLAGS = -Wall -Wextra -Werror
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
+# FLAGS = 
 NAME = lem-in
 
 DEBUG_FLAG = -g
@@ -22,7 +22,7 @@ INCLUDES_DIR = ./includes/
 FILES = lem-in.c read_line.c	utils.c hash_table.c	create_room.c	\
 		create_link.c			connect_rooms.c			print.c			\
 		bfs.c					bfs_utils.c				bfs_free.c		\
-		solution.c				count_turn.c
+		solution.c				count_turn.c			print_ants.c
 
 
 SRCS_DIR = ./srcs/

@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 21:04:40 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/05 14:02:59 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,103 +118,16 @@ t_bool	get_result(t_info *info, t_result *result)
 	return (TRUE);
 }
 
-// void test(t_result *result, int number_of_ants)
-// {
-// 	int number_of_path = result->total;
-// 	int *ants = (int *)malloc(sizeof(int) * number_of_ants);
-
-	
-// 	int path = 0;
-// 	int index = 0;
-// 	while (index < number_of_ants)
-// 	{
-// 		if (path == result->total)
-// 			path = 0;
-// 		if (result->divide_ants[path][1] > 0)
-// 		{
-// 			ants[index] = path + 1;
-// 			printf("Ant[%d]: %d\n", index, ants[index]);
-// 			(result->divide_ants[path][1])--;
-// 		}
-// 		else
-// 		{
-// 			path++;
-// 			continue;
-// 		}
-// 		path++;
-// 		index++;
-// 	}
-// }
-
-void assign_ants_order(t_result *result, int total_ants)
-{
-	t_ants	*ants;
-	t_path	*path;
-	int		path_order;
-	int		index;
-
-	ants = (t_ants *)malloc(sizeof(t_ants) * total_ants);
-	index = 0;
-	path = result->best_paths;
-	path_order = 0;
-	while (index < total_ants)
-	{
-		if (path == NULL)
-		{
-			path = result->best_paths;
-			path_order = 0;
-		}
-		if (result->divide_ants[path_order][1] > 0)
-		{
-			ants[index].path = path;
-			ants[index].position = 0;
-			(result->divide_ants[path_order][1])--;
-		}
-		else
-		{
-			path = path->next;
-			path_order++;
-			continue;
-		}
-		path_order++;
-		path = path->next;
-		index++;
-	}
-	for (int i = 0; i < total_ants; i++)
-	{
-		printf("Ant[%d] ", i + 1);
-		print_single_path(ants[i].path);
-	}
-	for (int i = 0; i < result->total; i++)
-	{
-		printf("[%d] : %d\n", i, result->divide_ants[i][1]);
-	}
-}
-
 t_bool solution(t_info *info)
 {
-	print_info(info);
 	t_result	result;
 	
 	ft_memset(&result, 0, sizeof(result));
 	get_result(info, &result);
-
-	t_path *tmp;
-	int		index;
-
-	index = 0;
-	tmp = result.best_paths;
-	printf("total: %d | min: %d\n", result.total, result.min_turn);
-	while (index < result.total && tmp)
-	{
-		print_single_path(tmp);
-		tmp = tmp->next;
-		index++;
-	}
-	for (int i = 0; i < result.total ; i++)
-        printf("[%d] path[0] = %d path[1] = %d total:%d\n", i+1, result.divide_ants[i][0], result.divide_ants[i][1], result.divide_ants[i][0] + result.divide_ants[i][1] - 1);
-	// test(&result, info->total_ants);
-	assign_ants_order(&result, info->total_ants);
+	if (result.best_paths == NULL)
+		error("No path\n");
+	else
+		mangage_ants(&result, info);
 	free_paths(result.path_head);
 	free_divide_ants_array(&result.divide_ants, result.total);
 	return (TRUE);
