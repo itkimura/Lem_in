@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/05 14:47:00 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/05 20:16:51 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_result
 	int		**divide_ants;
 } t_result;
 
+
 typedef struct s_ants
 {
 	char	*number;
@@ -127,12 +128,17 @@ typedef struct s_info
 }			t_info;
 
 /* bfs */
+typedef struct s_prev{
+	t_room		**path;
+	t_bool		inverse;
+}				t_prev;
+
 typedef struct s_bfs
 {
 	t_que	*head;
 	t_que	*tail;
 	t_bool	*visited;
-	t_room	***prev;
+	t_prev	**prev;
 }	t_bfs;
 
 /* bfs.c */

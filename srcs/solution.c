@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/05 14:02:59 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/05 21:40:10 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	init_path_nb(t_room *room)
 	}
 }
 
-void	get_result_condition(t_info *info, t_result *result,\
+/* if curr_turn becomes bigger than min_turn, then we found the shortest path set so return TRUE*/
+t_bool	get_result_condition(t_info *info, t_result *result,\
 							t_path *path_curr, int *count)
 {
 	if (*count == 1)
@@ -88,11 +89,18 @@ void	get_result_condition(t_info *info, t_result *result,\
 	init_path_nb(info->room_head);
 	if (update_edge_weight(info, path_curr))
 	{
+		printf("--- remove edge ---\n");
 		init_links(info->link_head);
 		*count = 0;
 	}
 	else
+	{
 		count_turn(info, result, *count);
+		//printf("curr_turn = %d min_turn = %d total = %d\n", result->curr_turn, result->min_turn, result->total);
+		//if (result->curr_turn > result->min_turn)
+		//	return (TRUE);
+	}
+	return (FALSE);
 }
 
 t_bool	get_result(t_info *info, t_result *result)
@@ -109,12 +117,22 @@ t_bool	get_result(t_info *info, t_result *result)
 	count_turn(info, result, count);
 	while (path_curr)
 	{
-		get_result_condition(info, result, path_curr, &count);
+		if (get_result_condition(info, result, path_curr, &count))
+			break ;
 		path_next = bfs(info);
 		path_curr->next = path_next;
 		path_curr = path_next;
 		count++;
 	}
+	//printf("min = %d total = %d\n", result->min_turn, result->total);
+	/*
+	t_path *path = result->best_paths;
+	for (int i = 0; i < result->total; i++)
+	{
+		print_single_path(path);
+		path = path->next;
+	}
+	*/
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/04 16:15:16 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/05 19:45:49 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void free_bfs(t_bfs *b, int	malloc_link)
 	index = 0;
 	while (index < malloc_link)
 	{
-		free(b->prev[index]);
+		free_path(b->prev[index]);
 		index++;
 	}
 	free(b->visited);
