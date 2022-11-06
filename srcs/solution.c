@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/05 21:40:10 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/06 12:57:02 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,15 @@ t_bool	get_result_condition(t_info *info, t_result *result,\
 	else
 	{
 		count_turn(info, result, *count);
-		//printf("curr_turn = %d min_turn = %d total = %d\n", result->curr_turn, result->min_turn, result->total);
-		//if (result->curr_turn > result->min_turn)
 		//	return (TRUE);
+		//if (result->curr_turn > result->min_turn && info->start_room->malloc_link >= result->total)
+		//if (result->curr_turn > result->min_turn && info->start_room->malloc_link == result->total)
+	printf("count  = %d curr_turn = %d min_turn = %d start = %d end = %d total = %d\n", *count, result->curr_turn, result->min_turn, info->start_room->malloc_link, info->end_room->malloc_link, result->total);
+		//if (result->curr_turn >= result->min_turn && result->tmp_head == result->best_paths)
+	//result->curr_turn > result->min_turn in the same bfs session -> return TRUE
 	}
+	//if (result->curr_turn > result->min_turn || info->start_room->malloc_link == result->total)
+	//	return (TRUE);
 	return (FALSE);
 }
 
@@ -117,6 +122,7 @@ t_bool	get_result(t_info *info, t_result *result)
 	count_turn(info, result, count);
 	while (path_curr)
 	{
+		//print_single_path(path_curr);
 		if (get_result_condition(info, result, path_curr, &count))
 			break ;
 		path_next = bfs(info);
@@ -124,15 +130,13 @@ t_bool	get_result(t_info *info, t_result *result)
 		path_curr = path_next;
 		count++;
 	}
-	//printf("min = %d total = %d\n", result->min_turn, result->total);
-	/*
+	printf("min = %d total = %d\n", result->min_turn, result->total);
 	t_path *path = result->best_paths;
 	for (int i = 0; i < result->total; i++)
 	{
 		print_single_path(path);
 		path = path->next;
 	}
-	*/
 	return (TRUE);
 }
 
@@ -141,6 +145,8 @@ t_bool solution(t_info *info)
 	t_result	result;
 	
 	ft_memset(&result, 0, sizeof(result));
+	print_info(info);
+	printf("\n");
 	get_result(info, &result);
 	if (result.best_paths == NULL)
 		error("No path\n");

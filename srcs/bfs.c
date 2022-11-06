@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/05 20:37:16 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/06 12:25:29 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_bool	init_bfs(t_info *info, t_bfs *b)
 		return (FALSE);
 	ft_memset(b->visited, 0, sizeof(t_bool) * info->total_rooms);
 	b->prev = (t_prev **)malloc(sizeof(t_prev *) * info->start_room->malloc_link);
-	(void)index;
 	while (index < info->start_room->malloc_link)
 	{
 		b->prev[index] = (t_prev *)malloc(sizeof(t_path));
@@ -202,6 +201,8 @@ t_path *bfs(t_info *info)
 		curr = pop(&(b.head));
 		if (find_next_edge(info, &b, curr) == FALSE)
 			bfs_condition(info, &b, curr);
+		if (b.prev[info->end_room->path_nb]->path[info->end_room->index])
+			break ;
 	}
 	/*
 	printf("info->total_rooms = %d info->end_room->path_nb = %d\n", info->total_rooms, info->end_room->path_nb);
