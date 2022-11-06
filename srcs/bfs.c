@@ -6,11 +6,18 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/06 12:25:29 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/06 14:17:39 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
+
+
+/*
+1 -> is_visited
+-1 ->make inverse edge available
+0 -> not used yet
+*/
 
 /* get next room and weight from link structure */
 void	get_next_weight(t_link *link, t_room *curr, t_room **next, int *weight)
