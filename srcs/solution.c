@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/06 12:57:02 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/06 16:05:34 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	init_path_nb(t_room *room)
 t_bool	get_result_condition(t_info *info, t_result *result,\
 							t_path *path_curr, int *count)
 {
+	static int keep;
+
 	if (*count == 1)
 		result->tmp_head = path_curr;
 	init_path_nb(info->room_head);
@@ -96,15 +98,15 @@ t_bool	get_result_condition(t_info *info, t_result *result,\
 	else
 	{
 		count_turn(info, result, *count);
-		//	return (TRUE);
-		//if (result->curr_turn > result->min_turn && info->start_room->malloc_link >= result->total)
-		//if (result->curr_turn > result->min_turn && info->start_room->malloc_link == result->total)
-	printf("count  = %d curr_turn = %d min_turn = %d start = %d end = %d total = %d\n", *count, result->curr_turn, result->min_turn, info->start_room->malloc_link, info->end_room->malloc_link, result->total);
-		//if (result->curr_turn >= result->min_turn && result->tmp_head == result->best_paths)
-	//result->curr_turn > result->min_turn in the same bfs session -> return TRUE
+		if (*count == 1)
+			keep = result->curr_turn;
+		else
+		{
+			if (keep < result->curr_turn)
+				return TRUE;
+			keep = result->curr_turn;
+		}
 	}
-	//if (result->curr_turn > result->min_turn || info->start_room->malloc_link == result->total)
-	//	return (TRUE);
 	return (FALSE);
 }
 
