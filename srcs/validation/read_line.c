@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/03 22:36:22 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:07:56 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,11 @@ t_bool	read_line(t_info *info)
 			break ;
 		if (gnl < 0)
 			return (error("GNL return -1\n"), FALSE);
-		if (info->line[0] == '#' && info->line[1] != '#')
-		{
+		//if (info->line[0] == '#' && info->line[1] != '#')
+		//{
 			ft_putstr(info->line);
 			ft_putchar('\n');
-		}
+		//}
 		type = type_of_line(info->line);
 		if (type == EMPTY)
 			flag = FALSE;

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:06:59 by itkimura          #+#    #+#             */
-/*   Updated: 2022/10/25 11:07:31 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:19:18 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,29 @@ void	create_link_array(t_info *info)
 	}
 }
 
+void	init_link(t_link **link, int total_links)
+{
+	int	index;
+
+	index = 0;
+	while (index < total_links)
+	{
+		link[index] = 0;
+		index++;
+	}
+}
+
 t_bool	connect_rooms(t_info *info)
 {
 	t_room	*room;
-	int		size;
 
 	room = info->room_head;
 	while (room)
 	{
-		size = sizeof(t_link *) * room->total_links;
-		room->link = (t_link **)malloc(size);
+		room->link = (t_link **)malloc(sizeof(t_link *) * room->total_links);
 		if (room->link == NULL)
 			return (error("Malloc fails.\n"), FALSE);
-		ft_memset(room->link, 0, size);
+		init_link(room->link, room->total_links);
 		room = room->list_next;
 	}
 	create_link_array(info);

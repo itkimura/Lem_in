@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/10/07 11:17:16 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:10:02 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,18 @@ unsigned int	hash(char *str, int size)
 t_bool	create_hash_table(t_info *info)
 {
 	int	size;
+	int	index;
 
-	size = sizeof(t_room *) * (int)(info->total_rooms * RATIO);
-	info->hash_table = (t_room **)malloc(size);
+	size = (int)(info->total_rooms * RATIO);
+	info->hash_table = (t_room **)malloc(sizeof(t_room *) * size);
 	if (info->hash_table == NULL)
 		return (FALSE);
-	ft_memset(info->hash_table, 0, size);
+	index = 0;
+	while (index < size)
+	{
+		info->hash_table[index] = NULL;
+		index++;
+	}
 	return (TRUE);
 }
 

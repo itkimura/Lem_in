@@ -6,11 +6,22 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/10/07 14:39:13 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/07 13:18:43 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+void	init_room(t_room *room, char *room_name)
+{
+	room->room_name = room_name;
+	room->total_links = 0;
+	room->malloc_link = 0;
+	room->path_nb = 0;
+	room->is_occupied = FALSE;
+	room->link = NULL;
+	room->hash_table_next = NULL;
+}
 
 t_bool	create_new_room(t_room **room, t_info *info)
 {
@@ -26,8 +37,7 @@ t_bool	create_new_room(t_room **room, t_info *info)
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
 		return (error("Malloc fails.\n"), FALSE);
-	ft_memset(new, 0, sizeof(t_room));
-	new->room_name = room_name;
+	init_room(new, room_name);
 	if (*room == NULL)
 		info->room_head = new;
 	else

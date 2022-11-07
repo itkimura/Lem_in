@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/06 16:05:34 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/07 17:01:29 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ void	update_link_weight(t_room *from, t_room *to, t_link *link, t_bool *flag)
 	{
 		if (link->room1 == from && link->room2 == to)
 		{
-			link->one_two = 1;
-			if (link->two_one != 1)
-				link->two_one = -1;
-			if (link->one_two == 1 && link->two_one == 1)
+			link->one_two = DROP;
+			if (link->two_one != DROP)
+				link->two_one = INVERSE;
+			if (link->one_two == DROP && link->two_one == DROP)
 				*flag = TRUE;
 		}
 		if (link->room2 == from && link->room1 == to)
 		{
-			link->two_one = 1;
-			if (link->one_two != 1)
-				link->one_two = -1;
-			if (link->two_one == 1 && link->one_two == 1)
+			link->two_one = DROP;
+			if (link->one_two != DROP)
+				link->one_two = INVERSE;
+			if (link->two_one == DROP && link->one_two == DROP)
 				*flag = TRUE;
 		}
 		link = link->next;
@@ -45,15 +45,11 @@ t_bool	update_edge_weight(t_info *info, t_path *head)
 	t_bool	flag;
 
 	flag = FALSE;
-	while (head)
+	for (int i = 0; i < head->len - 1; i++)
 	{
-		for (int i = 0; i < head->len - 1; i++)
-		{
-			from = head->path[i];
-			to = head->path[i + 1];
-			update_link_weight(from, to, info->link_head, &flag);
-		}
-		head = head->next;
+		from = head->path[i];
+		to = head->path[i + 1];
+		update_link_weight(from, to, info->link_head, &flag);
 	}
 	return (flag);
 }
@@ -62,10 +58,10 @@ void	init_links(t_link *link)
 {
 	while (link)
 	{
-		if (!(link->one_two == 1 && link->two_one == 1))
+		if (!(link->one_two == DROP && link->two_one == DROP))
 		{
-			link->one_two = 0;
-			link->two_one = 0;
+			link->one_two = UNUSED;
+			link->two_one = UNUSED;
 		}
 		link = link->next;
 	}
@@ -110,6 +106,24 @@ t_bool	get_result_condition(t_info *info, t_result *result,\
 	return (FALSE);
 }
 
+void	free_matrix(t_info *info)
+{
+	int	index;
+
+	index = 0;
+	if (info->matrix)
+	{
+		while (index < info->total_rooms)
+		{
+			if (info->matrix[index])
+				free(info->matrix[index]);
+			index++;
+		}
+		free(info->matrix);
+		info->matrix = NULL;
+	}
+}
+
 t_bool	get_result(t_info *info, t_result *result)
 {
 	t_path		*path_curr;
@@ -124,7 +138,7 @@ t_bool	get_result(t_info *info, t_result *result)
 	count_turn(info, result, count);
 	while (path_curr)
 	{
-		//print_single_path(path_curr);
+		print_single_path(path_curr);
 		if (get_result_condition(info, result, path_curr, &count))
 			break ;
 		path_next = bfs(info);
@@ -132,6 +146,7 @@ t_bool	get_result(t_info *info, t_result *result)
 		path_curr = path_next;
 		count++;
 	}
+	printf("--- res ---\n");
 	printf("min = %d total = %d\n", result->min_turn, result->total);
 	t_path *path = result->best_paths;
 	for (int i = 0; i < result->total; i++)
@@ -142,18 +157,27 @@ t_bool	get_result(t_info *info, t_result *result)
 	return (TRUE);
 }
 
+void	init_result(t_result *result)
+{
+	result->path_head = NULL;
+	result->tmp_head = NULL;
+	result->best_paths = NULL;
+	result->min_turn = 0;
+	result->curr_turn = 0;
+	result->total = 0;
+	result->divide_ants = NULL;
+}
 t_bool solution(t_info *info)
 {
 	t_result	result;
-	
-	ft_memset(&result, 0, sizeof(result));
-	print_info(info);
-	printf("\n");
+
+	init_result(&result);
+	//printf("\n");
 	get_result(info, &result);
-	if (result.best_paths == NULL)
-		error("No path\n");
-	else
-		mangage_ants(&result, info);
+	//if (result.best_paths == NULL)
+	//	error("No path\n");
+	//else
+//		mangage_ants(&result, info);
 	free_paths(result.path_head);
 	free_divide_ants_array(&result.divide_ants, result.total);
 	return (TRUE);

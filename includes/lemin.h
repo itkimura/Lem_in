@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/06 11:46:27 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:36:38 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ enum
 	EMPTY,
 };
 
+enum
+{
+	INVERSE = -1,
+	UNUSED,
+	DROP
+};
 /* room */
 typedef struct s_room
 {
@@ -125,6 +131,7 @@ typedef struct s_info
 	char *line;
 	t_room *room_head;
 	t_room **hash_table;
+	short int	**matrix;
 	t_link *link_head;
 } t_info;
 
@@ -195,6 +202,7 @@ void print_links(t_info *info);
 char room_name_index(int index);
 void printing_bfs(t_info *info, t_bfs *b);
 void print_que(t_que *head, t_bfs *b);
+void	print_matrix(t_info *info);
 
 /* validation/read_line.c */
 int type_of_line(char *str);
