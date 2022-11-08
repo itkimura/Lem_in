@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_link.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/11/03 18:49:38 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:01:41 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_bool	create_new_link(t_info *info)
 		return (free(new), FALSE);
 	new->one_two = 0;
 	new->two_one = 0;
+	new->link_hash_table_next = NULL;
 	info->total_links++;
 	if (info->link_head == NULL)
 	{

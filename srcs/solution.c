@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/07 17:01:29 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:40:14 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,64 @@ void	update_link_weight(t_room *from, t_room *to, t_link *link, t_bool *flag)
 /* update edge weight by paths */
 t_bool	update_edge_weight(t_info *info, t_path *head)
 {
+	t_link	*tmp;
 	t_room	*from;
 	t_room	*to;
 	t_bool	flag;
+	int		index;
 
 	flag = FALSE;
-	for (int i = 0; i < head->len - 1; i++)
+	index = 0;
+	while (index < head->len - 1)
 	{
-		from = head->path[i];
-		to = head->path[i + 1];
-		update_link_weight(from, to, info->link_head, &flag);
+		from = head->path[index];
+		to = head->path[index + 1];
+		tmp = link_hash_table_lookup(info->link_hash_table,
+				from->index, to->index, info->total_links * RATIO);
+		if (tmp->room1 == from)
+		{
+			tmp->one_two = DROP;
+			if (tmp->two_one != DROP)
+				tmp->two_one = INVERSE;
+		}
+		else
+		{
+			tmp->two_one = DROP;
+			if (tmp->one_two != DROP)
+				tmp->one_two = INVERSE;
+		}
+		if (tmp->two_one == DROP && tmp->one_two == DROP)
+			flag = TRUE;
+		// update_link_weight(from, to, info->link_head, &flag);
+		index++;
 	}
 	return (flag);
 }
 
-void	init_links(t_link *link)
+void	init_links(t_info *info, t_path *head)
 {
-	while (link)
+	t_link	*tmp;
+	t_room	*from;
+	t_room	*to;
+	int		index;
+	
+	while (head)
 	{
-		if (!(link->one_two == DROP && link->two_one == DROP))
+		index = 0;
+		while (index < head->len - 1)
 		{
-			link->one_two = UNUSED;
-			link->two_one = UNUSED;
+			from = head->path[index];
+			to = head->path[index + 1];
+			tmp = link_hash_table_lookup(info->link_hash_table,
+				from->index, to->index, info->total_links * RATIO);
+			if (!(tmp->one_two == DROP && tmp->two_one == DROP))
+			{
+				tmp->one_two = UNUSED;
+				tmp->two_one = UNUSED;
+			}
+			index++;
 		}
-		link = link->next;
-	}
-}
-
-void	init_path_nb(t_room *room)
-{
-	while (room)
-	{
-		room->path_nb = 0;
-		room = room->list_next;
+		head = head->next;
 	}
 }
 
@@ -84,11 +109,10 @@ t_bool	get_result_condition(t_info *info, t_result *result,\
 
 	if (*count == 1)
 		result->tmp_head = path_curr;
-	init_path_nb(info->room_head);
 	if (update_edge_weight(info, path_curr))
 	{
-		printf("--- remove edge ---\n");
-		init_links(info->link_head);
+		// printf("--- remove edge ---\n");
+		init_links(info, result->tmp_head);
 		*count = 0;
 	}
 	else
@@ -106,23 +130,6 @@ t_bool	get_result_condition(t_info *info, t_result *result,\
 	return (FALSE);
 }
 
-void	free_matrix(t_info *info)
-{
-	int	index;
-
-	index = 0;
-	if (info->matrix)
-	{
-		while (index < info->total_rooms)
-		{
-			if (info->matrix[index])
-				free(info->matrix[index]);
-			index++;
-		}
-		free(info->matrix);
-		info->matrix = NULL;
-	}
-}
 
 t_bool	get_result(t_info *info, t_result *result)
 {
@@ -138,7 +145,7 @@ t_bool	get_result(t_info *info, t_result *result)
 	count_turn(info, result, count);
 	while (path_curr)
 	{
-		print_single_path(path_curr);
+		// print_single_path(path_curr);
 		if (get_result_condition(info, result, path_curr, &count))
 			break ;
 		path_next = bfs(info);
@@ -146,14 +153,14 @@ t_bool	get_result(t_info *info, t_result *result)
 		path_curr = path_next;
 		count++;
 	}
-	printf("--- res ---\n");
-	printf("min = %d total = %d\n", result->min_turn, result->total);
-	t_path *path = result->best_paths;
-	for (int i = 0; i < result->total; i++)
-	{
-		print_single_path(path);
-		path = path->next;
-	}
+	// printf("--- res ---\n");
+	// printf("min = %d total = %d\n", result->min_turn, result->total);
+	// t_path *path = result->best_paths;
+	// for (int i = 0; i < result->total; i++)
+	// {
+	// 	print_single_path(path);
+	// 	path = path->next;
+	// }
 	return (TRUE);
 }
 
@@ -174,10 +181,10 @@ t_bool solution(t_info *info)
 	init_result(&result);
 	//printf("\n");
 	get_result(info, &result);
-	//if (result.best_paths == NULL)
-	//	error("No path\n");
-	//else
-//		mangage_ants(&result, info);
+	if (result.best_paths == NULL)
+		error("No path\n");
+	else
+		mangage_ants(&result, info);
 	free_paths(result.path_head);
 	free_divide_ants_array(&result.divide_ants, result.total);
 	return (TRUE);

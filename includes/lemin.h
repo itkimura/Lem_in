@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/07 16:36:38 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:18:03 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_link
 	t_room *room2;
 	int one_two;
 	int two_one;
+	struct s_link *link_hash_table_next;
 	struct s_link *next;
 } t_link;
 
@@ -130,9 +131,9 @@ typedef struct s_info
 	t_room *end_room;
 	char *line;
 	t_room *room_head;
-	t_room **hash_table;
-	short int	**matrix;
 	t_link *link_head;
+	t_room **hash_table;
+	t_link **link_hash_table;
 } t_info;
 
 /* bfs */
@@ -157,6 +158,12 @@ void free_bfs(t_bfs *b, int malloc_link);
 void free_path(t_path *path);
 void free_paths(t_path *path);
 void free_que(t_que *head);
+
+/* bfs_init.c */
+void	init_path(t_room **path, int size);
+t_bool	init_prev(t_info *info, t_bfs *b);
+void	init_visited(t_bool *visited, int size);
+t_bool	init_bfs(t_info *info, t_bfs *b);
 
 /* bfs_utils.c */
 t_room *pop(t_que **head);
@@ -184,6 +191,12 @@ t_bool create_hash_table(t_info *info);
 t_room *hash_table_lookup(t_room **hash_table, char *str, int size);
 t_bool hash_table_appending(t_info *info, t_room *list);
 t_bool init_hash_table(t_info *info);
+
+/* link_hash_table.c */
+t_bool	create_link_hash_table(t_info *info, int size);
+t_link	*link_hash_table_lookup(t_link **link_hash_table, int index_1, int index_2, int size);
+t_bool	link_hash_table_appending(t_info *info, t_link *list, int size);
+t_bool	init_link_hash_table(t_info *info);
 
 /* utils.c */
 void error(char *error);

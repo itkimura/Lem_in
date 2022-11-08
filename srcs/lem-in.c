@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem-in.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/03 22:34:48 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:44:49 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_bool	init_info(t_info *info)
 	info->line = NULL;
 	info->room_head = NULL;
 	info->hash_table = NULL;
+	info->link_hash_table = NULL;
 	info->link_head = NULL;
 	return (TRUE);
 }
@@ -88,16 +89,18 @@ t_bool	lem_in(void)
 			free(info.hash_table);
 		return (error("\nError.\n"), FALSE);
 	}
-	/*Delete start here*/
-	//print_info(&info);
-	//print_hash_table(&info);
+	if (init_link_hash_table(&info) == FALSE)
+	{
+		free(info.hash_table);
+		free_rooms(&(info.room_head));
+		free_links(&(info.link_head));
+		return (FALSE);
+	}
 	solution(&info);
-	// print_room(info.room_head);
-	/*Delete end here*/
 	free(info.hash_table);
+	free(info.link_hash_table);
 	free_rooms(&(info.room_head));
 	free_links(&(info.link_head));
-	// return (printf("\n%sSuccess.\n%s", GREEN, WHITE), TRUE);
 	return (TRUE);
 }
 

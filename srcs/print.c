@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/07 16:46:20 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:12:05 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,17 +211,3 @@ void print_que(t_que *head, t_bfs *b)
 	printf("\n");
 }
 
-void	print_matrix(t_info *info)
-{
-	printf("  ");
-	for (int i = 0; i < info->total_rooms; i++)
-		printf("%2c ", 'a' + i);
-	printf("\n");
-	for (int i = 0; i < info->total_rooms; i++)
-	{
-		printf("%c ", 'a' + i);
-		for (int j = 0; j < info->total_rooms; j++)
-			printf("%2d ", info->matrix[i][j]);
-		printf("\n");
-	}
-}
