@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 16:22:15 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:45:45 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 		room2 = line + len + 1;
 		if (room1 == NULL)
 			return (print_error("Malloc fails.\n"), FALSE);
-		new->room1 = hash_table_lookup(hash_table, room1, size);
-		new->room2 = hash_table_lookup(hash_table, room2, size);
+		new->room1 = room_hash_table_lookup(hash_table, room1, size);
+		new->room2 = room_hash_table_lookup(hash_table, room2, size);
 		ft_strdel(&room1);
 		if (new->room1 &&new->room2)
 		{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_table.c                                       :+:      :+:    :+:   */
+/*   room_hash_table.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 13:44:27 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:46:48 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ unsigned int hash(char *str, int size)
 	return (hash_value);
 }
 
-t_bool create_hash_table(t_info *info)
+t_bool create_room_hash_table(t_info *info)
 {
 	int size;
 	int index;
@@ -43,7 +43,7 @@ t_bool create_hash_table(t_info *info)
 	return (TRUE);
 }
 
-t_room *hash_table_lookup(t_room **hash_table, char *str, int size)
+t_room *room_hash_table_lookup(t_room **hash_table, char *str, int size)
 {
 	t_room *tmp;
 	int index;
@@ -59,7 +59,7 @@ t_room *hash_table_lookup(t_room **hash_table, char *str, int size)
 	return (tmp);
 }
 
-t_bool hash_table_appending(t_info *info, t_room *list)
+t_bool room_hash_table_appending(t_info *info, t_room *list)
 {
 	t_room *tmp;
 	int hash_value;
@@ -83,18 +83,18 @@ t_bool hash_table_appending(t_info *info, t_room *list)
 	return (TRUE);
 }
 
-t_bool init_hash_table(t_info *info)
+t_bool init_room_hash_table(t_info *info)
 {
 	t_room *list;
 	t_room *next;
 
-	if (create_hash_table(info) == FALSE)
+	if (create_room_hash_table(info) == FALSE)
 		return (FALSE);
 	list = info->room_head;
 	while (list)
 	{
 		next = list->list_next;
-		if (hash_table_appending(info, list) == FALSE)
+		if (room_hash_table_appending(info, list) == FALSE)
 			return (FALSE);
 		list = next;
 	}

@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 16:17:35 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:46:15 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 		if (type == LINK && (*stage)++)
 		{
 			if ((info->start_room == NULL || info->end_room == NULL)
-				|| init_hash_table(info) == FALSE)
+				|| init_room_hash_table(info) == FALSE)
 				return (FALSE);
 			return (get_links(info));
 		}
