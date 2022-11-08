@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 11:41:39 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 14:00:59 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,54 +31,6 @@ void	get_next_weight(t_link *link, t_room *curr, t_room **next, int *weight)
 	}
 }
 
-/* get path length */
-t_bool	get_path_len(t_info *info, t_room **prev, t_path *path)
-{
-	t_room	*tmp;
-
-	tmp = info->end_room;
-	path->len = 0;
-	while (tmp != NULL)
-	{
-		tmp = prev[tmp->index];
-		path->len++;
-	}
-	path->path = (t_room **)malloc(sizeof(t_room *) * path->len);
-	if (path->path == NULL)
-		return (FALSE);
-	return (TRUE);
-}
-
-/* get the path from prev[info->room] array in bfs */
-t_path	*reverse_path(t_info *info, t_room **prev)
-{
-	t_room	*tmp;
-	t_path	*path;
-	int		index;
-
-	index = 0;
-	if (prev[info->end_room->index] == NULL)
-		return (NULL);
-	path = (t_path *)malloc(sizeof(t_path));
-	if (path == NULL)
-		return (NULL);
-	if (get_path_len(info, prev, path) == FALSE)
-	{
-		free(path);
-		return (NULL);
-	}
-	index = path->len - 1;
-	tmp = info->end_room;
-	while (tmp)
-	{
-		path->path[index] = tmp;
-		tmp = prev[tmp->index];
-		index--;
-	}
-	path->next = NULL;
-	return (path);
-}
-
 void	bfs_condition(t_info *info, t_bfs *b, t_room *curr)
 {
 	int		weight;
@@ -91,10 +43,9 @@ void	bfs_condition(t_info *info, t_bfs *b, t_room *curr)
 		get_next_weight(curr->link[index], curr, &next, &weight);
 		if (b->visited[next->index] == FALSE && weight != 1)
 		{
+			next->path_nb = curr->path_nb;
 			if (curr == info->start_room)
 				next->path_nb = index;
-			else
-				next->path_nb = curr->path_nb;
 			push(&(b->tail), &(b->head), create(next));
 			b->prev[next->path_nb]->path[next->index] = curr;
 			b->visited[next->index] = TRUE;
@@ -132,6 +83,9 @@ t_bool	is_visited(t_bfs *b, t_room *curr, t_room *next)
  * g -> k & g -> e: used an inverse edge already so we are allowed to "jump off" to any neighbor
  * e -> b : visited, so not going
  */
+/* check if the room is already visited in the path */
+/* If we are already following a path backward, then we are allowed to "jump off" to any neighbor.*/
+
 t_bool	find_next_edge(t_info *info, t_bfs *b, t_room *curr)
 {
 	int		index;
@@ -142,18 +96,14 @@ t_bool	find_next_edge(t_info *info, t_bfs *b, t_room *curr)
 	while (index < curr->malloc_link)
 	{
 		get_next_weight(curr->link[index], curr, &next, &weight);
-		if (weight == -1)
+		if (weight == INVERSE)
 		{
-			/* check if the room is already visited in the path */
-			if (is_visited(b, curr, next))
+			if (is_visited(b, curr, next)
+				|| b->prev[curr->path_nb]->inverse == TRUE)
 				return (FALSE);
-			/* If we are already following a path backward, then we are allowed to "jump off" to any neighbor.*/
-			if (b->prev[curr->path_nb]->inverse == TRUE)
-				return (FALSE);
+			next->path_nb = curr->path_nb;
 			if (curr == info->start_room)
 				next->path_nb = index;
-			else
-				next->path_nb = curr->path_nb;
 			push(&(b->tail), &(b->head), create(next));
 			b->prev[next->path_nb]->path[next->index] = curr;
 			b->prev[curr->path_nb]->inverse = TRUE;
@@ -165,42 +115,26 @@ t_bool	find_next_edge(t_info *info, t_bfs *b, t_room *curr)
 	return (FALSE);
 }
 
-t_path *bfs(t_info *info)
+t_bool bfs(t_info *info, t_path **path)
 {
 	t_bfs	b;
-	t_path	*path;
 	t_room	*curr;
 
-	path = NULL;
 	if (init_bfs(info, &b) == FALSE)
-		return (NULL);
+		return (FALSE);
 	while (b.head)
 	{
 		curr = pop(&(b.head));
-		//printf("curr = %s\n", curr->room_name);
 		if (find_next_edge(info, &b, curr) == FALSE)
 			bfs_condition(info, &b, curr);
-		//else
-		//	printf("SKIP\n");
 		if (b.prev[info->end_room->path_nb]->path[info->end_room->index])
 			break ;
-		//print_que(b.head, &b);
 	}
-	/*
-	printf("info->total_rooms = %d info->end_room->path_nb = %d\n", info->total_rooms, info->end_room->path_nb);
-	for (int i = 0; i < info->start_room->malloc_link; i++)
+	if(reverse_path(info, b.prev[info->end_room->path_nb]->path, path) == FALSE)
 	{
-		for (int j = 0; j < info->total_rooms; j++)
-		{
-			if (b.prev[i]->path[j])
-				printf("[%s] ", b.prev[i]->path[j]->room_name);
-			else
-				printf("[NULL]");
-		}
-		printf("\n");
+		free_bfs(&b, info->start_room->malloc_link);
+		return FALSE;
 	}
-	*/
-	path = reverse_path(info, b.prev[info->end_room->path_nb]->path);
 	free_bfs(&b, info->start_room->malloc_link);
-	return (path);
+	return (TRUE);
 }

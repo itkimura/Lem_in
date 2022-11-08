@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/05 21:22:38 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:24:31 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,30 @@
  * path[1] = how many ants
  */
 
-t_bool		init_path_array(t_path *list, int count_path, int ***path)
+static t_bool	init_path_array(t_path *list, int count_path, int ***path)
 {
 	t_path	*tmp;
-	int		index;
+	int		i;
 
 	*path = (int **)malloc(sizeof(int *) * count_path);
 	if (path == NULL)
 		return (FALSE);
-	index = 0;
+	i = 0;
 	tmp = list;
-	while (index < count_path)
+	while (i < count_path)
 	{
-		(*path)[index] = (int *)malloc(sizeof(int) * 2);
-		if ((*path)[index] == NULL)
+		(*path)[i] = (int *)malloc(sizeof(int) * 2);
+		if ((*path)[i] == NULL)
 		{
-			while (--index)
-				free(path[index]);
+			while (--i)
+				free(path[i]);
 			free(path);
 			return (FALSE);
 		}
-		(*path)[index][0] = tmp->len - 1;
-		(*path)[index][1] = 0;
+		(*path)[i][PATH_LEN] = tmp->len - 1;
+		(*path)[i][ANTS] = 0;
 		tmp = tmp->next;
-		index++;
+		i++;
 	}
 	return (TRUE);
 }
@@ -51,67 +51,46 @@ t_bool		init_path_array(t_path *list, int count_path, int ***path)
  */
 
 /* devide ants in paths */
-void		divide_ants(t_info *info, int **path, int count_path)
+static void		divide_ants(t_info *info, int **path, int count_path)
 {
 	int	i; /* loop for ants one by one*/
 	int	j; /* loop for path one by one*/
 	int	next;
 	int	prev; /* tmp int for compering paths*/
 
-	i = 0;
+	i = 1;
+	path[0][ANTS]++;
 	while (i < info->total_ants)
 	{
-		if (i == 0)
-			path[0][1]++;
-		else
+		j = 0;
+		while (j < count_path - 1)
 		{
-			j = 0;
-			while (j < count_path - 1)
-			{
-				prev = path[j][0] + path[j][1];
-				next = path[j + 1][0] + path[j + 1][1];
-				if (prev < next)
-				{
-					path[j][1]++;
-					break;
-				}
-				j++;
-			}
-			if (j == count_path - 1)
-				path[j][1]++;
+			prev = path[j][PATH_LEN] + path[j][ANTS];
+			next = path[j + 1][PATH_LEN] + path[j + 1][ANTS];
+			if (prev < next)
+				break;
+			j++;
 		}
+		path[j][ANTS]++;
 		i++;
 	}
-}
-
-void	free_divide_ants_array(int ***path, int count_path)
-{
-	int	index;
-	
-	index = 0;
-	while (index < count_path)
-	{
-		free((*path)[index]);
-		index++;
-	}
-	free(*path);
 }
 
 t_bool		count_turn(t_info *info, t_result *result, int count_path)
 {
 	int	**path;
-	int	index;
+	int	i;
 
-	index = 0;
+	i = 0;
 	if (init_path_array(result->tmp_head, count_path, &path) == FALSE)
 		return (FALSE);
-	divide_ants(info, path, count_path);
 	result->curr_turn = 0;
-	while (index < count_path)
+	divide_ants(info, path, count_path);
+	while (i < count_path)
 	{
-		if (result->curr_turn < path[index][0] - 1 + path[index][1])
-			result->curr_turn = path[index][0] - 1 + path[index][1];
-		index++;
+		if (result->curr_turn < path[i][PATH_LEN] - 1 + path[i][ANTS])
+			result->curr_turn = path[i][PATH_LEN] - 1 + path[i][ANTS];
+		i++;
 	}
 	if (result->min_turn > result->curr_turn || result->min_turn == 0)
 	{

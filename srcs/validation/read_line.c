@@ -6,13 +6,13 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 11:26:57 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 13:43:50 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int	type_of_line(char *str)
+int type_of_line(char *str)
 {
 	if (str[0] == '\0')
 		return (EMPTY);
@@ -29,10 +29,10 @@ int	type_of_line(char *str)
 	return (ROOM);
 }
 
-t_bool	get_ants(t_info *info, int type, int *stage)
+t_bool get_ants(t_info *info, int type, int *stage)
 {
-	long	nb;
-	int		i;
+	long nb;
+	int i;
 
 	i = 0;
 	if (type == COMMAND)
@@ -44,18 +44,18 @@ t_bool	get_ants(t_info *info, int type, int *stage)
 	while (info->line[i])
 	{
 		if (!(info->line[i] >= '0' && info->line[i] <= '9'))
-			return (error("Wrong format for ants.\n"), FALSE);
+			return (print_error("Wrong format for ants.\n"), FALSE);
 		i++;
 	}
 	nb = ft_atol(info->line);
 	if (nb < 0 || nb > INT_MAX)
-		return (error("Quantity of ants is not correct."), FALSE);
+		return (print_error("Quantity of ants is not correct."), FALSE);
 	info->total_ants = nb;
 	(*stage)++;
 	return (TRUE);
 }
 
-t_bool	path_to_each_stage(t_info *info, int type, int *stage)
+t_bool path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
 	{
@@ -84,12 +84,12 @@ t_bool	path_to_each_stage(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-t_bool	read_line(t_info *info)
+t_bool read_line(t_info *info)
 {
-	int		type;
-	int		stage;
-	int		gnl;
-	t_bool	flag;
+	int type;
+	int stage;
+	int gnl;
+	t_bool flag;
 
 	gnl = 1;
 	stage = 0;
@@ -98,14 +98,14 @@ t_bool	read_line(t_info *info)
 	{
 		gnl = get_next_line(FD, &(info->line));
 		if (gnl == 0)
-			break ;
+			break;
 		if (gnl < 0)
-			return (error("GNL return -1\n"), FALSE);
-		//if (info->line[0] == '#' && info->line[1] != '#')
-		//{
+			return (print_error("GNL return -1\n"), FALSE);
+		if (info->line[0] == '#' && info->line[1] != '#')
+		{
 			ft_putstr(info->line);
 			ft_putchar('\n');
-		//}
+		}
 		type = type_of_line(info->line);
 		if (type == EMPTY)
 			flag = FALSE;
