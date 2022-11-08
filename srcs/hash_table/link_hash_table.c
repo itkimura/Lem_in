@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:41:53 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 11:29:03 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 17:54:04 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_bool	create_link_hash_table(t_info *info, int size)
 	return (TRUE);
 }
 
-t_link	*link_hash_table_lookup(t_link **link_hash_table, int index_1, int index_2, int size)
+t_link	*link_hash_table_lookup(t_link **link_hash_table, int index_1,
+								int index_2, int size)
 {
 	t_link	*tmp;
 	int		index;
@@ -39,7 +40,8 @@ t_link	*link_hash_table_lookup(t_link **link_hash_table, int index_1, int index_
 	{
 		if (tmp
 			&& ((tmp->room1->index == index_1 && tmp->room2->index == index_2)
-			||	(tmp->room1->index == index_2 && tmp->room2->index == index_1)))
+				|| (tmp->room1->index == index_2
+					&& tmp->room2->index == index_1)))
 			break ;
 		tmp = tmp->link_hash_table_next;
 	}

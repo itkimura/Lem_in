@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 15:48:13 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:07:47 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void free_rooms(t_room **head)
+void	free_rooms(t_room **head)
 {
-	t_room *next;
-	t_room *current;
+	t_room	*next;
+	t_room	*current;
 
 	current = *head;
 	while (current)
@@ -29,10 +29,10 @@ void free_rooms(t_room **head)
 	*head = NULL;
 }
 
-void free_links(t_link **link)
+void	free_links(t_link **link)
 {
-	t_link *next;
-	t_link *current;
+	t_link	*next;
+	t_link	*current;
 
 	current = *link;
 	while (current)
@@ -44,9 +44,9 @@ void free_links(t_link **link)
 	*link = NULL;
 }
 
-void free_divide_ants_array(int ***path, int count_path)
+void	free_divide_ants_array(int ***path, int count_path)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (path && *path)
@@ -61,9 +61,9 @@ void free_divide_ants_array(int ***path, int count_path)
 	}
 }
 
-void free_ants(t_ants **ants, int total_ants)
+void	free_ants(t_ants **ants, int total_ants)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	if (ants)

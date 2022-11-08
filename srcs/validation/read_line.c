@@ -6,13 +6,13 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 16:46:15 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 18:06:04 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int type_of_line(char *str)
+int	type_of_line(char *str)
 {
 	if (str[0] == '\0')
 		return (EMPTY);
@@ -29,10 +29,10 @@ int type_of_line(char *str)
 	return (ROOM);
 }
 
-t_bool get_ants(t_info *info, int type, int *stage)
+t_bool	get_ants(t_info *info, int type, int *stage)
 {
-	long nb;
-	int i;
+	long	nb;
+	int		i;
 
 	i = 0;
 	if (type != ROOM)
@@ -51,7 +51,7 @@ t_bool get_ants(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-t_bool path_to_each_stage(t_info *info, int type, int *stage)
+t_bool	path_to_each_stage(t_info *info, int type, int *stage)
 {
 	if (*stage == 0)
 	{
@@ -80,11 +80,11 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	return (TRUE);
 }
 
-t_bool read_line(t_info *info, t_bool flag)
+t_bool	read_line(t_info *info, t_bool flag)
 {
-	int type;
-	int stage;
-	int gnl;
+	int	type;
+	int	stage;
+	int	gnl;
 
 	gnl = 1;
 	stage = 0;
@@ -92,7 +92,7 @@ t_bool read_line(t_info *info, t_bool flag)
 	{
 		gnl = get_next_line(FD, &(info->line));
 		if (gnl == 0)
-			break;
+			break ;
 		if (gnl < 0)
 			return (print_error("GNL return -1\n"), FALSE);
 		ft_putstr(info->line);

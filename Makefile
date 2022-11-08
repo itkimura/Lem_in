@@ -6,7 +6,7 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/11/08 16:48:09 by thule            ###   ########.fr        #
+#    Updated: 2022/11/08 18:18:06 by thule            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,19 +25,20 @@ SRCS_DIR = ./srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(FILES))
 
 VALIDATION_DIR = ./srcs/validation/
-VALIDATION_FILES = validation_utils.c connect_rooms.c	create_link.c	\
-					create_room.c	read_line.c		
+VALIDATION_FILES =	validation_utils.c		connect_rooms.c		\
+					create_link.c			create_room.c		\
+					read_line.c		
 
-BFS_DIR = ./srcs/bfs/
-BFS_FILES = bfs.c					bfs_utils.c				bfs_free.c		\
-			bfs_init.c				bfs_reverse_path.c
+BFS_DIR =	./srcs/bfs/
+BFS_FILES =	bfs.c			bfs_utils.c		bfs_free.c		\
+			bfs_init.c		bfs_reverse_path.c
 
-HASH_TABLE_DIR = ./srcs/hash_table/
-HASH_TABLE_FILES = link_hash_table.c	room_hash_table.c
+HASH_TABLE_DIR =	./srcs/hash_table/
+HASH_TABLE_FILES =	link_hash_table.c	room_hash_table.c
 
-SOLUTION_DIR = ./srcs/solution/
-SOLUTION_FILES = solution.c				count_turn.c			print_ants.c	\
-				update_link.c
+SOLUTION_DIR =		./srcs/solution/
+SOLUTION_FILES =	solution.c				count_turn.c \
+					print_ants.c			update_link.c
 
 
 OBJS_DIR = ./objs/
@@ -53,11 +54,13 @@ LIB_INCLUDE = ./libft/includes/
 
 all: $(NAME)
 
-$(NAME): $(OBJS_DIR) $(VALIDATION_OBJS) $(BFS_OBJS) $(OBJS) $(HASH_TABLE_OBJS) $(SOLUTION_OBJS) $(LIB)
-	@$(CC) $(DEBUG_FLAG) -o $(NAME) $(FLAGS) $(VALIDATION_OBJS) $(BFS_OBJS) $(OBJS) $(HASH_TABLE_OBJS) $(SOLUTION_OBJS) -L$(LIB_DIR) -lft
+$(NAME): $(OBJS_DIR) $(VALIDATION_OBJS) $(BFS_OBJS) $(OBJS) $\
+		$(HASH_TABLE_OBJS) $(SOLUTION_OBJS) $(LIB)
+	@$(CC) $(DEBUG_FLAG) -o $(NAME) $(FLAGS) $(VALIDATION_OBJS) $(BFS_OBJS) $\
+			$(OBJS) $(HASH_TABLE_OBJS) $(SOLUTION_OBJS) -L$(LIB_DIR) -lft
 	@echo "Compiled $(NAME)"
 
-$(LIB): #$(wildcard libft/srcs/*.c)
+$(LIB):
 	@$(MAKE) -sC ./libft
 	@echo "Compiled $(LIB)"
 

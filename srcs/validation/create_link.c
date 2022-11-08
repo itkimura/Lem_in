@@ -6,18 +6,18 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 16:45:45 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 18:01:28 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lemin.h"
 
-t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
+t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 {
-	char *tmp;
-	char *room1;
-	char *room2;
-	int len;
+	char	*tmp;
+	char	*room1;
+	char	*room2;
+	int		len;
 
 	tmp = ft_strchr(line, '-');
 	while (tmp)
@@ -30,7 +30,7 @@ t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 		new->room1 = room_hash_table_lookup(hash_table, room1, size);
 		new->room2 = room_hash_table_lookup(hash_table, room2, size);
 		ft_strdel(&room1);
-		if (new->room1 &&new->room2)
+		if (new->room1 && new->room2)
 		{
 			new->room1->total_links++;
 			new->room2->total_links++;
@@ -49,11 +49,12 @@ void	init_single_link(t_link *new)
 	new->two_one = 0;
 	new->link_hash_table_next = NULL;
 }
+
 t_bool	create_new_link(t_info *info)
 {
-	t_link *new;
-	static t_link *tmp;
-	int size;
+	static t_link	*tmp;
+	t_link			*new;
+	int				size;
 
 	new = (t_link *)malloc(sizeof(t_link));
 	if (new == NULL)
@@ -75,7 +76,7 @@ t_bool	create_new_link(t_info *info)
 	return (TRUE);
 }
 
-t_bool get_links(t_info *info)
+t_bool	get_links(t_info *info)
 {
 	if (create_new_link(info) == FALSE)
 		return (FALSE);

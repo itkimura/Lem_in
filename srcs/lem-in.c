@@ -6,13 +6,13 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 16:10:52 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:08:37 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
-t_bool init_info(t_info *info)
+t_bool	init_info(t_info *info)
 {
 	info->total_ants = 0;
 	info->total_rooms = 0;
@@ -38,7 +38,7 @@ void	free_all(t_info *info)
 	free_links(&(info->link_head));
 }
 
-t_bool lem_in(void)
+t_bool	lem_in(void)
 {
 	t_info	info;
 	t_bool	flag;
@@ -58,7 +58,7 @@ t_bool lem_in(void)
 	return (TRUE);
 }
 
-int main(void)
+int	main(void)
 {
 	if (lem_in() == FALSE)
 		return (1);
