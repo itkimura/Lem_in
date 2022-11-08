@@ -6,13 +6,13 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/07 14:46:34 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:46:58 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lemin.h"
+#include "lemin.h"
 
-void free_bfs(t_bfs *b, int	malloc_link)
+void	free_bfs(t_bfs *b, int malloc_link)
 {
 	int	index;
 
@@ -39,14 +39,14 @@ void free_bfs(t_bfs *b, int	malloc_link)
 	free_que(b->head);
 }
 
-void free_path(t_path *path)
+void	free_path(t_path *path)
 {
 	free(path->path);
 	free(path);
 	path = NULL;
 }
 
-void free_paths(t_path *path)
+void	free_paths(t_path *path)
 {
 	while (path)
 	{
@@ -55,9 +55,9 @@ void free_paths(t_path *path)
 	}
 }
 
-void free_que(t_que *head)
+void	free_que(t_que *head)
 {
-	t_que *next;
+	t_que	*next;
 
 	while (head)
 	{

@@ -6,17 +6,17 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:51:25 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 13:50:19 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 20:14:57 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static void print_ants_factory_helper(t_ants *ants, t_info *info, int *hold)
+static void	print_ants_factory_helper(t_ants *ants, t_info *info, int *hold)
 {
-	int ant_order;
-	t_ants curr_ant;
-	t_path *path;
+	int		ant_order;
+	t_ants	curr_ant;
+	t_path	*path;
 
 	ant_order = *hold - 1;
 	while (++ant_order < info->total_ants)
@@ -30,7 +30,7 @@ static void print_ants_factory_helper(t_ants *ants, t_info *info, int *hold)
 			info->end_room->is_occupied = FALSE;
 		}
 		else if (path->path[curr_ant.pos]->is_occupied == FALSE
-				|| path->path[curr_ant.pos] == info->end_room)
+			|| path->path[curr_ant.pos] == info->end_room)
 		{
 			print_ant(curr_ant.nbr, path->path[curr_ant.pos]->room_name);
 			path->path[curr_ant.pos]->is_occupied = TRUE;
@@ -41,11 +41,11 @@ static void print_ants_factory_helper(t_ants *ants, t_info *info, int *hold)
 	}
 }
 
-static void print_ants_factory(t_result *result, t_ants *ants, t_info *info)
+static void	print_ants_factory(t_result *result, t_ants *ants, t_info *info)
 {
-	int flow;
-	int index;
-	int hold;
+	int	flow;
+	int	index;
+	int	hold;
 
 	flow = result->min_turn;
 	index = 0;
@@ -59,7 +59,8 @@ static void print_ants_factory(t_result *result, t_ants *ants, t_info *info)
 	}
 }
 
-static t_bool set_ant_value(t_ants *ants, t_path *path, int index, int *ant_amount)
+static t_bool	set_ant_value(t_ants *ants, t_path *path,
+	int index, int *ant_amount)
 {
 	ants[index].nbr = ft_itoa(index + 1);
 	if (ants[index].nbr == NULL)
@@ -70,11 +71,12 @@ static t_bool set_ant_value(t_ants *ants, t_path *path, int index, int *ant_amou
 	return (TRUE);
 }
 
-static t_bool assign_ants_order(t_result *result, t_ants *ants, int total_ants)
+static t_bool	assign_ants_order(t_result *result,
+	t_ants *ants, int total_ants)
 {
-	t_path *path;
-	int path_order;
-	int index;
+	t_path	*path;
+	int		path_order;
+	int		index;
 
 	path = result->best_paths;
 	path_order = 0;
@@ -97,9 +99,9 @@ static t_bool assign_ants_order(t_result *result, t_ants *ants, int total_ants)
 	return (TRUE);
 }
 
-t_bool mangage_ants(t_result *result, t_info *info)
+t_bool	mangage_ants(t_result *result, t_info *info)
 {
-	t_ants *ants;
+	t_ants	*ants;
 
 	ants = (t_ants *)malloc(sizeof(t_ants) * info->total_ants);
 	if (ants == NULL)

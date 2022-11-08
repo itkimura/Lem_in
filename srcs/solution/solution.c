@@ -6,17 +6,20 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 15:28:45 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 20:12:35 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
 
-/* if curr_turn becomes bigger than min_turn, then we found the shortest path set so return TRUE*/
-t_bool get_result_condition(t_info *info, t_result *result,
+/* 
+ * if curr_turn becomes bigger than min_turn,
+ * then we found the shortest path set so return TRUE
+ */
+t_bool	get_result_condition(t_info *info, t_result *result,
 							t_path *path_curr, int *count)
 {
-	static int keep;
+	static int	keep;
 
 	if (*count == 1)
 		result->tmp_head = path_curr;
@@ -33,18 +36,18 @@ t_bool get_result_condition(t_info *info, t_result *result,
 		else
 		{
 			if (keep < result->curr_turn)
-				return TRUE;
+				return (TRUE);
 			keep = result->curr_turn;
 		}
 	}
 	return (FALSE);
 }
 
-t_bool get_result(t_info *info, t_result *result)
+t_bool	get_result(t_info *info, t_result *result)
 {
-	t_path *path_curr;
-	t_path *path_next;
-	int count;
+	t_path	*path_curr;
+	t_path	*path_next;
+	int		count;
 
 	count = 1;
 	path_curr = NULL;
@@ -57,7 +60,7 @@ t_bool get_result(t_info *info, t_result *result)
 	while (path_curr)
 	{
 		if (get_result_condition(info, result, path_curr, &count))
-			break;
+			break ;
 		path_next = NULL;
 		if (bfs(info, &path_next, TRUE) == FALSE)
 			return (FALSE);
@@ -68,7 +71,7 @@ t_bool get_result(t_info *info, t_result *result)
 	return (TRUE);
 }
 
-void init_result(t_result *result)
+void	init_result(t_result *result)
 {
 	result->path_head = NULL;
 	result->tmp_head = NULL;
@@ -78,13 +81,13 @@ void init_result(t_result *result)
 	result->total = 0;
 	result->divide_ants = NULL;
 }
-t_bool solution(t_info *info)
+
+t_bool	solution(t_info *info)
 {
-	t_result result;
+	t_result	result;
 
 	init_result(&result);
 	get_result(info, &result);
-	// printf("min = %d total = %d\n", result.min_turn, result.total);
 	if (result.best_paths == NULL)
 		print_error("No path\n");
 	else

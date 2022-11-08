@@ -6,16 +6,16 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 15:34:21 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:48:21 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lemin.h"
+#include "lemin.h"
 
-t_room *pop(t_que **head)
+t_room	*pop(t_que **head)
 {
-	t_que *tmp;
-	t_room *room;
+	t_que	*tmp;
+	t_room	*room;
 
 	if (!head || !(*head))
 		return (NULL);
@@ -28,10 +28,10 @@ t_room *pop(t_que **head)
 	return (room);
 }
 
-void push(t_que **tail, t_que **head, t_que *new)
+void	push(t_que **tail, t_que **head, t_que *new)
 {
 	if (!tail)
-		return;
+		return ;
 	if (*head == NULL)
 	{
 		*tail = new;
@@ -44,9 +44,9 @@ void push(t_que **tail, t_que **head, t_que *new)
 	}
 }
 
-t_que *create(t_room *room)
+t_que	*create(t_room *room)
 {
-	t_que *new;
+	t_que	*new;
 
 	new = (t_que *)malloc(sizeof(t_que));
 	if (new)

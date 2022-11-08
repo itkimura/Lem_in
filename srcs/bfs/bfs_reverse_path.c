@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 15:33:57 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:48:35 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_bool	get_path_len(t_info *info, t_room **prev, t_path *path)
 }
 
 /* get the path from prev[info->room] array in bfs */
-t_bool reverse_path(t_info *info, t_room **prev, t_path **path)
+t_bool	reverse_path(t_info *info, t_room **prev, t_path **path)
 {
 	t_room	*tmp;
 	int		index;

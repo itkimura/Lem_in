@@ -6,14 +6,18 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 13:33:59 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 13:35:03 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 20:16:24 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-/* update one_two and two_one in link*/
-static void	update_link_weight_condition(t_room *from, t_link *tmp, t_bool *flag)
+/* 
+ * recieve a path from bfs and 
+ * update one_two and two_one (link weight) in link
+ */
+static void	update_link_weight_condition(t_room *from,
+	t_link *tmp, t_bool *flag)
 {
 	if (tmp->room1 == from)
 	{
@@ -60,7 +64,7 @@ void	init_unused_links(t_info *info, t_path *head)
 	t_room	*from;
 	t_room	*to;
 	int		index;
-	
+
 	while (head)
 	{
 		index = 0;
@@ -69,7 +73,7 @@ void	init_unused_links(t_info *info, t_path *head)
 			from = head->path[index];
 			to = head->path[index + 1];
 			tmp = link_hash_table_lookup(info->link_hash_table,
-				from->index, to->index, info->total_links * RATIO);
+					from->index, to->index, info->total_links * RATIO);
 			if (!(tmp->one_two == DROP && tmp->two_one == DROP))
 			{
 				tmp->one_two = UNUSED;
