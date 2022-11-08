@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 16:23:21 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:45:08 by thule            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,12 +198,12 @@ t_bool solution(t_info *info);
 t_bool init_info(t_info *info);
 t_bool lem_in(void);
 
-/* hash_table.c */
+/* room_hash_table.c */
 unsigned int hash(char *str, int size);
-t_bool create_hash_table(t_info *info);
-t_room *hash_table_lookup(t_room **hash_table, char *str, int size);
-t_bool hash_table_appending(t_info *info, t_room *list);
-t_bool init_hash_table(t_info *info);
+t_bool create_room_hash_table(t_info *info);
+t_room *room_hash_table_lookup(t_room **hash_table, char *str, int size);
+t_bool room_hash_table_appending(t_info *info, t_room *list);
+t_bool init_room_hash_table(t_info *info);
 
 /* link_hash_table.c */
 t_bool create_link_hash_table(t_info *info, int size);
