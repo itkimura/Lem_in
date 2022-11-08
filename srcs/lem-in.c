@@ -6,11 +6,11 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 13:43:36 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:10:52 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "../includes/lemin.h"
 
 t_bool init_info(t_info *info)
 {
@@ -28,39 +28,33 @@ t_bool init_info(t_info *info)
 	return (TRUE);
 }
 
+void	free_all(t_info *info)
+{
+	if (info->hash_table)
+		free(info->hash_table);
+	if (info->link_hash_table)
+		free(info->link_hash_table);
+	free_rooms(&(info->room_head));
+	free_links(&(info->link_head));
+}
+
 t_bool lem_in(void)
 {
-	t_info info;
+	t_info	info;
+	t_bool	flag;
 
-	if (init_info(&info) == FALSE)
-		return (print_error("\nprint_error.\n"), FALSE);
-	if (read_line(&info) == FALSE)
-	{
-		free_rooms(&(info.room_head));
-		if (info.hash_table)
-			free(info.hash_table);
-		return (print_error("\nprint_error.\n"), FALSE);
-	}
-	if (connect_rooms(&info) == FALSE)
-	{
-		free_rooms(&(info.room_head));
-		free_links(&(info.link_head));
-		if (info.hash_table)
-			free(info.hash_table);
-		return (print_error("\nprint_error.\n"), FALSE);
-	}
-	if (init_link_hash_table(&info) == FALSE)
-	{
-		free(info.hash_table);
-		free_rooms(&(info.room_head));
-		free_links(&(info.link_head));
-		return (FALSE);
-	}
-	solution(&info);
-	free(info.hash_table);
-	free(info.link_hash_table);
-	free_rooms(&(info.room_head));
-	free_links(&(info.link_head));
+	flag = init_info(&info);
+	if (flag == TRUE)
+		flag = read_line(&info, TRUE);
+	if (flag == TRUE)
+		flag = connect_rooms(&info);
+	if (flag == TRUE)
+		flag = init_link_hash_table(&info);
+	if (flag == TRUE)
+		solution(&info);
+	free_all(&info);
+	if (flag == FALSE)
+		return (print_error("\nError\n"), FALSE);
 	return (TRUE);
 }
 

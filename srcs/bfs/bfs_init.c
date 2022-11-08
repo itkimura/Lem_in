@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:27:18 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 10:29:24 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:25:53 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_bool	init_prev(t_info *info, t_bfs *b)
 	int	index;
 
 	index = 0;
-	b->prev = (t_prev **)malloc(sizeof(t_prev *) * info->start_room->malloc_link);
+	b->prev
+		= (t_prev **)malloc(sizeof(t_prev *) * info->start_room->malloc_link);
 	if (b->prev == NULL)
 		return (FALSE);
 	while (index < info->start_room->malloc_link)
@@ -37,7 +38,8 @@ t_bool	init_prev(t_info *info, t_bfs *b)
 		b->prev[index] = (t_prev *)malloc(sizeof(t_path));
 		if (b->prev[index] == NULL)
 			return (FALSE);
-		b->prev[index]->path = (t_room **)malloc(sizeof(t_room *) * info->total_rooms);
+		b->prev[index]->path
+			= (t_room **)malloc(sizeof(t_room *) * info->total_rooms);
 		if (b->prev[index]->path == NULL)
 			return (FALSE);
 		init_path(b->prev[index]->path, info->total_rooms);

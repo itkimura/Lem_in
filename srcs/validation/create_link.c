@@ -6,11 +6,11 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 13:43:46 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:22:15 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lemin.h"
+#include "../../includes/lemin.h"
 
 t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 {
@@ -41,7 +41,15 @@ t_bool get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 	return (print_error("No room found in links.\n"), FALSE);
 }
 
-t_bool create_new_link(t_info *info)
+void	init_single_link(t_link *new)
+{
+	new->room1 = NULL;
+	new->room2 = NULL;
+	new->one_two = 0;
+	new->two_one = 0;
+	new->link_hash_table_next = NULL;
+}
+t_bool	create_new_link(t_info *info)
 {
 	t_link *new;
 	static t_link *tmp;
@@ -50,14 +58,10 @@ t_bool create_new_link(t_info *info)
 	new = (t_link *)malloc(sizeof(t_link));
 	if (new == NULL)
 		return (print_error("Malloc fails.\n"), FALSE);
-	new->room1 = NULL;
-	new->room2 = NULL;
+	init_single_link(new);
 	size = (int)(info->total_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)
 		return (free(new), FALSE);
-	new->one_two = 0;
-	new->two_one = 0;
-	new->link_hash_table_next = NULL;
 	info->total_links++;
 	if (info->link_head == NULL)
 	{

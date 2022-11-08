@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 14:02:51 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 15:28:45 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_bool get_result(t_info *info, t_result *result)
 
 	count = 1;
 	path_curr = NULL;
-	if (bfs(info, &path_curr) == FALSE)
+	if (bfs(info, &path_curr, TRUE) == FALSE)
 		return (FALSE);
 	result->path_head = path_curr;
 	result->curr_turn = 0;
@@ -59,7 +59,7 @@ t_bool get_result(t_info *info, t_result *result)
 		if (get_result_condition(info, result, path_curr, &count))
 			break;
 		path_next = NULL;
-		if (bfs(info, &path_next) == FALSE)
+		if (bfs(info, &path_next, TRUE) == FALSE)
 			return (FALSE);
 		path_curr->next = path_next;
 		path_curr = path_next;

@@ -1,61 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bfs_utils.c                                        :+:      :+:    :+:   */
+/*   bfs_reverse_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 14:01:52 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 15:33:57 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lemin.h"
-
-t_room *pop(t_que **head)
-{
-	t_que *tmp;
-	t_room *room;
-
-	if (!head || !(*head))
-		return (NULL);
-	tmp = *head;
-	*head = (*head)->next;
-	tmp->next = NULL;
-	room = tmp->room;
-	free(tmp);
-	tmp = NULL;
-	return (room);
-}
-
-void push(t_que **tail, t_que **head, t_que *new)
-{
-	if (!tail)
-		return;
-	if (*head == NULL)
-	{
-		*tail = new;
-		*head = *tail;
-	}
-	else
-	{
-		(*tail)->next = new;
-		*tail = new;
-	}
-}
-
-t_que *create(t_room *room)
-{
-	t_que *new;
-
-	new = (t_que *)malloc(sizeof(t_que));
-	if (new)
-	{
-		new->room = room;
-		new->next = NULL;
-	}
-	return (new);
-}
 
 /* get path length */
 t_bool	get_path_len(t_info *info, t_room **prev, t_path *path)

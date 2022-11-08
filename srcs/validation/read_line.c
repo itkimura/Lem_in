@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 13:43:50 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:17:35 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ t_bool get_ants(t_info *info, int type, int *stage)
 	int i;
 
 	i = 0;
-	if (type == COMMAND)
-		return (TRUE);
-	if (type == COMMENT)
-		return (TRUE);
 	if (type != ROOM)
 		return (FALSE);
 	while (info->line[i])
@@ -66,9 +62,10 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	{
 		if (type == LINK && (*stage)++)
 		{
-			if (info->start_room == NULL || info->end_room == NULL)
+			if ((info->start_room == NULL || info->end_room == NULL)
+				|| init_hash_table(info) == FALSE)
 				return (FALSE);
-			return (init_hash_table(info), get_links(info));
+			return (get_links(info));
 		}
 		else if (get_rooms(info, type) == FALSE)
 			return (FALSE);
@@ -77,23 +74,20 @@ t_bool path_to_each_stage(t_info *info, int type, int *stage)
 	{
 		if (type == ROOM)
 			return (FALSE);
-		if (type == COMMAND)
-			return (TRUE);
-		return (get_links(info));
+		if (type != COMMAND)
+			return (get_links(info));
 	}
 	return (TRUE);
 }
 
-t_bool read_line(t_info *info)
+t_bool read_line(t_info *info, t_bool flag)
 {
 	int type;
 	int stage;
 	int gnl;
-	t_bool flag;
 
 	gnl = 1;
 	stage = 0;
-	flag = TRUE;
 	while (gnl)
 	{
 		gnl = get_next_line(FD, &(info->line));
@@ -101,13 +95,11 @@ t_bool read_line(t_info *info)
 			break;
 		if (gnl < 0)
 			return (print_error("GNL return -1\n"), FALSE);
-		if (info->line[0] == '#' && info->line[1] != '#')
-		{
-			ft_putstr(info->line);
-			ft_putchar('\n');
-		}
+		ft_putstr(info->line);
+		ft_putchar('\n');
 		type = type_of_line(info->line);
-		if (type == EMPTY)
+		if (type == EMPTY
+			|| (stage == 0 && (type == COMMENT || type == COMMAND)))
 			flag = FALSE;
 		if (type != COMMENT && flag == TRUE)
 			flag = path_to_each_stage(info, type, &stage);

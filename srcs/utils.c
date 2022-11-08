@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 13:45:45 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 15:48:13 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,16 @@ void free_divide_ants_array(int ***path, int count_path)
 	int i;
 
 	i = 0;
-	while (i < count_path)
+	if (path && *path)
 	{
-		free((*path)[i]);
-		i++;
+		while (i < count_path)
+		{
+			if ((*path)[i])
+				free((*path)[i]);
+			i++;
+		}
+		free(*path);
 	}
-	free(*path);
 }
 
 void free_ants(t_ants **ants, int total_ants)
@@ -62,12 +66,18 @@ void free_ants(t_ants **ants, int total_ants)
 	int index;
 
 	index = 0;
-	while (index < total_ants)
+	if (ants)
 	{
-		free(((*ants)[index]).nbr);
-		((*ants)[index]).nbr = NULL;
-		index++;
+		while (index < total_ants)
+		{
+			if ((*ants)[index].nbr)
+			{
+				free(((*ants)[index]).nbr);
+				((*ants)[index]).nbr = NULL;
+			}
+			index++;
+		}
+		free(*ants);
+		*ants = NULL;
 	}
-	free(*ants);
-	*ants = NULL;
 }

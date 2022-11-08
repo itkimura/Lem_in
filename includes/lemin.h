@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 13:59:33 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:23:21 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 /* remove later */
 #include <stdio.h>
+#include <stdlib.h>
 
 #define NORMAL "\x1B[0m"
 #define RED "\x1B[31m"
@@ -158,7 +159,7 @@ typedef struct s_bfs
 } t_bfs;
 
 /* bfs.c */
-t_bool bfs(t_info *info, t_path **path);
+t_bool bfs(t_info *info, t_path **path, t_bool flag);
 
 /* bfs_free.c */
 void free_bfs(t_bfs *b, int malloc_link);
@@ -176,6 +177,9 @@ t_bool init_bfs(t_info *info, t_bfs *b);
 t_room *pop(t_que **head);
 void push(t_que **tail, t_que **head, t_que *new);
 t_que *create(t_room *room);
+t_bool	push_and_update(t_bfs *b, t_room *curr, t_room *next, t_bool is_inverse);
+
+/* bfs_reverse_path.c */
 t_bool get_path_len(t_info *info, t_room **prev, t_path *path);
 t_bool reverse_path(t_info *info, t_room **prev, t_path **path);
 
@@ -234,7 +238,7 @@ void print_matrix(t_info *info);
 int type_of_line(char *str);
 t_bool get_ants(t_info *info, int type, int *stage);
 t_bool path_to_each_stage(t_info *info, int type, int *stage);
-t_bool read_line(t_info *info);
+t_bool read_line(t_info *info, t_bool flag);
 
 /* validation/create_room.c */
 t_bool create_new_room(t_room **room, t_info *info);
