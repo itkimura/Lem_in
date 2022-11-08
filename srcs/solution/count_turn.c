@@ -6,7 +6,7 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 20:09:58 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/08 20:23:53 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_bool	init_path_array(t_path *list, int count_path, int ***path)
  * j -> loop for path one by one
  * prec -> tmp int for compering paths
  */
-static void	divide_ants(t_info *info, int **path, int count_path, int *test)
+static void	divide_ants(t_info *info, int **path, int count_path, int *curr_turn)
 {
 	int	i;
 	int	j;
@@ -67,8 +67,8 @@ static void	divide_ants(t_info *info, int **path, int count_path, int *test)
 			j++;
 		}
 		path[j][ANTS]++;
-		if (path[j][PATH_LEN] - 1 + path[j][ANTS] > *test)
-			*test = path[j][PATH_LEN] - 1 + path[j][ANTS];
+		if (path[j][PATH_LEN] - 1 + path[j][ANTS] > *curr_turn)
+			*curr_turn = path[j][PATH_LEN] - 1 + path[j][ANTS];
 		i++;
 	}
 }
