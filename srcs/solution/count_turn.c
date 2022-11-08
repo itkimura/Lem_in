@@ -6,16 +6,11 @@
 /*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 13:24:31 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/08 20:09:58 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lemin.h"
-
-/*
- * path[0] = length of each path
- * path[1] = how many ants
- */
+#include "lemin.h"
 
 static t_bool	init_path_array(t_path *list, int count_path, int ***path)
 {
@@ -46,17 +41,17 @@ static t_bool	init_path_array(t_path *list, int count_path, int ***path)
 }
 
 /*
- * path[0] = length of each path
- * path[1] = how many ants
+ * devide ants in paths
+ * i -> loop for ants one by one
+ * j -> loop for path one by one
+ * prec -> tmp int for compering paths
  */
-
-/* devide ants in paths */
-static void		divide_ants(t_info *info, int **path, int count_path)
+static void	divide_ants(t_info *info, int **path, int count_path, int *test)
 {
-	int	i; /* loop for ants one by one*/
-	int	j; /* loop for path one by one*/
+	int	i;
+	int	j;
 	int	next;
-	int	prev; /* tmp int for compering paths*/
+	int	prev;
 
 	i = 1;
 	path[0][ANTS]++;
@@ -68,30 +63,24 @@ static void		divide_ants(t_info *info, int **path, int count_path)
 			prev = path[j][PATH_LEN] + path[j][ANTS];
 			next = path[j + 1][PATH_LEN] + path[j + 1][ANTS];
 			if (prev < next)
-				break;
+				break ;
 			j++;
 		}
 		path[j][ANTS]++;
+		if (path[j][PATH_LEN] - 1 + path[j][ANTS] > *test)
+			*test = path[j][PATH_LEN] - 1 + path[j][ANTS];
 		i++;
 	}
 }
 
-t_bool		count_turn(t_info *info, t_result *result, int count_path)
+t_bool	count_turn(t_info *info, t_result *result, int count_path)
 {
 	int	**path;
-	int	i;
 
-	i = 0;
 	if (init_path_array(result->tmp_head, count_path, &path) == FALSE)
 		return (FALSE);
 	result->curr_turn = 0;
-	divide_ants(info, path, count_path);
-	while (i < count_path)
-	{
-		if (result->curr_turn < path[i][PATH_LEN] - 1 + path[i][ANTS])
-			result->curr_turn = path[i][PATH_LEN] - 1 + path[i][ANTS];
-		i++;
-	}
+	divide_ants(info, path, count_path, &(result->curr_turn));
 	if (result->min_turn > result->curr_turn || result->min_turn == 0)
 	{
 		free_divide_ants_array(&(result->divide_ants), result->total);
