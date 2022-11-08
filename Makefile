@@ -6,7 +6,7 @@
 #    By: thule <thule@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 14:12:18 by thule             #+#    #+#              #
-#    Updated: 2022/11/08 18:18:06 by thule            ###   ########.fr        #
+#    Updated: 2022/11/08 19:49:57 by itkimura         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,10 +54,10 @@ LIB_INCLUDE = ./libft/includes/
 
 all: $(NAME)
 
-$(NAME): $(OBJS_DIR) $(VALIDATION_OBJS) $(BFS_OBJS) $(OBJS) $\
-		$(HASH_TABLE_OBJS) $(SOLUTION_OBJS) $(LIB)
-	@$(CC) $(DEBUG_FLAG) -o $(NAME) $(FLAGS) $(VALIDATION_OBJS) $(BFS_OBJS) $\
-			$(OBJS) $(HASH_TABLE_OBJS) $(SOLUTION_OBJS) -L$(LIB_DIR) -lft
+$(NAME): $(OBJS_DIR) $(VALIDATION_OBJS) $(BFS_OBJS) $(OBJS) \
+	$(HASH_TABLE_OBJS) $(SOLUTION_OBJS) $(LIB)
+	@$(CC) $(FLAGS) -o $(NAME) $(VALIDATION_OBJS) $(BFS_OBJS) \
+		$(OBJS) $(HASH_TABLE_OBJS) $(SOLUTION_OBJS) -L$(LIB_DIR) -lft
 	@echo "Compiled $(NAME)"
 
 $(LIB):
