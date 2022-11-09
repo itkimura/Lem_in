@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bfs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 15:34:32 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/09 14:58:41 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_bool	bfs(t_info *info, t_path **path, t_bool flag)
 	t_room	*curr;
 	t_room	*next;
 
-	if (init_bfs(info, &b) == FALSE)
+	if (info->start_room->malloc_link < 1 || init_bfs(info, &b) == FALSE)
 		return (FALSE);
 	while (b.head && flag == TRUE)
 	{

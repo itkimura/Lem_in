@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   room_hash_table.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:45:20 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 17:56:39 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 14:37:03 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_bool	room_hash_table_appending(t_info *info, t_room *list)
 		while (tmp)
 		{
 			if (ft_strcmp(tmp->room_name, list->room_name) == 0)
-				return (print_error("Duplicate room name.\n"), FALSE);
+				return (FALSE);
 			if (tmp->hash_table_next == NULL)
 				break ;
 			tmp = tmp->hash_table_next;

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 13:18:12 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/09 14:35:11 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ t_bool	get_ants(t_info *info, int type, int *stage)
 	while (info->line[i])
 	{
 		if (!(info->line[i] >= '0' && info->line[i] <= '9'))
-			return (print_error("Wrong format for ants.\n"), FALSE);
+			return (FALSE);
 		i++;
 	}
 	nb = ft_atol(info->line);
 	if (nb < 0 || nb > INT_MAX)
-		return (print_error("Quantity of ants is not correct."), FALSE);
+		return (FALSE);
 	info->total_ants = nb;
 	(*stage)++;
 	return (TRUE);
@@ -94,7 +94,7 @@ t_bool	read_line(t_info *info, t_bool flag)
 		if (gnl == 0)
 			break ;
 		if (gnl < 0)
-			return (print_error("GNL return -1\n"), FALSE);
+			return (FALSE);
 		ft_putstr_fd(info->line, 1);
 		write(1, "\n", 1);
 		type = type_of_line(info->line);
@@ -107,76 +107,3 @@ t_bool	read_line(t_info *info, t_bool flag)
 	}
 	return (flag);
 }
-
-// t_bool assign_line(t_info *info, t_bool flag)
-// {
-// 	int	type;
-// 	int	stage;
-// 	char *end;
-
-// 	stage = 0;
-// 	info->line = info->big_line;
-// 	end = info->big_line;
-// 	while (1)
-// 	{
-// 		end = ft_strchr(info->line, '\n');
-// 		if (end == NULL)
-// 			break ;
-// 		*end = '\0';
-// 		ft_putstr_fd(info->line, 1);
-// 		write(1, "\n", 1);
-// 		type = type_of_line(info->line);
-// 		if (type == EMPTY
-// 			|| (stage == 0 && (type == COMMENT || type == COMMAND)))
-// 			flag = FALSE;
-// 		if (type != COMMENT && flag == TRUE)
-// 			flag = path_to_each_stage(info, type, &stage);
-// 		info->line = end + 1;
-// 	}
-// 	return flag;
-// }
-
-// t_bool	read_line(t_info *info, t_bool flag)
-// {
-// 	int		ret;
-// 	char	buff[BUFF_SIZE + 1];
-// 	char	*line;
-
-// 	ret = 1;
-// 	if (info->line == NULL)
-// 	{
-// 		info->big_line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
-// 		if (info->big_line == NULL)
-// 			return (FALSE);
-// 	}
-// 	ret = read(FD, info->big_line, BUFF_SIZE);
-// 	if (ret <= 0)
-// 	{
-// 		free(info->big_line);
-// 		return FALSE;
-// 	}
-// 	if (ret <= BUFF_SIZE)
-// 	{
-// 		info->big_line[ret] = '\0';
-// 		// flag = assign_line(info, flag);
-// 	}
-// 	while (ret > 0)
-// 	{
-// 		ret = read(FD, buff, BUFF_SIZE);
-// 		if (ret < 0)
-// 		{
-// 			free(info->big_line);
-// 			flag = FALSE;
-// 			break ;
-// 		}
-// 		if (ret == 0)
-// 			break ;
-// 		buff[ret] = '\0';
-// 		line = ft_strjoin(info->big_line, buff);
-// 		free(info->big_line);
-// 		info->big_line = line;
-// 	}
-// 	if (flag == TRUE)
-// 		flag = assign_line(info, flag);
-// 	return (flag);
-// }

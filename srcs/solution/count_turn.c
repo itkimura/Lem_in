@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/09 09:41:24 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/09 15:14:22 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	divide_ants(t_info *info, int **path,
 
 	i = 1;
 	path[0][ANTS]++;
+	*curr_turn = path[0][PATH_LEN] - 1 + path[0][ANTS];
 	while (i < info->total_ants)
 	{
 		j = 0;

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 13:15:48 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/09 14:59:18 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,16 @@ t_bool	lem_in(void)
 	flag = init_info(&info);
 	if (flag == TRUE)
 		flag = read_line(&info, TRUE);
-	// printf("flag: %d\n", flag);
-	// printf("%s", info.big_line);
 	if (flag == TRUE)
 		flag = connect_rooms(&info);
 	if (flag == TRUE)
 		flag = init_link_hash_table(&info);
 	if (flag == TRUE)
-		solution(&info);
+		flag = solution(&info);
 	free_all(&info);
 	if (flag == FALSE)
-		return (print_error("\nError\n"), FALSE);
-	return (TRUE);
+		print_error("\nError\n");
+	return (flag);
 }
 
 int	main(void)

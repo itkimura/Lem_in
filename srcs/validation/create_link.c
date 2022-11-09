@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_link.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 18:01:28 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 14:35:45 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 		room1 = ft_strsub(line, 0, len);
 		room2 = line + len + 1;
 		if (room1 == NULL)
-			return (print_error("Malloc fails.\n"), FALSE);
+			return (FALSE);
 		new->room1 = room_hash_table_lookup(hash_table, room1, size);
 		new->room2 = room_hash_table_lookup(hash_table, room2, size);
 		ft_strdel(&room1);
@@ -38,7 +38,7 @@ t_bool	get_room_in_link(t_link *new, t_room **hash_table, char *line, int size)
 		}
 		tmp = ft_strchr(tmp + 1, '-');
 	}
-	return (print_error("No room found in links.\n"), FALSE);
+	return (FALSE);
 }
 
 void	init_single_link(t_link *new)
@@ -58,7 +58,7 @@ t_bool	create_new_link(t_info *info)
 
 	new = (t_link *)malloc(sizeof(t_link));
 	if (new == NULL)
-		return (print_error("Malloc fails.\n"), FALSE);
+		return (FALSE);
 	init_single_link(new);
 	size = (int)(info->total_rooms * RATIO);
 	if (get_room_in_link(new, info->hash_table, info->line, size) == FALSE)

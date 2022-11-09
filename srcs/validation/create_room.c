@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_room.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/11/08 18:03:35 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 14:36:05 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ t_bool	create_new_room(t_room **room, t_info *info)
 		return (FALSE);
 	if ((room_name && room_name[0] == 'L')
 		|| check_xy(info->line + ft_strlen(room_name)) == FALSE)
-		return (free(room_name), print_error("Wrong format in room.\n"), FALSE);
+		return (free(room_name), FALSE);
 	new = (t_room *)malloc(sizeof(t_room));
 	if (new == NULL)
-		return (print_error("Malloc fails.\n"), FALSE);
+		return (FALSE);
 	init_room(new, room_name);
 	if (*room == NULL)
 		info->room_head = new;
@@ -57,7 +57,7 @@ char	*get_room_name(char *line)
 		len++;
 	room_name = ft_strsub(line, 0, len);
 	if (room_name == NULL)
-		return (print_error("Malloc fails.\n"), NULL);
+		return (NULL);
 	return (room_name);
 }
 

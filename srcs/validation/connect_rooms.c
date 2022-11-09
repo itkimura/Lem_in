@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connect_rooms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:06:59 by itkimura          #+#    #+#             */
-/*   Updated: 2022/11/08 17:58:30 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 14:35:24 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_bool	connect_rooms(t_info *info)
 	{
 		room->link = (t_link **)malloc(sizeof(t_link *) * room->total_links);
 		if (room->link == NULL)
-			return (print_error("Malloc fails.\n"), FALSE);
+			return (FALSE);
 		init_link(room->link, room->total_links);
 		room = room->list_next;
 	}
