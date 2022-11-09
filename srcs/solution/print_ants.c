@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ants.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:51:25 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 20:14:57 by itkimura         ###   ########.fr       */
+/*   Updated: 2022/11/09 09:55:38 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	print_ants_factory(t_result *result, t_ants *ants, t_info *info)
 	while (index < flow)
 	{
 		print_ants_factory_helper(ants, info, &hold);
-		ft_putchar('\n');
+		write(1, "\n", 1);
 		index++;
 	}
 }
