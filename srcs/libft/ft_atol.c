@@ -1,29 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 09:53:17 by thle             ###   ########.fr       */
+/*   Created: 2021/11/01 15:27:13 by itkimura          #+#    #+#             */
+/*   Updated: 2022/11/09 10:31:39 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	print_error(char *print_error)
+static int	ft_isspace(char c)
 {
-	ft_putstr_fd("\033[0;31m", 2);
-	ft_putstr_fd(print_error, 2);
-	ft_putstr_fd("\033[0;37m", 2);
+	if (c == ' ' || (c >= '\t' && c <= '\r'))
+		return (1);
+	else
+		return (0);
 }
 
-void	print_ant(char *ant, char *room_name)
+long int	ft_atol(const char *str)
 {
-	write(1, "L", 1);
-	ft_putstr_fd(ant, 1);
-	write(1, "-", 1);
-	ft_putstr_fd(room_name, 1);
-	write(1, " ", 1);
+	int			sign;
+	long int	nb;
+
+	sign = 1;
+	nb = 0;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		nb = (nb * 10) + (*str - '0');
+		str++;
+	}
+	return (nb * sign);
 }

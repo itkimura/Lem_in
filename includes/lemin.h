@@ -3,23 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 17:28:49 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 11:05:16 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEMIN_H
 # define LEMIN_H
 
-# include "libft.h"
-# include "get_next_line.h"
+// # include "libft.h"
+// # include "get_next_line.h"
+
+# include <stdlib.h>
+# include <unistd.h>
 
 # define FD 0
 # define RATIO 1.5
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
+
+# define BUFF_SIZE 8
+# define MAX_FD 4096
+
 
 typedef enum e_bool
 {
@@ -235,5 +242,21 @@ void			create_link_array(t_info *info);
 /* validation/validation_utils.c */
 t_bool			check_digit_and_space(char *line);
 t_bool			check_xy(char *line);
+
+/* libft/ */
+char			*ft_strcat(char *s1, const char *s2);
+char			*ft_strcpy(char *dst, const char *src);
+int				get_next_line(const int fd, char **line);
+long int		ft_atol(const char *str);
+int				ft_isdigit(int c);
+char			*ft_itoa(int n);
+void			ft_putstr_fd(char const *s, int fd);
+char			*ft_strchr(const char *s, int c);
+int				ft_strcmp(const char *s1, const char *s2);
+void			ft_strdel(char **as);
+char			*ft_strsub(char const *s, unsigned int start, size_t len);
+char			*ft_strjoin(const char *s1, const char *s2);
+size_t			ft_strlen(const char *s);
+char			*ft_strdup(const char *s1);
 
 #endif

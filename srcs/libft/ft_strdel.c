@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 09:53:17 by thle             ###   ########.fr       */
+/*   Created: 2021/11/20 22:42:15 by itkimura          #+#    #+#             */
+/*   Updated: 2022/11/09 10:32:31 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	print_error(char *print_error)
+void	ft_strdel(char **as)
 {
-	ft_putstr_fd("\033[0;31m", 2);
-	ft_putstr_fd(print_error, 2);
-	ft_putstr_fd("\033[0;37m", 2);
-}
-
-void	print_ant(char *ant, char *room_name)
-{
-	write(1, "L", 1);
-	ft_putstr_fd(ant, 1);
-	write(1, "-", 1);
-	ft_putstr_fd(room_name, 1);
-	write(1, " ", 1);
+	if (as && *as)
+	{
+		free(*as);
+		*as = NULL;
+	}
 }

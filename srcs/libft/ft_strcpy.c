@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 09:53:17 by thle             ###   ########.fr       */
+/*   Created: 2021/11/01 17:46:41 by itkimura          #+#    #+#             */
+/*   Updated: 2022/11/09 10:38:06 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	print_error(char *print_error)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	ft_putstr_fd("\033[0;31m", 2);
-	ft_putstr_fd(print_error, 2);
-	ft_putstr_fd("\033[0;37m", 2);
-}
+	int	i;
 
-void	print_ant(char *ant, char *room_name)
-{
-	write(1, "L", 1);
-	ft_putstr_fd(ant, 1);
-	write(1, "-", 1);
-	ft_putstr_fd(room_name, 1);
-	write(1, " ", 1);
+	i = 0;
+	while (*src)
+	{
+		dst[i] = *src;
+		src++;
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

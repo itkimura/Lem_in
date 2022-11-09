@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 18:06:04 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 10:17:21 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ t_bool	read_line(t_info *info, t_bool flag)
 			break ;
 		if (gnl < 0)
 			return (print_error("GNL return -1\n"), FALSE);
-		ft_putstr(info->line);
-		ft_putchar('\n');
+		ft_putstr_fd(info->line, 1);
+		write(1, "\n", 1);
 		type = type_of_line(info->line);
 		if (type == EMPTY
 			|| (stage == 0 && (type == COMMENT || type == COMMAND)))

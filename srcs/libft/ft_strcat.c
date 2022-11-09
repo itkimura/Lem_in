@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 09:53:17 by thle             ###   ########.fr       */
+/*   Created: 2021/11/03 16:29:01 by itkimura          #+#    #+#             */
+/*   Updated: 2022/11/09 10:37:47 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	print_error(char *print_error)
+char	*ft_strcat(char *s1, const char *s2)
 {
-	ft_putstr_fd("\033[0;31m", 2);
-	ft_putstr_fd(print_error, 2);
-	ft_putstr_fd("\033[0;37m", 2);
-}
+	int	dstlen;
+	int	i;
 
-void	print_ant(char *ant, char *room_name)
-{
-	write(1, "L", 1);
-	ft_putstr_fd(ant, 1);
-	write(1, "-", 1);
-	ft_putstr_fd(room_name, 1);
-	write(1, " ", 1);
+	i = 0;
+	dstlen = ft_strlen(s1);
+	while (s2[i])
+	{
+		s1[dstlen + i] = s2[i];
+		i++;
+	}
+	s1[dstlen + i] = '\0';
+	return (s1);
 }

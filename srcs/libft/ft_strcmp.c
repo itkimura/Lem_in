@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 11:27:06 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 09:53:17 by thle             ###   ########.fr       */
+/*   Created: 2021/10/31 17:02:53 by itkimura          #+#    #+#             */
+/*   Updated: 2022/11/09 10:32:26 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	print_error(char *print_error)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	ft_putstr_fd("\033[0;31m", 2);
-	ft_putstr_fd(print_error, 2);
-	ft_putstr_fd("\033[0;37m", 2);
-}
-
-void	print_ant(char *ant, char *room_name)
-{
-	write(1, "L", 1);
-	ft_putstr_fd(ant, 1);
-	write(1, "-", 1);
-	ft_putstr_fd(room_name, 1);
-	write(1, " ", 1);
+	while (*s1 || *s2)
+	{
+		if (*s1 != *s2)
+			return (*(unsigned char *)s1 - *(unsigned char *)s2);
+		s1++;
+		s2++;
+	}
+	return (0);
 }
