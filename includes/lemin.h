@@ -6,27 +6,25 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 11:05:16 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/09 13:18:45 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEMIN_H
 # define LEMIN_H
 
-// # include "libft.h"
-// # include "get_next_line.h"
-
 # include <stdlib.h>
 # include <unistd.h>
+
+# include <stdio.h> //rmb to delete
 
 # define FD 0
 # define RATIO 1.5
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 
-# define BUFF_SIZE 8
+# define BUFF_SIZE 32
 # define MAX_FD 4096
-
 
 typedef enum e_bool
 {
@@ -127,6 +125,7 @@ typedef struct s_info
 	t_room			*room_head;
 	t_link			*link_head;
 	char			*line;
+	char			*big_line;
 	int				total_ants;
 	int				total_rooms;
 	int				total_links;

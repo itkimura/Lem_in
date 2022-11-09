@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem-in.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thule <thule@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/08 18:08:37 by thule            ###   ########.fr       */
+/*   Updated: 2022/11/09 13:15:48 by thle             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_bool	lem_in(void)
 	flag = init_info(&info);
 	if (flag == TRUE)
 		flag = read_line(&info, TRUE);
+	// printf("flag: %d\n", flag);
+	// printf("%s", info.big_line);
 	if (flag == TRUE)
 		flag = connect_rooms(&info);
 	if (flag == TRUE)
