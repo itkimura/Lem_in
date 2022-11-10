@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:01:48 by thle              #+#    #+#             */
-/*   Updated: 2022/11/09 14:36:05 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/10 17:43:03 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	init_room(t_room *room, char *room_name)
 {
 	room->room_name = room_name;
+	room->is_occupied = FALSE;
+	room->index = 0;
 	room->total_links = 0;
 	room->malloc_link = 0;
 	room->path_nb = 0;
-	room->is_occupied = FALSE;
 	room->link = NULL;
 	room->hash_table_next = NULL;
+	room->list_next = NULL;
 }
 
 t_bool	create_new_room(t_room **room, t_info *info)
@@ -67,6 +69,8 @@ t_bool	get_rooms(t_info *info, int type)
 	static int		command;
 
 	if (type == ROOM && (create_new_room(&room, info) == FALSE))
+		return (FALSE);
+	if ((command == START || command == END) && type != ROOM)
 		return (FALSE);
 	if (command == START)
 		info->start_room = room;

@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:15:03 by thle              #+#    #+#             */
-/*   Updated: 2022/11/09 15:23:26 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/10 17:46:46 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ t_bool	solution(t_info *info)
 	init_result(&result);
 	if (get_result(info, &result) == FALSE)
 		flag = FALSE;
-	else
+	else if (info->total_ants > 0)
 		mangage_ants(&result, info);
+	else
+		write(1, "\n", 1);
 	free_paths(result.path_head);
 	free_divide_ants_array(&result.divide_ants, result.total);
 	return (flag);

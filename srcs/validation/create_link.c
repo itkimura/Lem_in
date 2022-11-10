@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:17:18 by thle              #+#    #+#             */
-/*   Updated: 2022/11/09 14:35:45 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/10 17:41:17 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	init_single_link(t_link *new)
 	new->one_two = 0;
 	new->two_one = 0;
 	new->link_hash_table_next = NULL;
+	new->next = NULL;
 }
 
 t_bool	create_new_link(t_info *info)

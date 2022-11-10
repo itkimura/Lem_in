@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:07:47 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 14:59:18 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/10 17:42:23 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 t_bool	init_info(t_info *info)
 {
-	info->total_ants = 0;
-	info->total_rooms = 0;
-	info->total_links = 0;
 	info->start_room = NULL;
 	info->end_room = NULL;
 	info->room_head = NULL;
+	info->link_head = NULL;
 	info->line = NULL;
-	info->room_head = NULL;
+	info->total_ants = 0;
+	info->total_rooms = 0;
+	info->total_links = 0;
 	info->hash_table = NULL;
 	info->link_hash_table = NULL;
-	info->link_head = NULL;
 	return (TRUE);
 }
 

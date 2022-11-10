@@ -6,13 +6,14 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:51:25 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 09:55:38 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/10 14:32:11 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static void	print_ants_factory_helper(t_ants *ants, t_info *info, int *hold)
+static void	print_ants_factory_helper(t_ants *ants, t_info *info,
+		int *hold, int *count)
 {
 	int		ant_order;
 	t_ants	curr_ant;
@@ -32,7 +33,7 @@ static void	print_ants_factory_helper(t_ants *ants, t_info *info, int *hold)
 		else if (path->path[curr_ant.pos]->is_occupied == FALSE
 			|| path->path[curr_ant.pos] == info->end_room)
 		{
-			print_ant(curr_ant.nbr, path->path[curr_ant.pos]->room_name);
+			print_ant(curr_ant.nbr, path->path[curr_ant.pos]->room_name, count);
 			path->path[curr_ant.pos]->is_occupied = TRUE;
 			if (curr_ant.pos > 1)
 				path->path[curr_ant.pos - 1]->is_occupied = FALSE;
@@ -46,6 +47,7 @@ static void	print_ants_factory(t_result *result, t_ants *ants, t_info *info)
 	int	flow;
 	int	index;
 	int	hold;
+	int	count;
 
 	flow = result->min_turn;
 	index = 0;
@@ -53,7 +55,8 @@ static void	print_ants_factory(t_result *result, t_ants *ants, t_info *info)
 	write(1, "\n", 1);
 	while (index < flow)
 	{
-		print_ants_factory_helper(ants, info, &hold);
+		count = 0;
+		print_ants_factory_helper(ants, info, &hold, &count);
 		write(1, "\n", 1);
 		index++;
 	}

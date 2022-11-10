@@ -6,7 +6,7 @@
 /*   By: thle <thle@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:06:12 by thule             #+#    #+#             */
-/*   Updated: 2022/11/09 15:23:06 by thle             ###   ########.fr       */
+/*   Updated: 2022/11/10 17:09:11 by itkimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 # define FD 0
 # define RATIO 1.5
@@ -157,7 +158,7 @@ void			free_divide_ants_array(int ***path, int count_path);
 void			free_ants(t_ants **ants, int total_ants);
 
 /* print.c */
-void			print_ant(char *ant, char *room_name);
+void			print_ant(char *ant, char *room_name, int *count);
 void			print_error(char *print_error);
 
 /* bfs/bfs.c */
